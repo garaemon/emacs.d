@@ -1,15 +1,14 @@
 ;; -*- mode: emacs-lisp; -*-
 
 ;; written by R.Ueda
+
 (add-to-list 'load-path "~/.emacs.d/lisp")
-(setq emacs-submodules '("nyan-mode"))
+(setq emacs-submodules '("nyan-mode" "git-modes" "magit" 
+                         "elpa" "elpa/packages/cl-lib"))
 (add-to-list 'load-path "~/.emacs.d/modules")
 (dolist (module emacs-submodules)
   (add-to-list 'load-path (format "~/.emacs.d/modules/%s" module)))
-
-;; anthy
-
-(add-to-list 'load-path "/Users/garaemon/gprog/magit-1.2.0")
+;;(require 'git-commit)
 (require 'magit)
 (add-to-list 'load-path "/Users/garaemon/gprog/git-your-emacs/emacs.d")
 
@@ -28,10 +27,8 @@
 (keyfreq-mode 1)
 (keyfreq-autosave-mode 1)
 
-(setenv "PATH" (format "%s:/Users/garaemon/.nvm/v0.6.16/bin/"
-                       (getenv "PATH")))
-(setenv "PATH" (format "%s:/usr/local/Cellar/pypy/1.9/bin/"
-                       (getenv "PATH")))
+(setenv "PATH" (format "%s:/Users/garaemon/.nvm/v0.6.16/bin/" (getenv "PATH")))
+(setenv "PATH" (format "%s:/usr/local/Cellar/pypy/1.9/bin/" (getenv "PATH")))
 
 ;; for objective c
 
