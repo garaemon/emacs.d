@@ -1,19 +1,7 @@
 ;; -*- mode: emacs-lisp; -*-
 
-;; emacs-settings
-;; (require 'cl)
-;;  (defun update-emacs-settings-site-dir (dir)
-;;    "add dir and subdirectories of it to load-path"
-;;    (let ((dirs (remove-if-not #'file-directory-p
-;;                               (directory-files dir t "^[^.]"))))
-;;      (dolist (d dirs)
-;;        (update-emacs-settings-site-dir d))
-;;      (setq load-path (cons dir load-path))))
-;;  (update-emacs-settings-site-dir "/Users/garaemon/gprog/emacs-settings/emacs.d")
-
-;;  (load "/Users/garaemon/gprog/emacs-settings/init.el")
-;;  (load-emacs-settings "/Users/garaemon/gprog/emacs-settings")
-;;(zone nil)                              ;disable zone mode
+;; written by R.Ueda
+(add-to-list 'load-path "~/.emacs.d/lisp")
 
 ;; anthy
 
