@@ -7,3 +7,15 @@
 [submodule "modules/elpa"]
 	path = modules/elpa
 	url = http://git.savannah.gnu.org/r/emacs/elpa.git
+[submodule "modules/markdown-mode"]
+	path = modules/markdown-mode
+	url = git://jblevins.org/git/markdown-mode.git
+[submodule "modules/less-css-mode"]
+	path = modules/less-css-mode
+	url = https://github.com/purcell/less-css-mode.git
+[submodule "modules/gist"]
+	path = modules/gist
+	url = https://github.com/defunkt/gist.el.git
+[submodule "modules/gh"]
+	path = modules/gh
+	url = https://github.com/sigma/gh.el.git
