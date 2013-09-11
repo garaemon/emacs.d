@@ -1,0 +1,4 @@
+emacs-all
+=========
+
+all emacs
