@@ -143,8 +143,7 @@
 ;; (setq js2-strict-missing-semi-warning nil)
 ;;(add-to-list 'auto-mode-alist '("\\.js$" . javascript-mode))
 
-(load "~/python-mode.el")
-
+(require 'python-mode)
 (require 'gist)
 
 (setenv "PATH" (format "%s:/usr/local/bin"
