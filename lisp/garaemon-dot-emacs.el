@@ -1025,6 +1025,7 @@
 (add-to-list 'auto-mode-alist '("\\.json$" . javascript-mode))
 (add-to-list 'auto-mode-alist '("\\.ejs$" . html-mode))
 (add-to-list 'auto-mode-alist '("\\.xml$" . xml-mode))
+(add-to-list 'auto-mode-alist '("\\.launch$" . xml-mode))
 (add-to-list 'auto-mode-alist '("\\.thor$" . ruby-mode))
 (require 'keyfreq)
 (keyfreq-mode 1)
