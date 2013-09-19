@@ -11,4 +11,10 @@ git submodule update --init .
 ./install.sh
 ```
 
+adding below to your .bashrc or .zshrc
+
+```sh
+source $HOME/.emacs.d/check_for_upgrade.sh
+```
+
 done, enjoy your emacs life
