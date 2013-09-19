@@ -16,7 +16,7 @@ function _update_emacs_update() {
 
 function _upgrade_emacs() {
   (cd ~/.emacs.d && git pull --rebase origin master)
-  # update the zsh file
+  # update the emacs file
   _update_emacs_update
 }
 
@@ -29,7 +29,7 @@ fi
 if [ -f ~/.emacs-update ]; then
     . ~/.emacs-update
     if [[ -z "$LAST_EPOCH" ]]; then # something wrong (malformed .emacs-update)
-        _update_zsh_update && return 0;
+        _update_emacs_update && return 0;
     fi
     epoch_diff=$(($(_current_epoch) - $LAST_EPOCH))
     if [ $epoch_diff -gt $epoch_target ]; then
