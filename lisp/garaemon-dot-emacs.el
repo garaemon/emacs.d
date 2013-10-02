@@ -1062,7 +1062,8 @@
 (require 'cmake-mode)
 (setq auto-mode-alist (cons '("CMakeLists.txt" . cmake-mode) auto-mode-alist))
 
-(setq-default tab-width 4)
+(setq-default tab-width 2)
+(setq-default c-basic-offset 2)
 
 ;; nyan-mode
 (require 'nyan-mode)

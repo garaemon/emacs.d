@@ -21,7 +21,7 @@
 
 
 ;; minimum settings
-(setq-default tab-width 4)
+(setq-default tab-width 2)
 (global-set-key "\C-h" 'backward-delete-char)
 (global-unset-key "\M-p")
 (global-unset-key "\M-n")
