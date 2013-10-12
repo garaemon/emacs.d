@@ -43,4 +43,7 @@
 
 (setq mac-command-modifier 'meta)
 
+(setq inferior-js-program-command "~/.nvm/v0.10.3/bin/node")
+
 (server-start)
+
