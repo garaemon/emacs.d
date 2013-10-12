@@ -43,7 +43,13 @@
 
 (setq mac-command-modifier 'meta)
 
-(setq inferior-js-program-command "~/.nvm/v0.10.3/bin/node")
+(let* ((zshpath (shell-command-to-string
+         "/usr/bin/env zsh -c 'printenv PATH'"))
+       (pathlst (split-string zshpath ":")))
+  (setq exec-path pathlst)
+  (setq eshell-path-env zshpath)
+  (setenv "PATH" zshpath))
+;;(setq inferior-js-program-command "~/.nvm/v0.10.3/bin/node")
 
 (server-start)
 

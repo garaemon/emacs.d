@@ -373,14 +373,9 @@
   (interactive)
   ;;(split-window-horizontally 80)
   (switch-to-buffer-other-window
-   (get-buffer-create "*inferior-js*"))
+   (get-buffer-create "*js*"))
   (run-js inferior-js-program-command)
   )
-  ;; (let ((buf-name (buffer-name (current-buffer))))
-  ;;   ;;(js2-mode)
-  ;;   (run-js inferior-js-program-command)
-  ;;   (switch-to-buffer-other-window
-  ;;    (get-buffer-create buf-name))))
 (define-key global-map
   "\C-cj" 'js-other-window)
 
