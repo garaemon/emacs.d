@@ -355,6 +355,7 @@
 (require 'js-comint)
 (setq inferior-js-program-command "/usr/bin/env node")
 (setenv "NODE_NO_READLINE" "1")
+(setq js-indent-level 2)
 ;; (add-hook 'js2-mode-hook
 ;;           '(lambda ()
 ;;              (ansi-color-for-comint-mode-on)
