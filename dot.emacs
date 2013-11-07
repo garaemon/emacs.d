@@ -44,3 +44,8 @@
 (setq mac-command-modifier 'meta)
 
 (server-start)
+
+(setq-default c-basic-offset 2)
+
+(require 'edit-server)
+(edit-server-start)
