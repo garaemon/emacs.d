@@ -21,7 +21,7 @@
 
 
 ;; minimum settings
-(setq-default tab-width 4)
+(setq-default tab-width 2)
 (global-set-key "\C-h" 'backward-delete-char)
 (global-unset-key "\M-p")
 (global-unset-key "\M-n")
@@ -42,6 +42,14 @@
 (global-set-key [M-down] 'scroll-down-in-place)
 
 (setq mac-command-modifier 'meta)
+
+(let* ((zshpath (shell-command-to-string
+         "/usr/bin/env zsh -c 'printenv PATH'"))
+       (pathlst (split-string zshpath ":")))
+  (setq exec-path pathlst)
+  (setq eshell-path-env zshpath)
+  (setenv "PATH" zshpath))
+;;(setq inferior-js-program-command "~/.nvm/v0.10.3/bin/node")
 
 (server-start)
 

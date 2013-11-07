@@ -354,12 +354,38 @@
 ;; bind to M-h
 (global-set-key "\M-h" 'anything-cheat-sheat)
 
-;; disable js2-mode, it's heavy
 ;; (require 'js2-mode)
 ;; (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 
-;;(setq js2-bounce-indent-flag nil)
-;;(define-key js2-mode-map "\C-i" 'indent-and-back-to-indentation)
+(require 'js-comint)
+(setq inferior-js-program-command "/usr/bin/env node")
+(setenv "NODE_NO_READLINE" "1")
+(setq js-indent-level 2)
+;; (add-hook 'js2-mode-hook
+;;           '(lambda ()
+;;              (ansi-color-for-comint-mode-on)
+;;              (add-to-list
+;;               'comint-preoutput-filter-functions
+;;               (lambda (output)
+;;                 (replace-regexp-in-string "\033\\[[0-9]+[GK]" "" output)))
+;;              (local-set-key "\C-x\C-e" 'js-send-last-sexp)
+;;              (local-set-key "\C-\M-x" 'js-send-last-sexp-and-go)
+;;              (local-set-key "\C-cb" 'js-send-buffer)
+;;              (local-set-key "\C-c\C-b" 'js-send-buffer-and-go)
+;;              (local-set-key "\C-c\C-l" 'js-load-file-and-go)
+;;              ))
+(defun js-other-window ()
+  "Run JavaScript on other window"
+  (interactive)
+  ;;(split-window-horizontally 80)
+  (switch-to-buffer-other-window
+   (get-buffer-create "*js*"))
+  (run-js inferior-js-program-command)
+  )
+(define-key global-map
+  "\C-cj" 'js-other-window)
+
+
 
 ;;(autoload 'js-mode "js")
 (defun my-js2-indent-function ()
@@ -1067,7 +1093,8 @@
 (require 'cmake-mode)
 (setq auto-mode-alist (cons '("CMakeLists.txt" . cmake-mode) auto-mode-alist))
 
-(setq-default tab-width 4)
+(setq-default tab-width 2)
+(setq-default c-basic-offset 2)
 
 ;; nyan-mode
 (require 'nyan-mode)
@@ -1083,4 +1110,7 @@
 (require 'puppet-mode)
 (add-to-list 'auto-mode-alist '("\\.pp$" . puppet-mode))
 
+
+
 (provide 'garaemon-dot-emacs)
+
