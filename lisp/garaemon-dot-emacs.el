@@ -107,6 +107,11 @@
  (setq ns-command-modifier (quote meta))
  (setq ns-alternate-modifier (quote super)))
 
+(when (eq system-type 'gnu/linux)
+  (set-face-attribute 'default nil :height 140)
+  )
+      
+
 (require 'column-marker)
 
 (add-hook 'c-mode-hook (lambda () (interactive) (column-marker-2 80)))
