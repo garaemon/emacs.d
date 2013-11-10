@@ -108,7 +108,7 @@
  (setq ns-alternate-modifier (quote super)))
 
 (when (eq system-type 'gnu/linux)
-  (set-face-attribute 'default nil :height 140)
+  (set-face-attribute 'default nil :height 120)
   )
       
 
@@ -740,7 +740,7 @@
 (tool-bar-mode -1)
 
 (setq auto-mode-alist
-      (cons '("\\.\\(xml\\|xsl\\|rng\\|xhtml\\|kml\\|gpx\\)\\'" . nxml-mode)
+      (cons '("\\.\\(xml\\|xsl\\|rng\\|xhtml\\|kml\\|gpx\\)\\'" . html-mode)
             auto-mode-alist))
 (global-unset-key "\M-p")
 (global-unset-key "\M-n")
@@ -1055,8 +1055,8 @@
 
 (add-to-list 'auto-mode-alist '("\\.json$" . javascript-mode))
 (add-to-list 'auto-mode-alist '("\\.ejs$" . html-mode))
-(add-to-list 'auto-mode-alist '("\\.xml$" . xml-mode))
-(add-to-list 'auto-mode-alist '("\\.launch$" . xml-mode))
+(add-to-list 'auto-mode-alist '("\\.xml$" . html-mode))
+(add-to-list 'auto-mode-alist '("\\.launch$" . html-mode))
 (add-to-list 'auto-mode-alist '("\\.thor$" . ruby-mode))
 (require 'keyfreq)
 (keyfreq-mode 1)
