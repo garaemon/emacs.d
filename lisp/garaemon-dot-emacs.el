@@ -1058,9 +1058,9 @@
 (add-to-list 'auto-mode-alist '("\\.xml$" . html-mode))
 (add-to-list 'auto-mode-alist '("\\.launch$" . html-mode))
 (add-to-list 'auto-mode-alist '("\\.thor$" . ruby-mode))
-(require 'keyfreq)
-(keyfreq-mode 1)
-(keyfreq-autosave-mode 1)
+;; (require 'keyfreq)
+;; (keyfreq-mode 1)
+;; (keyfreq-autosave-mode 1)
 
 (require 'less-css-mode)
 
