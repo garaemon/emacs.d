@@ -28,3 +28,6 @@
 [submodule "modules/expand-region.el"]
 	path = modules/expand-region.el
 	url = https://github.com/magnars/expand-region.el.git
+[submodule "modules/auto-highlight-symbol"]
+	path = modules/auto-highlight-symbol
+	url = https://github.com/emacsmirror/auto-highlight-symbol.git
