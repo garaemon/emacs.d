@@ -1110,7 +1110,37 @@
 (require 'puppet-mode)
 (add-to-list 'auto-mode-alist '("\\.pp$" . puppet-mode))
 
+(require 'expand-region)
+(require 'multiple-cursors)
+(require 'smartrep)
 
+(global-set-key (kbd "C-^") 'er/expand-region)
+(global-set-key (kbd "C-M-^") 'er/contract-region)
+
+(global-set-key (kbd "<C-M-return>") 'mc/edit-lines)
+(global-set-key (kbd "C-M-j") 'mc/edit-lines)
+
+
+;; defining keymap with C-q prefix
+
+
+
+(declare-function smartrep-define-key "smartrep")
+(global-unset-key "\C-q")
+(smartrep-define-key global-map "C-q"
+  '(("C-t"      . 'mc/mark-next-like-this)
+    ("n"        . 'mc/mark-next-like-this)
+    ("p"        . 'mc/mark-previous-like-this)
+    ("m"        . 'mc/mark-more-like-this-extended)
+    ("u"        . 'mc/unmark-next-like-this)
+    ("U"        . 'mc/unmark-previous-like-this)
+    ("s"        . 'mc/skip-to-next-like-this)
+    ("S"        . 'mc/skip-to-previous-like-this)
+    ("*"        . 'mc/mark-all-like-this)
+    ("d"        . 'mc/mark-all-like-this-dwim)
+    ("i"        . 'mc/insert-numbers)
+    ("o"        . 'mc/sort-regions)
+    ("O"        . 'mc/reverse-regions)))
 
 (provide 'garaemon-dot-emacs)
 
