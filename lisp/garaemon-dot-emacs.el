@@ -928,14 +928,14 @@
   "sdic" "カーソルの位置の英単語の意味を調べる" t nil)
 (global-set-key "\C-cW" 'sdic-describe-word-at-point)
 
-(cond
- ((meadowp)
-  (setq shell-file-name "c:/cygwin/bin/zsh.exe")
-  (modify-coding-system-alist 'process ".*sh\\.exe" 'undecided-unix))
- ((cygwinp)
-  (setq shell-file-name "/bin/zsh"))
- (t
-  (setq shell-file-name "zsh")))
+;; (cond
+;;  ((meadowp)
+;;   (setq shell-file-name "c:/cygwin/bin/zsh.exe")
+;;   (modify-coding-system-alist 'process ".*sh\\.exe" 'undecided-unix))
+;;  ((cygwinp)
+;;   (setq shell-file-name "/bin/zsh"))
+;;  (t
+;;   (setq shell-file-name "zsh")))
 (setq explicit-shell-file-name shell-file-name)
 (setq shell-command-option "-c")
 (setq system-uses-terminfo nil)
