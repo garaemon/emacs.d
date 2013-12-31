@@ -19,3 +19,12 @@
 [submodule "modules/gh"]
 	path = modules/gh
 	url = https://github.com/sigma/gh.el.git
+[submodule "modules/expand-region.el"]
+	path = modules/expand-region.el
+	url = https://github.com/magnars/expand-region.el.git
+[submodule "modules/multiple-cursors.el"]
+	path = modules/multiple-cursors.el
+	url = https://github.com/magnars/multiple-cursors.el.git
+[submodule "modules/smartrep.el"]
+	path = modules/smartrep.el
+	url = https://github.com/myuhe/smartrep.el.git
