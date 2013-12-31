@@ -7,7 +7,8 @@
                          "elpa" "elpa/packages/cl-lib"
                          "markdown-mode" "less-css-mode"
                          "gist" "gh"
-                         "php-mode" "puppet"))
+                         "php-mode" "puppet"
+                         "expand-region.el" "smartrep.el" "multiple-cursors.el"))
 (add-to-list 'load-path "~/.emacs.d/modules")
 (dolist (module emacs-submodules)
   (add-to-list 'load-path (format "~/.emacs.d/modules/%s" module)))
