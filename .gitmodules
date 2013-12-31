@@ -31,3 +31,6 @@
 [submodule "modules/auto-highlight-symbol"]
 	path = modules/auto-highlight-symbol
 	url = https://github.com/emacsmirror/auto-highlight-symbol.git
+[submodule "modules/highlight-symbol.el"]
+	path = modules/highlight-symbol.el
+	url = https://github.com/nschum/highlight-symbol.el.git

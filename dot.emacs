@@ -9,7 +9,7 @@
                          "gist" "gh"
                          "php-mode" "puppet"
                          "expand-region.el" "smartrep.el" "multiple-cursors.el"
-                         "auto-highlight-symbol"))
+                         "highlight-symbol.el"))
 (add-to-list 'load-path "~/.emacs.d/modules")
 (dolist (module emacs-submodules)
   (add-to-list 'load-path (format "~/.emacs.d/modules/%s" module)))

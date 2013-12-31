@@ -1120,10 +1120,15 @@
 (global-set-key (kbd "<C-M-return>") 'mc/edit-lines)
 (global-set-key (kbd "C-M-j") 'mc/edit-lines)
 
+(require 'highlight-symbol)
+(setq highlight-symbol-colors '("DarkOrange" "DodgerBlue1" "DeepPink1"))
+
+(global-set-key (kbd "<f3>") 'highlight-symbol-at-point)
+(global-set-key (kbd "<f4>") 'highlight-symbol-remove-all)
+
+
 
 ;; defining keymap with C-q prefix
-
-
 
 (declare-function smartrep-define-key "smartrep")
 (global-unset-key "\C-q")
