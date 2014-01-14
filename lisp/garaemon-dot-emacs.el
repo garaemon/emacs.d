@@ -1126,10 +1126,13 @@
 (global-set-key (kbd "<f3>") 'highlight-symbol-at-point)
 (global-set-key (kbd "<f4>") 'highlight-symbol-remove-all)
 
-
+;; helm
+;;(require 'helm-config)
+;;(helm-mode t)
+;; (when (require 'helm-descbinds)
+;;   (helm-descbinds-mode t))
 
 ;; defining keymap with C-q prefix
-
 (declare-function smartrep-define-key "smartrep")
 (global-unset-key "\C-q")
 (smartrep-define-key global-map "C-q"
