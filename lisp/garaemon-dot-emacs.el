@@ -1127,8 +1127,12 @@
 (global-set-key (kbd "<f4>") 'highlight-symbol-remove-all)
 
 ;; helm
-;;(require 'helm-config)
-;;(helm-mode t)
+(require 'helm)
+(require 'helm-config)
+(helm-mode t)
+;; does not activate helm for find-file
+(add-to-list 'helm-completing-read-handlers-alist '(find-file . nil))
+
 ;; (when (require 'helm-descbinds)
 ;;   (helm-descbinds-mode t))
 
