@@ -1133,6 +1133,10 @@
 ;; does not activate helm for find-file
 (add-to-list 'helm-completing-read-handlers-alist '(find-file . nil))
 
+(require 'git-gutter)
+(global-git-gutter-mode +1)
+
+
 ;; (when (require 'helm-descbinds)
 ;;   (helm-descbinds-mode t))
 

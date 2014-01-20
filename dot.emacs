@@ -10,7 +10,8 @@
                          "php-mode" "puppet"
                          "expand-region.el" "smartrep.el" "multiple-cursors.el"
                          "highlight-symbol.el"
-                         "helm"))
+                         "helm"
+                         "git-gutter"))
 (add-to-list 'load-path "~/.emacs.d/modules")
 (dolist (module emacs-submodules)
   (add-to-list 'load-path (format "~/.emacs.d/modules/%s" module)))
@@ -52,7 +53,6 @@
   (setq exec-path pathlst)
   (setq eshell-path-env zshpath)
   (setenv "PATH" zshpath))
-;;(setq inferior-js-program-command "~/.nvm/v0.10.3/bin/node")
 
 (server-start)
 
