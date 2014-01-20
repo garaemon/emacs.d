@@ -10,7 +10,7 @@
                          "php-mode" "puppet"
                          "expand-region.el" "smartrep.el" "multiple-cursors.el"
                          "highlight-symbol.el"
-                         "helm"
+                         "helm" "helm-ag"
                          "git-gutter"))
 (add-to-list 'load-path "~/.emacs.d/modules")
 (dolist (module emacs-submodules)

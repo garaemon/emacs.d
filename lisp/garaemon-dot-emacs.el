@@ -1132,6 +1132,10 @@
 (helm-mode t)
 ;; does not activate helm for find-file
 (add-to-list 'helm-completing-read-handlers-alist '(find-file . nil))
+(require 'helm-ag)
+(setq helm-ag-base-command "ag --nocolor --nogroup --ignore-case")
+(setq helm-ag-command-option "--all-text")
+(setq helm-ag-thing-at-point 'symbol)
 
 (require 'git-gutter)
 (global-git-gutter-mode +1)
