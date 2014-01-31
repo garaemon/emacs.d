@@ -1147,7 +1147,7 @@
 ;; auto-complete
 (require 'auto-complete)
 (global-auto-complete-mode t)
-
+(custom-set-variables (list 'ac-modes (cons 'euslisp-mode ac-modes)))
 
 ;; defining keymap with C-q prefix
 (declare-function smartrep-define-key "smartrep")
