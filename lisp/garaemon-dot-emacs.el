@@ -1144,6 +1144,11 @@
 ;; (when (require 'helm-descbinds)
 ;;   (helm-descbinds-mode t))
 
+;; auto-complete
+(require 'auto-complete)
+(global-auto-complete-mode t)
+
+
 ;; defining keymap with C-q prefix
 (declare-function smartrep-define-key "smartrep")
 (global-unset-key "\C-q")
@@ -1161,6 +1166,8 @@
     ("i"        . 'mc/insert-numbers)
     ("o"        . 'mc/sort-regions)
     ("O"        . 'mc/reverse-regions)))
+
+(setq compilation-scroll-output t)
 
 (provide 'garaemon-dot-emacs)
 
