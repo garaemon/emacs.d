@@ -554,7 +554,7 @@
      (cons '("[^¥000-¥377]")
            ispell-skip-region-alist)))
 
-(iswitchb-mode 1)
+;;(iswitchb-mode 1)
 
 (global-unset-key "\C-\\")
 (when (carbon-emacs-p)
@@ -1140,6 +1140,9 @@
 (setq helm-ag-command-option "--all-text")
 (setq helm-ag-thing-at-point 'symbol)
 
+;; fix ctrl-h in helm
+(define-key key-translation-map [?\C-h] [?\C-?])
+(global-set-key "\C-xb" 'helm-mini)
 (require 'git-gutter)
 (global-git-gutter-mode +1)
 
