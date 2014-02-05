@@ -1140,6 +1140,9 @@
 (setq helm-ag-command-option "--all-text")
 (setq helm-ag-thing-at-point 'symbol)
 
+;; fix ctrl-h in helm
+(define-key key-translation-map [?\C-h] [?\C-?])
+
 (require 'git-gutter)
 (global-git-gutter-mode +1)
 
