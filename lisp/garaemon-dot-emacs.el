@@ -1058,6 +1058,9 @@
 (add-to-list 'auto-mode-alist '("\\.xml$" . html-mode))
 (add-to-list 'auto-mode-alist '("\\.launch$" . html-mode))
 (add-to-list 'auto-mode-alist '("\\.thor$" . ruby-mode))
+(defvar ruby-indent-level 2)
+(defvar nxml-child-indent 2)
+
 ;; (require 'keyfreq)
 ;; (keyfreq-mode 1)
 ;; (keyfreq-autosave-mode 1)
