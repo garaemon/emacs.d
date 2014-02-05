@@ -1,3 +1,6 @@
+[submodule "modules/elpa"]
+  path = modules/elpa
+  url = http://git.savannah.gnu.org/r/emacs/elpa.git
 [submodule "modules/nyan-mode"]
 	path = modules/nyan-mode
 	url = https://github.com/TeMPOraL/nyan-mode.git
