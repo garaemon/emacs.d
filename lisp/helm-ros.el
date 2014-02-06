@@ -15,9 +15,22 @@
     (let ((dirs (split-string string-output "\n")))
       dirs)))
 
+(defun helm-rospack-list ()
+  (let ((string-output (shell-command-to-string "rospack list")))
+    (let ((dir-and-packs (split-string string-output "\n")))
+      (mapcar #'(lambda (line)
+                  (cadr (split-string line " ")))
+              dir-and-packs))))
+
 (defvar helm-source-catkin-packages
   `((name . "catkin packages")
-    (inint . (setq helm-catkin-packages-list (helm-catkin-packages-list)))
+    (init . (lambda () (setq helm-catkin-packages-list (helm-catkin-packages-list))))
+    (candidates . helm-catkin-packages-list)
+    (type . file)))
+
+(defvar helm-source-rospack-list
+  `((name . "rospack list")
+    (init . (lambda () (setq helm-rospack-list (helm-rospack-list))))
     (candidates . helm-catkin-packages-list)
     (type . file)))
 
@@ -29,6 +42,7 @@
     (helm-other-buffer '(helm-source-buffers-list
                          helm-source-recentf
                          helm-source-catkin-packages
+                         helm-source-rospack-list
                          helm-source-buffer-not-found)
                        "*helm mini*")))
 
