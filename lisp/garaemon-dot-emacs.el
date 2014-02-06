@@ -1142,7 +1142,8 @@
 
 ;; fix ctrl-h in helm
 (define-key key-translation-map [?\C-h] [?\C-?])
-(global-set-key "\C-xb" 'helm-mini)
+(require 'helm-ros)
+(global-set-key "\C-xb" 'helm-mini-with-ros)
 (require 'git-gutter)
 (global-git-gutter-mode +1)
 
