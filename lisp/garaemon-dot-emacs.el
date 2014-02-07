@@ -1143,7 +1143,7 @@
 ;; fix ctrl-h in helm
 (define-key key-translation-map [?\C-h] [?\C-?])
 (require 'helm-ros)
-(setq helm-source-catkin-root "~/ros_catkin_ws/hydro")
+(setq helm-source-catkin-root "~/ros_catkin_ws/hydro/src")
 (defun helm-mini-with-ros ()
   "Preconfigured `helm' lightweight version \(buffer -> recentf\)."
   (interactive)
