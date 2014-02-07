@@ -1143,6 +1143,19 @@
 ;; fix ctrl-h in helm
 (define-key key-translation-map [?\C-h] [?\C-?])
 (require 'helm-ros)
+(setq helm-source-catkin-root "~/ros_catkin_ws/hydro")
+(defun helm-mini-with-ros ()
+  "Preconfigured `helm' lightweight version \(buffer -> recentf\)."
+  (interactive)
+  (require 'helm-files)
+  (let ((helm-ff-transformer-show-only-basename nil))
+    (helm-other-buffer '(helm-source-buffers-list
+                         helm-source-recentf
+                         helm-source-catkin-packages
+                         ;;helm-source-rospack-list
+                         helm-source-buffer-not-found)
+                       "*helm mini*")))
+
 (global-set-key "\C-xb" 'helm-mini-with-ros)
 (require 'git-gutter)
 (global-git-gutter-mode +1)
