@@ -4,7 +4,6 @@
 
 (add-to-list 'load-path "~/.emacs.d/lisp")
 (setq emacs-submodules '("nyan-mode" "git-modes" "magit" 
-                         "elpa" "elpa/packages/cl-lib"
                          "markdown-mode" "less-css-mode"
                          "gist" "gh"
                          "php-mode" "puppet"
