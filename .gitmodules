@@ -4,9 +4,6 @@
 [submodule "modules/git-modes"]
 	path = modules/git-modes
 	url = https://github.com/magit/git-modes.git
-[submodule "modules/elpa"]
-	path = modules/elpa
-	url = http://git.savannah.gnu.org/r/emacs/elpa.git
 [submodule "modules/markdown-mode"]
 	path = modules/markdown-mode
 	url = git://jblevins.org/git/markdown-mode.git
