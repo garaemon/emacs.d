@@ -1230,12 +1230,14 @@
     ("o"        . 'mc/sort-regions)
     ("O"        . 'mc/reverse-regions)))
 
+
 (add-to-list 'custom-theme-load-path "~/.emacs.d/modules/zenburn-emacs/")
 (load-theme 'zenburn t)
 
 
 (require 'rainbow-delimiters)
-(global-rainbow-delimiters-mode)
+(global-rainbow-delimiters-mode t)
+(custom-set-faces '(rainbow-delimiters-depth-1-face ((t (:foreground "#7f8c8d")))))
 
 (provide 'garaemon-dot-emacs)
 
