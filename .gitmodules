@@ -52,3 +52,9 @@
 [submodule "modules/rainbow-delimiters"]
 	path = modules/rainbow-delimiters
 	url = https://github.com/jlr/rainbow-delimiters
+[submodule "modules/pcache"]
+	path = modules/pcache
+	url = https://github.com/sigma/pcache
+[submodule "modules/logito"]
+	path = modules/logito
+	url = https://github.com/sigma/logito

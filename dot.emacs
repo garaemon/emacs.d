@@ -6,7 +6,7 @@
 (setq emacs-submodules '("nyan-mode" "git-modes" "magit" 
                          "markdown-mode" "less-css-mode"
                          "gist" "gh"
-                         "php-mode" "puppet"
+                         "php-mode" "puppet" "pcache" "logito"
                          "expand-region.el" "smartrep.el" "multiple-cursors.el"
                          "highlight-symbol.el"
                          "helm" "helm-ag" "rainbow-delimiters"
