@@ -1171,14 +1171,32 @@
 (require 'helm-config)
 (helm-mode t)
 ;; does not activate helm for find-file
-(add-to-list 'helm-completing-read-handlers-alist '(find-file . nil))
+;; For find-file etc.
+(define-key helm-read-file-map (kbd "TAB") 'helm-execute-persistent-action)
+;; For helm-find-files etc.
+(define-key helm-find-files-map (kbd "TAB") 'helm-execute-persistent-action)
+(define-key global-map (kbd "M-x")     'helm-M-x)
+(define-key global-map (kbd "C-x C-f") 'helm-find-files)
+(define-key global-map (kbd "C-x C-r") 'helm-recentf)
+(define-key global-map (kbd "M-y")     'helm-show-kill-ring)
+(define-key global-map (kbd "C-c i")   'helm-imenu)
+(define-key global-map (kbd "C-x b")   'helm-buffers-list)
+
 (require 'helm-ag)
 (setq helm-ag-base-command "ag --nocolor --nogroup --ignore-case")
 (setq helm-ag-command-option "--all-text")
 (setq helm-ag-thing-at-point 'symbol)
 
 ;; fix ctrl-h in helm
-(define-key key-translation-map [?\C-h] [?\C-?])
+(define-key helm-map (kbd "C-h") 'delete-backward-char)
+(define-key helm-find-files-map (kbd "C-h") 'delete-backward-char)
+;; Emulate `kill-line' in helm minibuffer
+(setq helm-delete-minibuffer-contents-from-point t)
+(defadvice helm-delete-minibuffer-contents (before helm-emulate-kill-line activate)
+  "Emulate `kill-line' in helm minibuffer"
+  (kill-new (buffer-substring (point) (field-end))))
+
+
 (require 'helm-ros)
 (setq helm-source-catkin-root "~/ros_catkin_ws/hydro/src")
 (defun helm-mini-with-ros ()
