@@ -1,4 +1,5 @@
 ;; -*- mode: emacs-lisp -*-
+
 (require 'garaemon-util)
 ;; anthy
 (when (or (eq system-type 'cygwin)
@@ -119,7 +120,7 @@
 (add-hook 'lisp-mode-hook (lambda () (interactive) (column-marker-2 80)))
 
 (global-set-key "\C-x;" 'comment-region)
-(fset 'uncomment-region "\C-u\C-[xcomment-region\C-m")
+;;(fset 'uncomment-region "\C-u\C-[xcomment-region\C-m")
 (global-set-key "\C-x:" 'uncomment-region)
 
 (when-meadow
