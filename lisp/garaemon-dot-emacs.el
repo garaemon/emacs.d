@@ -118,9 +118,9 @@
 (add-hook 'c++-mode-hook (lambda () (interactive) (column-marker-2 80)))
 (add-hook 'lisp-mode-hook (lambda () (interactive) (column-marker-2 80)))
 
-(global-set-key "\C-x;" 'comment-region)
-(fset 'uncomment-region "\C-u\C-[xcomment-region\C-m")
-(global-set-key "\C-x:" 'uncomment-region)
+;;(global-set-key "\C-x;" 'comment-region)
+;;(fset 'uncomment-region "\C-u\C-[xcomment-region\C-m")
+;;(global-set-key "\C-x:" 'uncomment-region)
 
 (when-meadow
  (setq inhibit-default-init t))
@@ -1167,7 +1167,7 @@
 ;; auto-complete
 (require 'auto-complete)
 (global-auto-complete-mode t)
-(custom-set-variables (list 'ac-modes (append '(html-mode euslisp-mode) ac-modes)))
+(custom-set-variables (list 'ac-modes (append '(html-mode euslisp-mode cmake-mode xhtml-mode) ac-modes)))
 
 ;; defining keymap with C-q prefix
 (declare-function smartrep-define-key "smartrep")
