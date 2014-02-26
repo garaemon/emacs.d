@@ -53,6 +53,8 @@
           lisp-mode
           euslisp-mode
           html-mode
+	  cmake-mode 
+	  xhtml-mode
           ;;org-mode
           )))
   (add-hook 'emacs-lisp-mode-hook
@@ -1192,8 +1194,27 @@
                        "*helm mini*")))
 (global-set-key "\C-xb" 'helm-mini-with-ros)
 
+;; defining keymap with C-q prefix
+(declare-function smartrep-define-key "smartrep")
+(global-unset-key "\C-q")
+(smartrep-define-key global-map "C-q"
+  '(("C-t"      . 'mc/mark-next-like-this)
+    ("n"        . 'mc/mark-next-like-this)
+    ("p"        . 'mc/mark-previous-like-this)
+    ("m"        . 'mc/mark-more-like-this-extended)
+    ("u"        . 'mc/unmark-next-like-this)
+    ("U"        . 'mc/unmark-previous-like-this)
+    ("s"        . 'mc/skip-to-next-like-this)
+    ("S"        . 'mc/skip-to-previous-like-this)
+    ("*"        . 'mc/mark-all-like-this)
+    ("d"        . 'mc/mark-all-like-this-dwim)
+    ("i"        . 'mc/insert-numbers)
+    ("o"        . 'mc/sort-regions)
+    ("O"        . 'mc/reverse-regions)))
+
 (add-to-list 'custom-theme-load-path "~/.emacs.d/modules/zenburn-emacs/")
 (load-theme 'zenburn t)
+
 
 (require 'rainbow-delimiters)
 (global-rainbow-delimiters-mode)
