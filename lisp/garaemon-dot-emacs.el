@@ -53,8 +53,8 @@
           lisp-mode
           euslisp-mode
           html-mode
-	  cmake-mode 
-	  xhtml-mode
+          cmake-mode 
+          xhtml-mode
           ;;org-mode
           )))
   (add-hook 'emacs-lisp-mode-hook
