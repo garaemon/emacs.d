@@ -49,3 +49,6 @@
 [submodule "modules/zenburn-emacs"]
 	path = modules/zenburn-emacs
 	url = https://github.com/bbatsov/zenburn-emacs
+[submodule "modules/rainbow-delimiters"]
+	path = modules/rainbow-delimiters
+	url = https://github.com/jlr/rainbow-delimiters

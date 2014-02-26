@@ -45,12 +45,14 @@
   (setq ac-auto-start 2)
   (setq ac-dwim t)
   (set-default 'ac-sources '(ac-source-yasnippet
-                 ac-source-abbrev
-                 ac-source-words-in-buffer))
+                             ac-source-abbrev
+                             ac-source-words-in-buffer))
   (setq ac-modes
     (append ac-modes
         '(emacs-lisp-mode
           lisp-mode
+          euslisp-mode
+          html-mode
           ;;org-mode
           )))
   (add-hook 'emacs-lisp-mode-hook
@@ -540,7 +542,7 @@
 (global-set-key "\C-c}" 'hs-show-all)
 
 (setq auto-mode-alist (cons (cons "\\.html$" 'html-mode)
-                auto-mode-alist))
+                            auto-mode-alist))
 
 (global-set-key "\C-x\C-b" 'ibuffer)
 
@@ -1140,10 +1142,6 @@
 ;; (when (require 'helm-descbinds)
 ;;   (helm-descbinds-mode t))
 
-;; auto-complete
-(require 'auto-complete)
-(global-auto-complete-mode t)
-(custom-set-variables (list 'ac-modes (append '(html-mode euslisp-mode) ac-modes)))
 
 ;; defining keymap with C-q prefix
 (declare-function smartrep-define-key "smartrep")
@@ -1196,6 +1194,8 @@
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/modules/zenburn-emacs/")
 (load-theme 'zenburn t)
+
+(require 'rainbow-delimiters)
 
 (provide 'garaemon-dot-emacs)
 

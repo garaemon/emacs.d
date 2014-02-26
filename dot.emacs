@@ -9,7 +9,7 @@
                          "php-mode" "puppet"
                          "expand-region.el" "smartrep.el" "multiple-cursors.el"
                          "highlight-symbol.el"
-                         "helm" "helm-ag"
+                         "helm" "helm-ag" "rainbow-delimiters"
                          "git-gutter" "auto-complete" "popup" "zenburn-emacs"))
 (add-to-list 'load-path "~/.emacs.d/modules")
 (dolist (module emacs-submodules)
@@ -57,5 +57,8 @@
 
 (setq-default c-basic-offset 2)
 
+
 (require 'edit-server)
 (edit-server-start)
+
+
