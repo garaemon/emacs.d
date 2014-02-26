@@ -1,5 +1,9 @@
 ;; -*- mode: emacs-lisp -*-
+
 (require 'garaemon-util)
+(setq file-name-coding-system 'utf-8)
+(setq locale-coding-system 'utf-8)
+
 ;; anthy
 (when (or (eq system-type 'cygwin)
       (eq system-type 'gnu/linux))
@@ -41,12 +45,14 @@
   (setq ac-auto-start 2)
   (setq ac-dwim t)
   (set-default 'ac-sources '(ac-source-yasnippet
-                 ac-source-abbrev
-                 ac-source-words-in-buffer))
+                             ac-source-abbrev
+                             ac-source-words-in-buffer))
   (setq ac-modes
     (append ac-modes
         '(emacs-lisp-mode
           lisp-mode
+          euslisp-mode
+          html-mode
           ;;org-mode
           )))
   (add-hook 'emacs-lisp-mode-hook
@@ -119,7 +125,7 @@
 (add-hook 'lisp-mode-hook (lambda () (interactive) (column-marker-2 80)))
 
 (global-set-key "\C-x;" 'comment-region)
-(fset 'uncomment-region "\C-u\C-[xcomment-region\C-m")
+;;(fset 'uncomment-region "\C-u\C-[xcomment-region\C-m")
 (global-set-key "\C-x:" 'uncomment-region)
 
 (when-meadow
@@ -486,25 +492,25 @@
 (global-set-key "\M-g" 'goto-line)
 
 
-(when t
-  (when-gui
-   ;; 文字の色を設定します。
-   (set-foreground-color "white")
-   ;; 背景色を設定します。
-   (set-background-color "black")
-   ;; モードラインの文字の色を設定します。
-   (set-face-foreground 'modeline "white")
-   ;; モードラインの背景色を設定します。
-   (set-face-background 'modeline "gray40")
-   ;; カーソルの色を設定します。
-   (set-cursor-color "yellow")
-   ;; マウスポインタの色を設定します。
-   (set-mouse-color  "yellow")
-   )
-  (when-gui
-   ;; 透明に
-   (set-frame-parameter nil 'alpha '(85 70)))
-  )
+;; (when t
+;;   (when-gui
+;;    ;; 文字の色を設定します。
+;;    (set-foreground-color "white")
+;;    ;; 背景色を設定します。
+;;    (set-background-color "black")
+;;    ;; モードラインの文字の色を設定します。
+;;    (set-face-foreground 'modeline "white")
+;;    ;; モードラインの背景色を設定します。
+;;    (set-face-background 'modeline "gray40")
+;;    ;; カーソルの色を設定します。
+;;    (set-cursor-color "yellow")
+;;    ;; マウスポインタの色を設定します。
+;;    (set-mouse-color  "yellow")
+;;    )
+;;   (when-gui
+;;    ;; 透明に
+;;    (set-frame-parameter nil 'alpha '(85 70)))
+;;   )
 
 (cond ((carbon-emacs-p)
        (setq default-frame-alist
@@ -536,7 +542,7 @@
 (global-set-key "\C-c}" 'hs-show-all)
 
 (setq auto-mode-alist (cons (cons "\\.html$" 'html-mode)
-                auto-mode-alist))
+                            auto-mode-alist))
 
 (global-set-key "\C-x\C-b" 'ibuffer)
 
@@ -1129,6 +1135,35 @@
 (global-set-key (kbd "<f3>") 'highlight-symbol-at-point)
 (global-set-key (kbd "<f4>") 'highlight-symbol-remove-all)
 
+(require 'git-gutter)
+(global-git-gutter-mode +1)
+
+
+;; (when (require 'helm-descbinds)
+;;   (helm-descbinds-mode t))
+
+
+;; defining keymap with C-q prefix
+(declare-function smartrep-define-key "smartrep")
+(global-unset-key "\C-q")
+(smartrep-define-key global-map "C-q"
+  '(("C-t"      . 'mc/mark-next-like-this)
+    ("n"        . 'mc/mark-next-like-this)
+    ("p"        . 'mc/mark-previous-like-this)
+    ("m"        . 'mc/mark-more-like-this-extended)
+    ("u"        . 'mc/unmark-next-like-this)
+    ("U"        . 'mc/unmark-previous-like-this)
+    ("s"        . 'mc/skip-to-next-like-this)
+    ("S"        . 'mc/skip-to-previous-like-this)
+    ("*"        . 'mc/mark-all-like-this)
+    ("d"        . 'mc/mark-all-like-this-dwim)
+    ("i"        . 'mc/insert-numbers)
+    ("o"        . 'mc/sort-regions)
+    ("O"        . 'mc/reverse-regions)))
+
+(setq compilation-scroll-output t)
+
+
 ;; helm
 (require 'helm)
 (require 'helm-config)
@@ -1155,39 +1190,12 @@
                          ;;helm-source-rospack-list
                          helm-source-buffer-not-found)
                        "*helm mini*")))
-
 (global-set-key "\C-xb" 'helm-mini-with-ros)
-(require 'git-gutter)
-(global-git-gutter-mode +1)
 
+(add-to-list 'custom-theme-load-path "~/.emacs.d/modules/zenburn-emacs/")
+(load-theme 'zenburn t)
 
-;; (when (require 'helm-descbinds)
-;;   (helm-descbinds-mode t))
-
-;; auto-complete
-(require 'auto-complete)
-(global-auto-complete-mode t)
-(custom-set-variables (list 'ac-modes (append '(html-mode euslisp-mode) ac-modes)))
-
-;; defining keymap with C-q prefix
-(declare-function smartrep-define-key "smartrep")
-(global-unset-key "\C-q")
-(smartrep-define-key global-map "C-q"
-  '(("C-t"      . 'mc/mark-next-like-this)
-    ("n"        . 'mc/mark-next-like-this)
-    ("p"        . 'mc/mark-previous-like-this)
-    ("m"        . 'mc/mark-more-like-this-extended)
-    ("u"        . 'mc/unmark-next-like-this)
-    ("U"        . 'mc/unmark-previous-like-this)
-    ("s"        . 'mc/skip-to-next-like-this)
-    ("S"        . 'mc/skip-to-previous-like-this)
-    ("*"        . 'mc/mark-all-like-this)
-    ("d"        . 'mc/mark-all-like-this-dwim)
-    ("i"        . 'mc/insert-numbers)
-    ("o"        . 'mc/sort-regions)
-    ("O"        . 'mc/reverse-regions)))
-
-(setq compilation-scroll-output t)
+(require 'rainbow-delimiters)
 
 (provide 'garaemon-dot-emacs)
 
