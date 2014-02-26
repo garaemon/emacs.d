@@ -1196,6 +1196,7 @@
 (load-theme 'zenburn t)
 
 (require 'rainbow-delimiters)
+(global-rainbow-delimiters-mode)
 
 (provide 'garaemon-dot-emacs)
 
