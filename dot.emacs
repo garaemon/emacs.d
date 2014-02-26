@@ -10,7 +10,7 @@
                          "expand-region.el" "smartrep.el" "multiple-cursors.el"
                          "highlight-symbol.el"
                          "helm" "helm-ag"
-                         "git-gutter" "auto-complete" "popup"))
+                         "git-gutter" "auto-complete" "popup" "zenburn-emacs"))
 (add-to-list 'load-path "~/.emacs.d/modules")
 (dolist (module emacs-submodules)
   (add-to-list 'load-path (format "~/.emacs.d/modules/%s" module)))

@@ -1,6 +1,9 @@
 ;; -*- mode: emacs-lisp -*-
 
 (require 'garaemon-util)
+(setq file-name-coding-system 'utf-8)
+(setq locale-coding-system 'utf-8)
+
 ;; anthy
 (when (or (eq system-type 'cygwin)
       (eq system-type 'gnu/linux))
@@ -487,25 +490,25 @@
 (global-set-key "\M-g" 'goto-line)
 
 
-(when t
-  (when-gui
-   ;; 文字の色を設定します。
-   (set-foreground-color "white")
-   ;; 背景色を設定します。
-   (set-background-color "black")
-   ;; モードラインの文字の色を設定します。
-   (set-face-foreground 'modeline "white")
-   ;; モードラインの背景色を設定します。
-   (set-face-background 'modeline "gray40")
-   ;; カーソルの色を設定します。
-   (set-cursor-color "yellow")
-   ;; マウスポインタの色を設定します。
-   (set-mouse-color  "yellow")
-   )
-  (when-gui
-   ;; 透明に
-   (set-frame-parameter nil 'alpha '(85 70)))
-  )
+;; (when t
+;;   (when-gui
+;;    ;; 文字の色を設定します。
+;;    (set-foreground-color "white")
+;;    ;; 背景色を設定します。
+;;    (set-background-color "black")
+;;    ;; モードラインの文字の色を設定します。
+;;    (set-face-foreground 'modeline "white")
+;;    ;; モードラインの背景色を設定します。
+;;    (set-face-background 'modeline "gray40")
+;;    ;; カーソルの色を設定します。
+;;    (set-cursor-color "yellow")
+;;    ;; マウスポインタの色を設定します。
+;;    (set-mouse-color  "yellow")
+;;    )
+;;   (when-gui
+;;    ;; 透明に
+;;    (set-frame-parameter nil 'alpha '(85 70)))
+;;   )
 
 (cond ((carbon-emacs-p)
        (setq default-frame-alist
@@ -1130,34 +1133,6 @@
 (global-set-key (kbd "<f3>") 'highlight-symbol-at-point)
 (global-set-key (kbd "<f4>") 'highlight-symbol-remove-all)
 
-;; helm
-(require 'helm)
-(require 'helm-config)
-(helm-mode t)
-;; does not activate helm for find-file
-(add-to-list 'helm-completing-read-handlers-alist '(find-file . nil))
-(require 'helm-ag)
-(setq helm-ag-base-command "ag --nocolor --nogroup --ignore-case")
-(setq helm-ag-command-option "--all-text")
-(setq helm-ag-thing-at-point 'symbol)
-
-;; fix ctrl-h in helm
-(define-key key-translation-map [?\C-h] [?\C-?])
-(require 'helm-ros)
-(setq helm-source-catkin-root "~/ros_catkin_ws/hydro/src")
-(defun helm-mini-with-ros ()
-  "Preconfigured `helm' lightweight version \(buffer -> recentf\)."
-  (interactive)
-  (require 'helm-files)
-  (let ((helm-ff-transformer-show-only-basename nil))
-    (helm-other-buffer '(helm-source-buffers-list
-                         helm-source-recentf
-                         helm-source-catkin-packages
-                         ;;helm-source-rospack-list
-                         helm-source-buffer-not-found)
-                       "*helm mini*")))
-
-(global-set-key "\C-xb" 'helm-mini-with-ros)
 (require 'git-gutter)
 (global-git-gutter-mode +1)
 
@@ -1189,6 +1164,38 @@
     ("O"        . 'mc/reverse-regions)))
 
 (setq compilation-scroll-output t)
+
+
+;; helm
+(require 'helm)
+(require 'helm-config)
+(helm-mode t)
+;; does not activate helm for find-file
+(add-to-list 'helm-completing-read-handlers-alist '(find-file . nil))
+(require 'helm-ag)
+(setq helm-ag-base-command "ag --nocolor --nogroup --ignore-case")
+(setq helm-ag-command-option "--all-text")
+(setq helm-ag-thing-at-point 'symbol)
+
+;; fix ctrl-h in helm
+(define-key key-translation-map [?\C-h] [?\C-?])
+(require 'helm-ros)
+(setq helm-source-catkin-root "~/ros_catkin_ws/hydro/src")
+(defun helm-mini-with-ros ()
+  "Preconfigured `helm' lightweight version \(buffer -> recentf\)."
+  (interactive)
+  (require 'helm-files)
+  (let ((helm-ff-transformer-show-only-basename nil))
+    (helm-other-buffer '(helm-source-buffers-list
+                         helm-source-recentf
+                         helm-source-catkin-packages
+                         ;;helm-source-rospack-list
+                         helm-source-buffer-not-found)
+                       "*helm mini*")))
+(global-set-key "\C-xb" 'helm-mini-with-ros)
+
+(add-to-list 'custom-theme-load-path "~/.emacs.d/modules/zenburn-emacs/")
+(load-theme 'zenburn t)
 
 (provide 'garaemon-dot-emacs)
 
