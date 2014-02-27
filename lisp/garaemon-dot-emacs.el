@@ -1172,9 +1172,11 @@
 (helm-mode t)
 ;; does not activate helm for find-file
 ;; For find-file etc.
-(define-key helm-read-file-map (kbd "TAB") 'helm-execute-persistent-action)
+;;(define-key helm-read-file-map (kbd "TAB") 'helm-execute-persistent-action)
 ;; For helm-find-files etc.
-(define-key helm-find-files-map (kbd "TAB") 'helm-execute-persistent-action)
+;;(define-key helm-find-files-map (kbd "TAB") 'helm-execute-persistent-action)
+(add-to-list 'helm-completing-read-handlers-alist '(find-file . nil))
+
 (define-key global-map (kbd "M-x")     'helm-M-x)
 (define-key global-map (kbd "C-x C-f") 'helm-find-files)
 (define-key global-map (kbd "C-x C-r") 'helm-recentf)
@@ -1189,10 +1191,11 @@
 
 ;; fix ctrl-h in helm
 (define-key helm-map (kbd "C-h") 'delete-backward-char)
-(define-key helm-find-files-map (kbd "C-h") 'delete-backward-char)
+;;(define-key helm-find-files-map (kbd "C-h") 'delete-backward-char)
 ;; Emulate `kill-line' in helm minibuffer
 (setq helm-delete-minibuffer-contents-from-point t)
-(defadvice helm-delete-minibuffer-contents (before helm-emulate-kill-line activate)
+(defadvice helm-delete-minibuffer-contents
+  (before helm-emulate-kill-line activate)
   "Emulate `kill-line' in helm minibuffer"
   (kill-new (buffer-substring (point) (field-end))))
 
