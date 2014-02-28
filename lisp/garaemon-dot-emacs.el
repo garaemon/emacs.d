@@ -116,15 +116,17 @@
  (setq ns-alternate-modifier (quote super)))
 
 (when (eq system-type 'gnu/linux)
-  (set-face-attribute 'default nil :height 120)
+  (set-face-attribute 'default nil :height 120) ;font size
   )
-      
 
 (require 'column-marker)
-
-(add-hook 'c-mode-hook (lambda () (interactive) (column-marker-2 80)))
-(add-hook 'c++-mode-hook (lambda () (interactive) (column-marker-2 80)))
-(add-hook 'lisp-mode-hook (lambda () (interactive) (column-marker-2 80)))
+(dolist (mode '(c-mode-hook
+                c++-mode-hook
+                sh-mode-hook
+                lisp-mode-hook eusslisp-mode-hook
+                emacs-lisp-mode-hook))
+  (add-hook mode (lambda () (interactive) (column-marker-2 80)))
+  )
 
 (global-set-key "\C-x;" 'comment-region)
 ;;(fset 'uncomment-region "\C-u\C-[xcomment-region\C-m")
@@ -981,35 +983,32 @@
 (setq-default indent-tabs-mode nil)
 (setq inhibit-startup-message t)
 
+(defun dired-my-append-buffer-name-hint ()
+  "Append a auxiliary string to a name of dired buffer."
+  (when (eq major-mode 'dired-mode)
+    (let* ((dir (expand-file-name list-buffers-directory))
+           (drive (if (and (eq 'system-type 'windows-nt) ;; Windows の場合はドライブレターを追加
+                           (string-match "^\\([a-zA-Z]:\\)/" dir))
+                      (match-string 1 dir) "")))
+      (rename-buffer (concat (buffer-name) " [" drive "Dired]") t))))
+(add-hook 'dired-mode-hook 'dired-my-append-buffer-name-hint)
 
-(defun file-root-p (filename)
-  "Return t if file FILENAME created by root."
-  (eq 0 (nth 2 (file-attributes filename))))
 
-(defun th-rename-tramp-buffer ()
-  (when (file-remote-p (buffer-file-name))
-    (rename-buffer
-     (format "%s:%s"
-             (file-remote-p (buffer-file-name) 'method)
-             (buffer-name)))))
-
-(add-hook 'find-file-hook
-          'th-rename-tramp-buffer)
-
-(defadvice find-file (around th-find-file activate)
-  "Open FILENAME using tramp's sudo method if it's read-only."
-  (if (and (file-root-p (ad-get-arg 0))
-           (not (file-writable-p (ad-get-arg 0)))
-           (y-or-n-p (concat "File "
-                             (ad-get-arg 0)
-                             " is read-only.  Open it as root? ")))
-      (th-find-file-sudo (ad-get-arg 0))
-    ad-do-it))
-
-(defun th-find-file-sudo (file)
-  "Opens FILE with root privileges."
-  (interactive "F")
-  (set-buffer (find-file (concat "/sudo::" file))))
+(defun tramp-my-append-buffer-name-hint ()
+  "Append a hint (user, hostname) to a buffer name if visiting
+file is a remote file (include directory)."
+  (let ((name (or list-buffers-directory (buffer-file-name))))
+    (when (and name (tramp-tramp-file-p name))
+      (let* ((tramp-vec (tramp-dissect-file-name name))
+             (method (tramp-file-name-method tramp-vec))
+             (host (tramp-file-name-real-host tramp-vec))
+             (user (or (tramp-file-name-real-user tramp-vec)
+                       (nth 2 (assoc method tramp-default-user-alist))
+                       tramp-default-user
+                       user-real-login-name)))
+        (rename-buffer (concat (buffer-name) " <" user "@" host ">") t)))))
+(add-to-list 'find-file-hook 'tramp-my-append-buffer-name-hint)
+(add-to-list 'dired-mode-hook 'tramp-my-append-buffer-name-hint)
 
 (setq thumbs-thumbsdir
       (expand-file-name "~/.emacs-thumbs"))
