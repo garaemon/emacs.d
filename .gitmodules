@@ -58,3 +58,15 @@
 [submodule "modules/logito"]
 	path = modules/logito
 	url = https://github.com/sigma/logito
+[submodule "modules/flycheck"]
+	path = modules/flycheck
+	url = https://github.com/flycheck/flycheck.git
+[submodule "modules/s"]
+	path = modules/s
+	url = https://github.com/magnars/s.el.git
+[submodule "modules/dash"]
+	path = modules/dash
+	url = https://github.com/magnars/dash.el.git
+[submodule "modules/f"]
+	path = modules/f
+	url = https://github.com/rejeep/f.el.git
