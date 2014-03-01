@@ -90,7 +90,7 @@
 ;; タイトルの補完
 (setq clmemo-title-list '("idea" "bookmark" "Emacs" "EusLisp" "Research"))
 
-(when-cocoa
+(when-darwin
  ;; フォントフェースの設定
  ;; see http://d.hatena.ne.jp/kazu-yamamoto/20090122/1232589385
  (set-face-attribute 'default nil
@@ -98,20 +98,12 @@
              :height 120)
  ;; 日本語フォント: ヒラギノ丸ゴシック 
  (set-fontset-font
-  (frame-parameter nil 'font)
-  'japanese-jisx0208
-  '("Hiragino Maru Gothic Pro" . "iso10646-1"))
- (set-fontset-font
-  (frame-parameter nil 'font)
-  'katakana-jisx0201
-  '("Hiragino Maru Gothic Pro" . "iso10646-1"))
- (set-fontset-font
-  (frame-parameter nil 'font)
-  'japanese-jisx0212
-  '("Hiragino Maru Gothic Pro" . "iso10646-1"))
+  nil 'japanese-jisx0208
+  ;; (font-spec :family "Hiragino Mincho Pro")) ;; font
+  (font-spec :family "Hiragino Kaku Gothic ProN")) ;; font
  )
 
-(when-cocoa
+(when-darwin
  (setq ns-command-modifier (quote meta))
  (setq ns-alternate-modifier (quote super)))
 
@@ -1208,7 +1200,7 @@ file is a remote file (include directory)."
   (let ((helm-ff-transformer-show-only-basename nil))
     (helm-other-buffer '(helm-source-buffers-list
                          helm-source-recentf
-                         helm-source-catkin-packages
+                         ;;helm-source-catkin-packages
                          ;;helm-source-rospack-list
                          helm-source-buffer-not-found)
                        "*helm mini*")))
