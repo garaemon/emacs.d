@@ -1088,6 +1088,7 @@ file is a remote file (include directory)."
 ;; cmake
 (require 'cmake-mode)
 (setq auto-mode-alist (cons '("CMakeLists.txt" . cmake-mode) auto-mode-alist))
+(setq auto-mode-alist (cons '("\\.cmake$" . cmake-mode) auto-mode-alist))
 
 (setq-default tab-width 2)
 (setq-default c-basic-offset 2)
@@ -1231,6 +1232,8 @@ file is a remote file (include directory)."
 ;; C-x u
 (require 'undo-tree)
 (global-undo-tree-mode)
+
+(require 'yaml-mode)
 
 (provide 'garaemon-dot-emacs)
 

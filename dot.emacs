@@ -9,7 +9,7 @@
                          "php-mode" "puppet" "pcache" "logito"
                          "expand-region.el" "smartrep.el" "multiple-cursors.el"
                          "highlight-symbol.el"
-                         "flycheck" "s" "dash" "f" "undo-tree"
+                         "flycheck" "s" "dash" "f" "undo-tree" "yaml-mode"
                          "helm" "helm-ag" "rainbow-delimiters"
                          "git-gutter" "auto-complete" "popup" "zenburn-emacs"))
 (add-to-list 'load-path "~/.emacs.d/modules")
