@@ -1228,6 +1228,7 @@ file is a remote file (include directory)."
 (custom-set-faces '(rainbow-delimiters-depth-1-face ((t (:foreground "#7f8c8d")))))
 
 ;; undo tree
+;; C-x u
 (require 'undo-tree)
 (global-undo-tree-mode)
 
