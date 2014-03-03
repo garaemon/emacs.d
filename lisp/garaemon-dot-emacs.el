@@ -115,7 +115,7 @@
 (dolist (mode '(c-mode-hook
                 c++-mode-hook
                 sh-mode-hook
-                lisp-mode-hook eusslisp-mode-hook
+                lisp-mode-hook euslisp-mode-hook
                 emacs-lisp-mode-hook))
   (add-hook mode (lambda () (interactive) (column-marker-2 80)))
   )
