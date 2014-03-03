@@ -90,7 +90,7 @@
 ;; タイトルの補完
 (setq clmemo-title-list '("idea" "bookmark" "Emacs" "EusLisp" "Research"))
 
-(when-cocoa
+(when-darwin
  ;; フォントフェースの設定
  ;; see http://d.hatena.ne.jp/kazu-yamamoto/20090122/1232589385
  (set-face-attribute 'default nil
@@ -98,33 +98,27 @@
              :height 120)
  ;; 日本語フォント: ヒラギノ丸ゴシック 
  (set-fontset-font
-  (frame-parameter nil 'font)
-  'japanese-jisx0208
-  '("Hiragino Maru Gothic Pro" . "iso10646-1"))
- (set-fontset-font
-  (frame-parameter nil 'font)
-  'katakana-jisx0201
-  '("Hiragino Maru Gothic Pro" . "iso10646-1"))
- (set-fontset-font
-  (frame-parameter nil 'font)
-  'japanese-jisx0212
-  '("Hiragino Maru Gothic Pro" . "iso10646-1"))
+  nil 'japanese-jisx0208
+  ;; (font-spec :family "Hiragino Mincho Pro")) ;; font
+  (font-spec :family "Hiragino Kaku Gothic ProN")) ;; font
  )
 
-(when-cocoa
+(when-darwin
  (setq ns-command-modifier (quote meta))
  (setq ns-alternate-modifier (quote super)))
 
 (when (eq system-type 'gnu/linux)
-  (set-face-attribute 'default nil :height 120)
+  (set-face-attribute 'default nil :height 120) ;font size
   )
-      
 
 (require 'column-marker)
-
-(add-hook 'c-mode-hook (lambda () (interactive) (column-marker-2 80)))
-(add-hook 'c++-mode-hook (lambda () (interactive) (column-marker-2 80)))
-(add-hook 'lisp-mode-hook (lambda () (interactive) (column-marker-2 80)))
+(dolist (mode '(c-mode-hook
+                c++-mode-hook
+                sh-mode-hook
+                lisp-mode-hook euslisp-mode-hook
+                emacs-lisp-mode-hook))
+  (add-hook mode (lambda () (interactive) (column-marker-2 80)))
+  )
 
 (global-set-key "\C-x;" 'comment-region)
 ;;(fset 'uncomment-region "\C-u\C-[xcomment-region\C-m")
@@ -345,19 +339,13 @@
     (flyspell-mode)
     (local-set-key [(control .)] 'flyspell-auto-correct-word)))
 
-;; (require 'anything-cheat-sheat-popup)
-
-;; (defanything-cheat-sheat emacs-lisp                ;name, must be unique
-;;   (emacs-lisp-mode lisp-interaction-mode)          ;major mode list
-;;   "~/org/cheat-sheat/emacs-lisp.org")              ;cheat file name
-
-;; (defanything-cheat-sheat slime
-;;   (slime-repl-mode)
-;;   "~/org/cheat-sheat/slime.org")
-
-;; (defanything-cheat-sheat org
-;;   (org-mode)
-;;   "~/org/cheat-sheat/org.org")
+;; flycheck
+(require 'flycheck)
+(add-hook 'python-mode-hook 'flycheck-mode)
+(add-hook 'emacs-lisp-mode-hook 'flycheck-mode)
+(add-hook 'c-mode-hook 'flycheck-mode)
+(add-hook 'c++-mode-hook 'flycheck-mode)
+(add-hook 'sh-mode-hook 'flycheck-mode)
 
 ;; bind to M-h
 (global-set-key "\M-h" 'anything-cheat-sheat)
@@ -981,35 +969,32 @@
 (setq-default indent-tabs-mode nil)
 (setq inhibit-startup-message t)
 
+(defun dired-my-append-buffer-name-hint ()
+  "Append a auxiliary string to a name of dired buffer."
+  (when (eq major-mode 'dired-mode)
+    (let* ((dir (expand-file-name list-buffers-directory))
+           (drive (if (and (eq 'system-type 'windows-nt) ;; Windows の場合はドライブレターを追加
+                           (string-match "^\\([a-zA-Z]:\\)/" dir))
+                      (match-string 1 dir) "")))
+      (rename-buffer (concat (buffer-name) " [" drive "Dired]") t))))
+(add-hook 'dired-mode-hook 'dired-my-append-buffer-name-hint)
 
-(defun file-root-p (filename)
-  "Return t if file FILENAME created by root."
-  (eq 0 (nth 2 (file-attributes filename))))
 
-(defun th-rename-tramp-buffer ()
-  (when (file-remote-p (buffer-file-name))
-    (rename-buffer
-     (format "%s:%s"
-             (file-remote-p (buffer-file-name) 'method)
-             (buffer-name)))))
-
-(add-hook 'find-file-hook
-          'th-rename-tramp-buffer)
-
-(defadvice find-file (around th-find-file activate)
-  "Open FILENAME using tramp's sudo method if it's read-only."
-  (if (and (file-root-p (ad-get-arg 0))
-           (not (file-writable-p (ad-get-arg 0)))
-           (y-or-n-p (concat "File "
-                             (ad-get-arg 0)
-                             " is read-only.  Open it as root? ")))
-      (th-find-file-sudo (ad-get-arg 0))
-    ad-do-it))
-
-(defun th-find-file-sudo (file)
-  "Opens FILE with root privileges."
-  (interactive "F")
-  (set-buffer (find-file (concat "/sudo::" file))))
+(defun tramp-my-append-buffer-name-hint ()
+  "Append a hint (user, hostname) to a buffer name if visiting
+file is a remote file (include directory)."
+  (let ((name (or list-buffers-directory (buffer-file-name))))
+    (when (and name (tramp-tramp-file-p name))
+      (let* ((tramp-vec (tramp-dissect-file-name name))
+             (method (tramp-file-name-method tramp-vec))
+             (host (tramp-file-name-real-host tramp-vec))
+             (user (or (tramp-file-name-real-user tramp-vec)
+                       (nth 2 (assoc method tramp-default-user-alist))
+                       tramp-default-user
+                       user-real-login-name)))
+        (rename-buffer (concat (buffer-name) " <" user "@" host ">") t)))))
+(add-to-list 'find-file-hook 'tramp-my-append-buffer-name-hint)
+(add-to-list 'dired-mode-hook 'tramp-my-append-buffer-name-hint)
 
 (setq thumbs-thumbsdir
       (expand-file-name "~/.emacs-thumbs"))
@@ -1103,6 +1088,7 @@
 ;; cmake
 (require 'cmake-mode)
 (setq auto-mode-alist (cons '("CMakeLists.txt" . cmake-mode) auto-mode-alist))
+(setq auto-mode-alist (cons '("\\.cmake$" . cmake-mode) auto-mode-alist))
 
 (setq-default tab-width 2)
 (setq-default c-basic-offset 2)
@@ -1172,11 +1158,13 @@
 (helm-mode t)
 ;; does not activate helm for find-file
 ;; For find-file etc.
-(define-key helm-read-file-map (kbd "TAB") 'helm-execute-persistent-action)
+;;(define-key helm-read-file-map (kbd "TAB") 'helm-execute-persistent-action)
 ;; For helm-find-files etc.
-(define-key helm-find-files-map (kbd "TAB") 'helm-execute-persistent-action)
+;;(define-key helm-find-files-map (kbd "TAB") 'helm-execute-persistent-action)
+(add-to-list 'helm-completing-read-handlers-alist '(find-file . nil))
+
 (define-key global-map (kbd "M-x")     'helm-M-x)
-(define-key global-map (kbd "C-x C-f") 'helm-find-files)
+;;(define-key global-map (kbd "C-x C-f") 'helm-find-files)
 (define-key global-map (kbd "C-x C-r") 'helm-recentf)
 (define-key global-map (kbd "M-y")     'helm-show-kill-ring)
 (define-key global-map (kbd "C-c i")   'helm-imenu)
@@ -1189,10 +1177,11 @@
 
 ;; fix ctrl-h in helm
 (define-key helm-map (kbd "C-h") 'delete-backward-char)
-(define-key helm-find-files-map (kbd "C-h") 'delete-backward-char)
+;;(define-key helm-find-files-map (kbd "C-h") 'delete-backward-char)
 ;; Emulate `kill-line' in helm minibuffer
 (setq helm-delete-minibuffer-contents-from-point t)
-(defadvice helm-delete-minibuffer-contents (before helm-emulate-kill-line activate)
+(defadvice helm-delete-minibuffer-contents
+  (before helm-emulate-kill-line activate)
   "Emulate `kill-line' in helm minibuffer"
   (kill-new (buffer-substring (point) (field-end))))
 
@@ -1206,7 +1195,7 @@
   (let ((helm-ff-transformer-show-only-basename nil))
     (helm-other-buffer '(helm-source-buffers-list
                          helm-source-recentf
-                         helm-source-catkin-packages
+                         ;;helm-source-catkin-packages
                          ;;helm-source-rospack-list
                          helm-source-buffer-not-found)
                        "*helm mini*")))
@@ -1238,6 +1227,13 @@
 (require 'rainbow-delimiters)
 (global-rainbow-delimiters-mode t)
 (custom-set-faces '(rainbow-delimiters-depth-1-face ((t (:foreground "#7f8c8d")))))
+
+;; undo tree
+;; C-x u
+(require 'undo-tree)
+(global-undo-tree-mode)
+
+(require 'yaml-mode)
 
 (provide 'garaemon-dot-emacs)
 
