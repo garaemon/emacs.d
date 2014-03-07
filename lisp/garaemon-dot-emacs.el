@@ -115,6 +115,7 @@
 (dolist (mode '(c-mode-hook
                 c++-mode-hook
                 sh-mode-hook
+                markdown-mode-hook
                 lisp-mode-hook euslisp-mode-hook
                 emacs-lisp-mode-hook))
   (add-hook mode (lambda () (interactive) (column-marker-2 80)))
@@ -1235,6 +1236,10 @@ file is a remote file (include directory)."
 (global-undo-tree-mode)
 
 (require 'yaml-mode)
+
+;; ignore case when find-file completion
+(setq completion-ignore-case t)
+
 
 (provide 'garaemon-dot-emacs)
 
