@@ -76,3 +76,6 @@
 [submodule "modules/yaml-mode"]
 	path = modules/yaml-mode
 	url = https://github.com/yoshiki/yaml-mode.git
+[submodule "modules/powerline"]
+	path = modules/powerline
+	url = https://github.com/milkypostman/powerline.git

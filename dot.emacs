@@ -5,7 +5,7 @@
 (add-to-list 'load-path "~/.emacs.d/lisp")
 (setq emacs-submodules '("nyan-mode" "git-modes" "magit" 
                          "markdown-mode" "less-css-mode"
-                         "gist" "gh"
+                         "gist" "gh" "powerline"
                          "php-mode" "puppet" "pcache" "logito"
                          "expand-region.el" "smartrep.el" "multiple-cursors.el"
                          "highlight-symbol.el"
