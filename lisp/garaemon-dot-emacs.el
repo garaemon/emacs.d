@@ -1234,7 +1234,8 @@ file is a remote file (include directory)."
 ;; C-x u
 (require 'undo-tree)
 (global-undo-tree-mode)
-
+(define-key undo-tree-visualizer-mode-map
+  "\C-m" 'undo-tree-visualizer-quit)
 (require 'yaml-mode)
 
 ;; ignore case when find-file completion
