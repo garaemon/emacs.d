@@ -115,6 +115,7 @@
 (dolist (mode '(c-mode-hook
                 c++-mode-hook
                 sh-mode-hook
+                markdown-mode-hook
                 lisp-mode-hook euslisp-mode-hook
                 emacs-lisp-mode-hook))
   (add-hook mode (lambda () (interactive) (column-marker-2 80)))
@@ -1050,6 +1051,7 @@ file is a remote file (include directory)."
 (add-to-list 'auto-mode-alist '("\\.ejs$" . html-mode))
 (add-to-list 'auto-mode-alist '("\\.xml$" . html-mode))
 (add-to-list 'auto-mode-alist '("\\.launch$" . html-mode))
+(add-to-list 'auto-mode-alist '("\\.test$" . html-mode))
 (add-to-list 'auto-mode-alist '("\\.thor$" . ruby-mode))
 (defvar ruby-indent-level 2)
 (defvar nxml-child-indent 2)
@@ -1231,7 +1233,8 @@ file is a remote file (include directory)."
 ;; C-x u
 (require 'undo-tree)
 (global-undo-tree-mode)
-
+(define-key undo-tree-visualizer-mode-map
+  "\C-m" 'undo-tree-visualizer-quit)
 (require 'yaml-mode)
 
 ;; powerline
@@ -1336,7 +1339,8 @@ static char * arrow_right[] = {
 (set-face-attribute 'mode-line-inactive nil
                     :foreground "#fff"
                     :background color4)
-
+;; ignore case when find-file completion
+(setq completion-ignore-case t)
 
 (provide 'garaemon-dot-emacs)
 
