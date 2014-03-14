@@ -1221,8 +1221,11 @@ file is a remote file (include directory)."
     ("o"        . 'mc/sort-regions)
     ("O"        . 'mc/reverse-regions)))
 
-(add-to-list 'custom-theme-load-path "~/.emacs.d/modules/zenburn-emacs/")
-(load-theme 'zenburn t)
+;; (add-to-list 'custom-theme-load-path "~/.emacs.d/modules/zenburn-emacs/")
+;; (load-theme 'zenburn t)
+(add-to-list 'custom-theme-load-path "~/.emacs.d/modules/solarized/")
+(load-theme 'solarized-dark t)
+;; (load-theme 'solarized-light t)
 
 
 (require 'rainbow-delimiters)

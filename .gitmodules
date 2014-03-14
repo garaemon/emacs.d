@@ -79,3 +79,6 @@
 [submodule "modules/powerline"]
 	path = modules/powerline
 	url = https://github.com/milkypostman/powerline.git
+[submodule "modules/solarized"]
+	path = modules/solarized
+	url = https://github.com/sellout/emacs-color-theme-solarized.git
