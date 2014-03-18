@@ -1023,9 +1023,6 @@ file is a remote file (include directory)."
 
 (fset 'yes-or-no-p 'y-or-n-p)
 
-;; (require 'yaml-mode)
-;; (add-to-list 'auto-mode-alist '("\\.\\(yml\\|yaml\\)$" . yaml-mode))
-
 ;;  (setq load-path (cons "~/elisp/auctex" load-path))
 ;;  (setq auto-mode-alist
 ;;        (cons (cons "\\.tex$" 'yatex-mode) auto-mode-alist))
@@ -1239,6 +1236,7 @@ file is a remote file (include directory)."
 (define-key undo-tree-visualizer-mode-map
   "\C-m" 'undo-tree-visualizer-quit)
 (require 'yaml-mode)
+(add-to-list 'auto-mode-alist '("\\.\\(yml\\|yaml\\|rosinstall\\)$" . yaml-mode))
 
 ;; powerline
 (require 'powerline)
