@@ -82,3 +82,6 @@
 [submodule "modules/solarized"]
 	path = modules/solarized
 	url = https://github.com/sellout/emacs-color-theme-solarized.git
+[submodule "modules/trr"]
+	path = modules/trr
+	url = https://github.com/kawabata/emacs-trr.git

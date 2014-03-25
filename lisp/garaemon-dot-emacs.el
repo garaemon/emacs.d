@@ -116,6 +116,7 @@
                 c++-mode-hook
                 sh-mode-hook
                 markdown-mode-hook
+                python-mode-hook
                 lisp-mode-hook euslisp-mode-hook
                 emacs-lisp-mode-hook))
   (add-hook mode (lambda () (interactive) (column-marker-2 80)))
@@ -342,11 +343,19 @@
 
 ;; flycheck
 (require 'flycheck)
-(add-hook 'python-mode-hook 'flycheck-mode)
-(add-hook 'emacs-lisp-mode-hook 'flycheck-mode)
-(add-hook 'c-mode-hook 'flycheck-mode)
-(add-hook 'c++-mode-hook 'flycheck-mode)
-(add-hook 'sh-mode-hook 'flycheck-mode)
+(defun flycheck-exclude-tramp ()
+  (unless (or (and (fboundp 'tramp-tramp-file-p)
+                   (tramp-tramp-file-p buffer-file-name))
+              (string-match "sudo:.*:" (buffer-file-name)))
+    (flycheck-mode t)
+  ))
+
+(add-hook 'python-mode-hook 'flycheck-exclude-tramp)
+(add-hook 'emacs-lisp-mode-hook 'flycheck-exclude-tramp)
+(add-hook 'c-mode-hook 'flycheck-exclude-tramp)
+(add-hook 'c++-mode-hook 'flycheck-exclude-tramp)
+(add-hook 'sh-mode-hook 'flycheck-exclude-tramp)
+
 
 ;; bind to M-h
 (global-set-key "\M-h" 'anything-cheat-sheat)
@@ -1342,6 +1351,8 @@ static char * arrow_right[] = {
                     :background color4)
 ;; ignore case when find-file completion
 (setq completion-ignore-case t)
+
+(require 'trr)
 
 (provide 'garaemon-dot-emacs)
 
