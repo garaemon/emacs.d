@@ -602,6 +602,8 @@
 (add-to-list 'exec-path "/opt/local/bin")
 (require 'magit)
 (global-set-key "\C-cl" 'magit-status)
+;; initial parameter for commit
+(setq magit-custom-options '("--author" "\"Ryohei Ueda\" <garaemon@gmail.com>"))
 
 (require 'markdown-mode)
 
