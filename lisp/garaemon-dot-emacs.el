@@ -130,6 +130,8 @@
  (setq inhibit-default-init t))
 
 (setq auto-mode-alist (cons (cons "\\.cu?$" 'c-mode) auto-mode-alist))
+(setq auto-mode-alist (cons (cons "\\.h?$" 'c++-mode) auto-mode-alist))
+
 
 (when (eq window-system 'windows-nt)
   (require 'cygwin-mount-mw32)
