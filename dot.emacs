@@ -59,8 +59,8 @@
 (setq-default c-basic-offset 2)
 
 
-(require 'edit-server)
-(edit-server-start)
+;;(require 'edit-server)
+;;(edit-server-start)
 
 
 (provide 'dot)

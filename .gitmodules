@@ -2,8 +2,9 @@
 	path = modules/nyan-mode
 	url = https://github.com/TeMPOraL/nyan-mode.git
 [submodule "modules/git-modes"]
-	path = modules/git-modes
-	url = https://github.com/magit/git-modes.git
+       path = modules/git-modes
+       url = https://github.com/magit/git-modes.git
+
 [submodule "modules/markdown-mode"]
 	path = modules/markdown-mode
 	url = git://jblevins.org/git/markdown-mode.git
@@ -85,3 +86,6 @@
 [submodule "modules/trr"]
 	path = modules/trr
 	url = https://github.com/kawabata/emacs-trr.git
+[submodule "modules/magit"]
+	path = modules/magit
+	url = https://github.com/magit/magit.git
