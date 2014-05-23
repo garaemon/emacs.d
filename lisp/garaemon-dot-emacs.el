@@ -339,11 +339,11 @@
 (set-variable 'inferior-euslisp-program "rosrun roseus roseus")
 (global-set-key "\C-cE" 'lisp-other-window)
 
-(add-hook
- 'tex-mode-hook
- '(lambda()
-    (flyspell-mode)
-    (local-set-key [(control .)] 'flyspell-auto-correct-word)))
+;; (add-hook
+;;  'tex-mode-hook
+;;  '(lambda()
+;;     (flyspell-mode)
+;;     (local-set-key [(control .)] 'flyspell-auto-correct-word)))
 
 ;; flycheck
 ;; (require 'flycheck)
