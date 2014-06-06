@@ -1022,9 +1022,8 @@ file is a remote file (include directory)."
 (setq truncate-lines nil)
 (setq truncate-partial-width-windows nil)
 
-(if (file-exists-p "~/.twittering")
-    (load "~/.twittering")
-  (message "there is no ~/.twittering"))
+(require 'twittering-mode)
+(setq twittering-use-master-password t)
 
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
