@@ -1,7 +1,6 @@
 ;; -*- mode: emacs-lisp; -*-
 
-;; written by R.Ueda
-
+;; written by R.Ueda, a.k.a. garaemon
 (add-to-list 'load-path "~/.emacs.d/lisp")
 (setq emacs-submodules '("nyan-mode" "git-modes" "magit" 
                          "markdown-mode" "less-css-mode"
