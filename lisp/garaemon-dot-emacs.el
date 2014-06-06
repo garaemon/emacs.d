@@ -121,7 +121,7 @@
                 cmake-mode-hook
                 javascript-mode-hook js-mode-hook
                 emacs-lisp-mode-hook))
-  (add-hook mode (lambda () (interactive) (column-marker-2 80)))
+  (add-hook mode (lambda () (interactive) (column-marker-1 80)))
   )
 
 (global-set-key "\C-x;" 'comment-region)
