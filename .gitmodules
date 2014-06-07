@@ -89,3 +89,6 @@
 [submodule "modules/magit"]
 	path = modules/magit
 	url = https://github.com/magit/magit.git
+[submodule "modules/twittering-mode"]
+	path = modules/twittering-mode
+	url = https://github.com/hayamiz/twittering-mode.git

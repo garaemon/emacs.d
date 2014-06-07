@@ -121,7 +121,7 @@
                 cmake-mode-hook
                 javascript-mode-hook js-mode-hook
                 emacs-lisp-mode-hook))
-  (add-hook mode (lambda () (interactive) (column-marker-2 80)))
+  (add-hook mode (lambda () (interactive) (column-marker-1 80)))
   )
 
 (global-set-key "\C-x;" 'comment-region)
@@ -1022,9 +1022,8 @@ file is a remote file (include directory)."
 (setq truncate-lines nil)
 (setq truncate-partial-width-windows nil)
 
-(if (file-exists-p "~/.twittering")
-    (load "~/.twittering")
-  (message "there is no ~/.twittering"))
+(require 'twittering-mode)
+(setq twittering-use-master-password t)
 
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
