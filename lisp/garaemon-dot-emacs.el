@@ -1166,54 +1166,55 @@ file is a remote file (include directory)."
 
 
 ;; helm
-(require 'helm)
-(require 'helm-config)
-(helm-mode t)
-;; does not activate helm for find-file
-;; For find-file etc.
-;;(define-key helm-read-file-map (kbd "TAB") 'helm-execute-persistent-action)
-;; For helm-find-files etc.
-;;(define-key helm-find-files-map (kbd "TAB") 'helm-execute-persistent-action)
-(add-to-list 'helm-completing-read-handlers-alist '(find-file . nil))
+(when (>= emacs-major-version 24)
+  (require 'helm)
+  (require 'helm-config)
+  (helm-mode t)
+  ;; does not activate helm for find-file
+  ;; For find-file etc.
+  ;;(define-key helm-read-file-map (kbd "TAB") 'helm-execute-persistent-action)
+  ;; For helm-find-files etc.
+  ;;(define-key helm-find-files-map (kbd "TAB") 'helm-execute-persistent-action)
+  (add-to-list 'helm-completing-read-handlers-alist '(find-file . nil))
 
-(define-key global-map (kbd "M-x")     'helm-M-x)
-;;(define-key global-map (kbd "C-x C-f") 'helm-find-files)
-(define-key global-map (kbd "C-x C-r") 'helm-recentf)
-(define-key global-map (kbd "M-y")     'helm-show-kill-ring)
-(define-key global-map (kbd "C-c i")   'helm-imenu)
-(define-key global-map (kbd "C-x b")   'helm-buffers-list)
+  (define-key global-map (kbd "M-x")     'helm-M-x)
+  ;;(define-key global-map (kbd "C-x C-f") 'helm-find-files)
+  (define-key global-map (kbd "C-x C-r") 'helm-recentf)
+  (define-key global-map (kbd "M-y")     'helm-show-kill-ring)
+  (define-key global-map (kbd "C-c i")   'helm-imenu)
+  (define-key global-map (kbd "C-x b")   'helm-buffers-list)
 
-(require 'helm-ag)
-(setq helm-ag-base-command "ag --nocolor --nogroup --ignore-case")
-(setq helm-ag-command-option "--all-text")
-(setq helm-ag-thing-at-point 'symbol)
+  (require 'helm-ag)
+  (setq helm-ag-base-command "ag --nocolor --nogroup --ignore-case")
+  (setq helm-ag-command-option "--all-text")
+  (setq helm-ag-thing-at-point 'symbol)
 
-;; fix ctrl-h in helm
-(define-key helm-map (kbd "C-h") 'delete-backward-char)
-;;(define-key helm-find-files-map (kbd "C-h") 'delete-backward-char)
-;; Emulate `kill-line' in helm minibuffer
-(setq helm-delete-minibuffer-contents-from-point t)
-(defadvice helm-delete-minibuffer-contents
-  (before helm-emulate-kill-line activate)
-  "Emulate `kill-line' in helm minibuffer"
-  (kill-new (buffer-substring (point) (field-end))))
+  ;; fix ctrl-h in helm
+  (define-key helm-map (kbd "C-h") 'delete-backward-char)
+  ;;(define-key helm-find-files-map (kbd "C-h") 'delete-backward-char)
+  ;; Emulate `kill-line' in helm minibuffer
+  (setq helm-delete-minibuffer-contents-from-point t)
+  (defadvice helm-delete-minibuffer-contents
+    (before helm-emulate-kill-line activate)
+    "Emulate `kill-line' in helm minibuffer"
+    (kill-new (buffer-substring (point) (field-end))))
 
 
-(require 'helm-ros)
-(setq helm-source-catkin-root "~/ros_catkin_ws/hydro/src")
-(defun helm-mini-with-ros ()
-  "Preconfigured `helm' lightweight version \(buffer -> recentf\)."
-  (interactive)
-  (require 'helm-files)
-  (let ((helm-ff-transformer-show-only-basename nil))
-    (helm-other-buffer '(helm-source-buffers-list
-                         helm-source-recentf
-                         ;;helm-source-catkin-packages
-                         ;;helm-source-rospack-list
-                         helm-source-buffer-not-found)
-                       "*helm mini*")))
-(global-set-key "\C-xb" 'helm-mini-with-ros)
-
+  (require 'helm-ros)
+  (setq helm-source-catkin-root "~/ros_catkin_ws/hydro/src")
+  (defun helm-mini-with-ros ()
+    "Preconfigured `helm' lightweight version \(buffer -> recentf\)."
+    (interactive)
+    (require 'helm-files)
+    (let ((helm-ff-transformer-show-only-basename nil))
+      (helm-other-buffer '(helm-source-buffers-list
+			   helm-source-recentf
+			   ;;helm-source-catkin-packages
+			   ;;helm-source-rospack-list
+			   helm-source-buffer-not-found)
+			 "*helm mini*")))
+  (global-set-key "\C-xb" 'helm-mini-with-ros)
+  )
 ;; defining keymap with C-q prefix
 (declare-function smartrep-define-key "smartrep")
 (global-unset-key "\C-q")
@@ -1234,8 +1235,9 @@ file is a remote file (include directory)."
 
 ;; (add-to-list 'custom-theme-load-path "~/.emacs.d/modules/zenburn-emacs/")
 ;; (load-theme 'zenburn t)
-(add-to-list 'custom-theme-load-path "~/.emacs.d/modules/solarized/")
-(load-theme 'solarized-dark t)
+(when (>= emacs-major-version 24)
+  (add-to-list 'custom-theme-load-path "~/.emacs.d/modules/solarized/")
+  (load-theme 'solarized-dark t))
 ;; (load-theme 'solarized-light t)
 
 
@@ -1253,11 +1255,12 @@ file is a remote file (include directory)."
 (add-to-list 'auto-mode-alist '("\\.\\(yml\\|yaml\\|rosinstall\\)$" . yaml-mode))
 
 ;; powerline
-(require 'powerline)
-;;(powerline-default-theme)
-(defun arrow-right-xpm (color1 color2)
-  "Return an XPM right arrow string representing."
-  (format "/* XPM */
+(when (>= emacs-major-version 24)
+  (require 'powerline)
+  ;;(powerline-default-theme)
+  (defun arrow-right-xpm (color1 color2)
+    "Return an XPM right arrow string representing."
+    (format "/* XPM */
 static char * arrow_right[] = {
 \"12 18 2 1\",
 \". c %s\",
@@ -1281,9 +1284,9 @@ static char * arrow_right[] = {
 \"..          \",
 \".           \"};"  color1 color2))
 
-(defun arrow-left-xpm (color1 color2)
-  "Return an XPM right arrow string representing."
-  (format "/* XPM */
+  (defun arrow-left-xpm (color1 color2)
+    "Return an XPM right arrow string representing."
+    (format "/* XPM */
 static char * arrow_right[] = {
 \"12 18 2 1\",
 \". c %s\",
@@ -1307,53 +1310,53 @@ static char * arrow_right[] = {
 \"          ..\",
 \"           .\"};"  color2 color1))
 
-(defconst color1 "#FF6699")
-(defconst color3 "#CDC0B0")
-(defconst color2 "#FF0066")
-(defconst color4 "#CDC0B0")
+  (defconst color1 "#FF6699")
+  (defconst color3 "#CDC0B0")
+  (defconst color2 "#FF0066")
+  (defconst color4 "#CDC0B0")
 
-(defvar arrow-right-1
-  (create-image (arrow-right-xpm color1 color2) 'xpm t :ascent 'center))
-(defvar arrow-right-2
-  (create-image (arrow-right-xpm color2 "None") 'xpm t :ascent 'center))
-(defvar arrow-left-1
-  (create-image (arrow-left-xpm color2 color1) 'xpm t :ascent 'center))
-(defvar arrow-left-2
-  (create-image (arrow-left-xpm "None" color2) 'xpm t :ascent 'center))
+  (defvar arrow-right-1
+    (create-image (arrow-right-xpm color1 color2) 'xpm t :ascent 'center))
+  (defvar arrow-right-2
+    (create-image (arrow-right-xpm color2 "None") 'xpm t :ascent 'center))
+  (defvar arrow-left-1
+    (create-image (arrow-left-xpm color2 color1) 'xpm t :ascent 'center))
+  (defvar arrow-left-2
+    (create-image (arrow-left-xpm "None" color2) 'xpm t :ascent 'center))
 
-(setq-default mode-line-format
-              (list  '(:eval (concat (propertize " %b " 'face 'mode-line-color-1)
-                                     (propertize " " 'display arrow-right-1)))
-                     '(:eval (concat (propertize " %m " 'face 'mode-line-color-2)
-                                     (propertize " " 'display arrow-right-2)))
-                     '(:eval (list (nyan-create)))
-                     ;; Justify right by filling with spaces to right fringe - 16
-                     ;; (16 should be computed rahter than hardcoded)
-                     '(:eval (propertize " " 'display '((space :align-to (- right-fringe 17)))))
-                     
-                     '(:eval (concat (propertize " " 'display arrow-left-2)
-                                     (propertize " %p " 'face 'mode-line-color-2)))
-                     '(:eval (concat (propertize " " 'display arrow-left-1)
-                                     (propertize "%4l:%2c  " 'face 'mode-line-color-1)))
-                     ))
+  (setq-default mode-line-format
+                (list  '(:eval (concat (propertize " %b " 'face 'mode-line-color-1)
+                                       (propertize " " 'display arrow-right-1)))
+                       '(:eval (concat (propertize " %m " 'face 'mode-line-color-2)
+                                       (propertize " " 'display arrow-right-2)))
+                       '(:eval (list (nyan-create)))
+                       ;; Justify right by filling with spaces to right fringe - 16
+                       ;; (16 should be computed rahter than hardcoded)
+                       '(:eval (propertize " " 'display '((space :align-to (- right-fringe 17)))))
+                       
+                       '(:eval (concat (propertize " " 'display arrow-left-2)
+                                       (propertize " %p " 'face 'mode-line-color-2)))
+                       '(:eval (concat (propertize " " 'display arrow-left-1)
+                                       (propertize "%4l:%2c  " 'face 'mode-line-color-1)))
+                       ))
 
-(make-face 'mode-line-color-1)
-(set-face-attribute 'mode-line-color-1 nil
-                    :foreground "#fff"
-                    :background color1)
+  (make-face 'mode-line-color-1)
+  (set-face-attribute 'mode-line-color-1 nil
+                      :foreground "#fff"
+                      :background color1)
 
-(make-face 'mode-line-color-2)
-(set-face-attribute 'mode-line-color-2 nil
-                    :foreground "#fff"
-                    :background color2)
+  (make-face 'mode-line-color-2)
+  (set-face-attribute 'mode-line-color-2 nil
+                      :foreground "#fff"
+                      :background color2)
 
-(set-face-attribute 'mode-line nil
-                    :foreground "#fff"
-                    :background color3
-                    :box nil)
-(set-face-attribute 'mode-line-inactive nil
-                    :foreground "#fff"
-                    :background color4)
+  (set-face-attribute 'mode-line nil
+                      :foreground "#fff"
+                      :background color3
+                      :box nil)
+  (set-face-attribute 'mode-line-inactive nil
+                      :foreground "#fff"
+                      :background color4))
 ;; ignore case when find-file completion
 (setq completion-ignore-case t)
 
