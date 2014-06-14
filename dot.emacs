@@ -54,13 +54,9 @@
   (setq eshell-path-env zshpath)
   (setenv "PATH" zshpath))
 
-(server-start)
+(server-start t)
 
 (setq-default c-basic-offset 2)
-
-
-;;(require 'edit-server)
-;;(edit-server-start)
 
 
 (provide 'dot)
