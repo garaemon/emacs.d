@@ -10,7 +10,7 @@
                          "highlight-symbol.el" "solarized"
                          "flycheck" "s" "dash" "f" "undo-tree" "yaml-mode"
                          "helm" "helm-ag" "rainbow-delimiters" "trr"
-                         "twittering-mode"
+                         "twittering-mode" "sublimity" "indent-guide"
                          "git-gutter" "auto-complete" "popup" "zenburn-emacs"))
 (add-to-list 'load-path "~/.emacs.d/modules")
 (dolist (module emacs-submodules)

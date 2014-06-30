@@ -1362,5 +1362,14 @@ static char * arrow_right[] = {
 
 (require 'trr)
 
+(require 'sublimity)
+(require 'sublimity-map)
+(require 'sublimity-scroll)
+(sublimity-mode 1)
+
+(require 'indent-guide)
+(indent-guide-global-mode)
+
+
 (provide 'garaemon-dot-emacs)
 
