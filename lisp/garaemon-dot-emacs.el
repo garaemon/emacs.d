@@ -1362,5 +1362,9 @@ static char * arrow_right[] = {
 
 (require 'trr)
 
+(require 'sublimity)
+(require 'sublimity-map)
+(sublimity-mode 1)
+
 (provide 'garaemon-dot-emacs)
 

@@ -92,3 +92,6 @@
 [submodule "modules/twittering-mode"]
 	path = modules/twittering-mode
 	url = https://github.com/hayamiz/twittering-mode.git
+[submodule "modules/sublimity"]
+	path = modules/sublimity
+	url = https://github.com/zk-phi/sublimity.git
