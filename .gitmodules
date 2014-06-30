@@ -95,3 +95,6 @@
 [submodule "modules/sublimity"]
 	path = modules/sublimity
 	url = https://github.com/zk-phi/sublimity.git
+[submodule "modules/indent-guide"]
+	path = modules/indent-guide
+	url = https://github.com/zk-phi/indent-guide.git
