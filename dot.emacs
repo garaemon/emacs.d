@@ -10,7 +10,7 @@
                          "highlight-symbol.el" "solarized"
                          "flycheck" "s" "dash" "f" "undo-tree" "yaml-mode"
                          "helm" "helm-ag" "rainbow-delimiters" "trr"
-                         "twittering-mode"
+                         "twittering-mode" "sublimity" "indent-guide"
                          "git-gutter" "auto-complete" "popup" "zenburn-emacs"))
 (add-to-list 'load-path "~/.emacs.d/modules")
 (dolist (module emacs-submodules)
@@ -54,13 +54,9 @@
   (setq eshell-path-env zshpath)
   (setenv "PATH" zshpath))
 
-(server-start)
+(server-start t)
 
 (setq-default c-basic-offset 2)
-
-
-;;(require 'edit-server)
-;;(edit-server-start)
 
 
 (provide 'dot)
