@@ -104,3 +104,6 @@
 [submodule "modules/anzu"]
 	path = modules/anzu
 	url = https://github.com/syohex/emacs-anzu.git
+[submodule "modules/yascroll"]
+	path = modules/yascroll
+	url = https://github.com/m2ym/yascroll-el.git

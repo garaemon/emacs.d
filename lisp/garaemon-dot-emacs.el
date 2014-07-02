@@ -1376,4 +1376,8 @@ static char * arrow_right[] = {
 (require 'anzu)
 (global-anzu-mode +1)
 
+(require 'yascroll)
+(global-yascroll-bar-mode 1)
+
+
 (provide 'garaemon-dot-emacs)
