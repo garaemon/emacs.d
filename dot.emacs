@@ -9,8 +9,8 @@
                          "expand-region.el" "smartrep.el" "multiple-cursors.el"
                          "highlight-symbol.el" "solarized"
                          "flycheck" "s" "dash" "f" "undo-tree" "yaml-mode"
-                         "helm" "helm-ag" "rainbow-delimiters" "trr"
-                         "twittering-mode" "sublimity" "indent-guide"
+                         "helm" "helm-ag" "rainbow-delimiters" "trr" "anzu"
+                         "twittering-mode" "sublimity" "indent-guide" "volatile-highlights"
                          "git-gutter" "auto-complete" "popup" "zenburn-emacs"))
 (add-to-list 'load-path "~/.emacs.d/modules")
 (dolist (module emacs-submodules)
@@ -47,12 +47,13 @@
 
 (setq mac-command-modifier 'meta)
 
-(let* ((zshpath (shell-command-to-string
-         "/usr/bin/env zsh -c 'printenv PATH'"))
-       (pathlst (split-string zshpath ":")))
-  (setq exec-path pathlst)
-  (setq eshell-path-env zshpath)
-  (setenv "PATH" zshpath))
+;; (let* ((zshpath (shell-command-to-string
+;;          "/usr/bin/env zsh -c 'printenv PATH'"))
+;;        (pathlst (split-string zshpath ":")))
+;;   (setq exec-path pathlst)
+;;   (setq eshell-path-env zshpath)
+;;   (setenv "PATH" zshpath)e
+  )
 
 (server-start t)
 

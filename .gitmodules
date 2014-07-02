@@ -98,3 +98,9 @@
 [submodule "modules/indent-guide"]
 	path = modules/indent-guide
 	url = https://github.com/zk-phi/indent-guide.git
+[submodule "modules/volatile-highlights"]
+	path = modules/volatile-highlights
+	url = https://github.com/k-talo/volatile-highlights.el.git
+[submodule "modules/anzu"]
+	path = modules/anzu
+	url = https://github.com/syohex/emacs-anzu.git

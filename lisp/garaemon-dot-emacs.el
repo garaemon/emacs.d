@@ -1370,6 +1370,10 @@ static char * arrow_right[] = {
 (require 'indent-guide)
 (indent-guide-global-mode)
 
+(require 'volatile-highlights)
+(volatile-highlights-mode)
+
+(require 'anzu)
+(global-anzu-mode +1)
 
 (provide 'garaemon-dot-emacs)
-
