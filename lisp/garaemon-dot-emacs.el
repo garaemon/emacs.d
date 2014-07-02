@@ -1373,6 +1373,14 @@ static char * arrow_right[] = {
 (require 'volatile-highlights)
 (volatile-highlights-mode)
 
+(defun other-window-or-split ()
+  (interactive)
+  (when (one-window-p)
+    (split-window-horizontally))
+  (other-window 1))
+
+(global-set-key (kbd "C-t") 'other-window-or-split)
+
 (require 'anzu)
 (global-anzu-mode +1)
 
