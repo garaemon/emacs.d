@@ -1392,4 +1392,6 @@ static char * arrow_right[] = {
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace-with-exclude-pattern)
 
+(require 'emoji-cheat-sheet)
+
 (provide 'garaemon-dot-emacs)

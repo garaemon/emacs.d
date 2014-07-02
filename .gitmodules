@@ -107,3 +107,6 @@
 [submodule "modules/yascroll"]
 	path = modules/yascroll
 	url = https://github.com/m2ym/yascroll-el.git
+[submodule "modules/emoji-cheat-sheet"]
+	path = modules/emoji-cheat-sheet
+	url = https://github.com/ShingoFukuyama/emacs-emoji-cheat-sheet

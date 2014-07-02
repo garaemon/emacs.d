@@ -2,7 +2,7 @@
 
 ;; written by R.Ueda, a.k.a. garaemon
 (add-to-list 'load-path "~/.emacs.d/lisp")
-(setq emacs-submodules '("nyan-mode" "git-modes" "magit" 
+(setq emacs-submodules '("nyan-mode" "git-modes" "magit"
                          "markdown-mode" "less-css-mode"
                          "gist" "gh" "powerline"
                          "php-mode" "puppet" "pcache" "logito"
@@ -11,7 +11,7 @@
                          "flycheck" "s" "dash" "f" "undo-tree" "yaml-mode"
                          "helm" "helm-ag" "rainbow-delimiters" "trr" "anzu"
                          "yascroll" "indent-guide" "volatile-highlights"
-                         "twittering-mode" "sublimity" 
+                         "twittering-mode" "sublimity" "emoji-cheat-sheet"
                          "git-gutter" "auto-complete" "popup" "zenburn-emacs"))
 (add-to-list 'load-path "~/.emacs.d/modules")
 (dolist (module emacs-submodules)
