@@ -54,7 +54,7 @@
 ;;   (setq exec-path pathlst)
 ;;   (setq eshell-path-env zshpath)
 ;;   (setenv "PATH" zshpath)e
-  )
+;;  )
 
 (server-start t)
 
