@@ -98,3 +98,15 @@
 [submodule "modules/indent-guide"]
 	path = modules/indent-guide
 	url = https://github.com/zk-phi/indent-guide.git
+[submodule "modules/volatile-highlights"]
+	path = modules/volatile-highlights
+	url = https://github.com/k-talo/volatile-highlights.el.git
+[submodule "modules/anzu"]
+	path = modules/anzu
+	url = https://github.com/syohex/emacs-anzu.git
+[submodule "modules/yascroll"]
+	path = modules/yascroll
+	url = https://github.com/m2ym/yascroll-el.git
+[submodule "modules/emoji-cheat-sheet"]
+	path = modules/emoji-cheat-sheet
+	url = https://github.com/ShingoFukuyama/emacs-emoji-cheat-sheet

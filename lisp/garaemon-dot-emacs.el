@@ -53,7 +53,7 @@
 ;;           lisp-mode
 ;;           euslisp-mode
 ;;           html-mode
-;;           cmake-mode 
+;;           cmake-mode
 ;;           xhtml-mode
 ;;           ;;org-mode
 ;;           )))
@@ -96,7 +96,7 @@
  (set-face-attribute 'default nil
              :family "monaco"
              :height 120)
- ;; 日本語フォント: ヒラギノ丸ゴシック 
+ ;; 日本語フォント: ヒラギノ丸ゴシック
  (set-fontset-font
   nil 'japanese-jisx0208
   ;; (font-spec :family "Hiragino Mincho Pro")) ;; font
@@ -150,7 +150,7 @@
   (setq skk-server-host "localhost")
   (setq skk-jisyo-code 'utf-8-unix)
   (setq skk-server-portnum 1178))
- 
+
 (setq skk-henkan-show-candidates-keys '(?a ?o ?e ?u ?h ?t ?n))
 (setq skk-kutouten-type 'en)
 
@@ -811,7 +811,7 @@
 (defvar org-code-reading-file "code-reading.org")
 (defun org-code-reading-read-software-name ()
   (set (make-local-variable 'org-code-reading-software-name)
-       (read-string "Code Reading Software: " 
+       (read-string "Code Reading Software: "
                     (or org-code-reading-software-name
                         (file-name-nondirectory
                          (buffer-file-name))))))
@@ -863,7 +863,7 @@
 (autoload 'pymacs-load "pymacs" nil t)
 (eval-after-load "pymacs"
   '(add-to-list 'pymacs-load-path "YOUR-PYMACS-DIRECTORY"))
-;; python-mode, pycomplete 
+;; python-mode, pycomplete
 (setq auto-mode-alist (cons '("\\.py$" . python-mode) auto-mode-alist))
 (setq interpreter-mode-alist (cons '("python" . python-mode)
                                    interpreter-mode-alist))
@@ -1040,7 +1040,7 @@ file is a remote file (include directory)."
 ;;  (setq load-path (cons "~/elisp/auctex" load-path))
 ;;  (setq auto-mode-alist
 ;;        (cons (cons "\\.tex$" 'yatex-mode) auto-mode-alist))
-;;  (autoload 'yatex-mode "yatex" "Yet Another LaTeX mode" t) 
+;;  (autoload 'yatex-mode "yatex" "Yet Another LaTeX mode" t)
 ;;  (setq tex-command "platex-utf8")
 ;;  (setq YaTeX-kanji-code 4)
 ;;  (setq YaTeX-use-LaTeX2e t)
@@ -1076,7 +1076,7 @@ file is a remote file (include directory)."
 (setq mumamo-background-colors nil)
 
 
-(require 'ucs-normalize) 
+(require 'ucs-normalize)
 (setq file-name-coding-system 'utf-8-hfs)
 (setq locale-coding-system 'utf-8-hfs)
 (setq system-uses-terminfo nil)
@@ -1333,7 +1333,7 @@ static char * arrow_right[] = {
                        ;; Justify right by filling with spaces to right fringe - 16
                        ;; (16 should be computed rahter than hardcoded)
                        '(:eval (propertize " " 'display '((space :align-to (- right-fringe 17)))))
-                       
+
                        '(:eval (concat (propertize " " 'display arrow-left-2)
                                        (propertize " %p " 'face 'mode-line-color-2)))
                        '(:eval (concat (propertize " " 'display arrow-left-1)
@@ -1362,13 +1362,17 @@ static char * arrow_right[] = {
 
 (require 'trr)
 
-(require 'sublimity)
-(require 'sublimity-map)
-(require 'sublimity-scroll)
-(sublimity-mode 1)
+;; (require 'sublimity)
+;; (require 'sublimity-map)
+;; (require 'sublimity-scroll)
+;; (require 'sublimity-attractive)
+;; (sublimity-mode 1)
 
 (require 'indent-guide)
 (indent-guide-global-mode)
+
+(require 'volatile-highlights)
+(volatile-highlights-mode)
 
 (defun other-window-or-split ()
   (interactive)
@@ -1378,6 +1382,25 @@ static char * arrow_right[] = {
 
 (global-set-key (kbd "C-t") 'other-window-or-split)
 
+(require 'anzu)
+(global-anzu-mode +1)
+
+(require 'yascroll)
+(global-yascroll-bar-mode 1)
+
+;; 除外したい拡張子
+(setq delete-trailing-whitespace-exclude-patterns
+      (list "\\.cpp$" "\\.h$" "\\.l" "\\.py"))
+
+(require 'cl)
+(defun delete-trailing-whitespace-with-exclude-pattern ()
+  (interactive)
+  (cond ((equal nil (loop for pattern in delete-trailing-whitespace-exclude-patterns
+                          thereis (string-match pattern buffer-file-name)))
+         (delete-trailing-whitespace))))
+
+(add-hook 'before-save-hook 'delete-trailing-whitespace-with-exclude-pattern)
+
+(require 'emoji-cheat-sheet)
 
 (provide 'garaemon-dot-emacs)
-
