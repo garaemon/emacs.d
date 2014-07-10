@@ -346,7 +346,7 @@
 ;;     (local-set-key [(control .)] 'flyspell-auto-correct-word)))
 
 ;; flycheck
-;; (require 'flycheck)
+(require 'flycheck)
 ;; (defun flycheck-exclude-tramp ()
 ;;   (unless (or (and (fboundp 'tramp-tramp-file-p)
 ;;                    (tramp-tramp-file-p buffer-file-name))
@@ -1390,7 +1390,8 @@ static char * arrow_right[] = {
 
 ;; 除外したい拡張子
 (setq delete-trailing-whitespace-exclude-patterns
-      (list "\\.cpp$" "\\.h$" "\\.l" "\\.py"))
+      (list "\\.cpp$" "\\.h$" "\\.l" "\\.py" "\\.launch" "\\.test"
+            "\\.cmake" "\\.xml"))
 
 (require 'cl)
 (defun delete-trailing-whitespace-with-exclude-pattern ()
@@ -1402,5 +1403,13 @@ static char * arrow_right[] = {
 (add-hook 'before-save-hook 'delete-trailing-whitespace-with-exclude-pattern)
 
 (require 'emoji-cheat-sheet)
+
+(require 'flyspell)
+(require 'ispell)
+(eval-after-load "ispell"
+  '(add-to-list 'ispell-skip-region-alist '("[^\000-\377]+")))
+(add-to-list 'auto-mode-alist '("\\.tex" . flyspell-mode))
+(add-hook 'LaTeX-mode-hook 'flyspell-mode)
+
 
 (provide 'garaemon-dot-emacs)
