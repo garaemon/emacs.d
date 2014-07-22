@@ -113,3 +113,6 @@
 [submodule "modules/yasnippet"]
 	path = modules/yasnippet
 	url = https://github.com/capitaomorte/yasnippet.git
+[submodule "modules/helm-c-yasnippet"]
+	path = modules/helm-c-yasnippet
+	url = https://github.com/emacs-helm/helm-c-yasnippet.git
