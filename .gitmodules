@@ -110,3 +110,9 @@
 [submodule "modules/emoji-cheat-sheet"]
 	path = modules/emoji-cheat-sheet
 	url = https://github.com/ShingoFukuyama/emacs-emoji-cheat-sheet
+[submodule "modules/yasnippet"]
+	path = modules/yasnippet
+	url = https://github.com/capitaomorte/yasnippet.git
+[submodule "modules/helm-c-yasnippet"]
+	path = modules/helm-c-yasnippet
+	url = https://github.com/emacs-helm/helm-c-yasnippet.git
