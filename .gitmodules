@@ -116,3 +116,9 @@
 [submodule "modules/helm-c-yasnippet"]
 	path = modules/helm-c-yasnippet
 	url = https://github.com/emacs-helm/helm-c-yasnippet.git
+[submodule "modules/c-eldoc"]
+	path = modules/c-eldoc
+	url = https://github.com/mooz/c-eldoc.git
+[submodule "modules/emacs-deferred"]
+	path = modules/emacs-deferred
+	url = https://github.com/kiwanami/emacs-deferred.git
