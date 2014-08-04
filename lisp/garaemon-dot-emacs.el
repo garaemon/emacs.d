@@ -1062,6 +1062,7 @@ file is a remote file (include directory)."
 (add-to-list 'auto-mode-alist '("\\.ejs$" . html-mode))
 (add-to-list 'auto-mode-alist '("\\.xml$" . html-mode))
 (add-to-list 'auto-mode-alist '("\\.launch$" . html-mode))
+(add-to-list 'auto-mode-alist '("\\.h$" . c++-mode))
 (add-to-list 'auto-mode-alist '("\\.test$" . html-mode))
 (add-to-list 'auto-mode-alist '("\\.thor$" . ruby-mode))
 (defvar ruby-indent-level 2)
