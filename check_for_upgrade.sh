@@ -15,7 +15,7 @@ function _update_emacs_update() {
 }
 
 function _upgrade_emacs() {
-  (cd ~/.emacs.d && git pull --rebase origin master)
+  (cd ~/.emacs.d && git pull --rebase origin master && git submodule update --init)
   # update the emacs file
   _update_emacs_update
 }
@@ -45,4 +45,3 @@ if [ -f ~/.emacs-update ]; then
 else                            # create ~/.emacs-update
     _update_emacs_update
 fi
-
