@@ -1234,12 +1234,13 @@ file is a remote file (include directory)."
     ("o"        . 'mc/sort-regions)
     ("O"        . 'mc/reverse-regions)))
 
-;; (add-to-list 'custom-theme-load-path "~/.emacs.d/modules/zenburn-emacs/")
-;; (load-theme 'zenburn t)
+(add-to-list 'custom-theme-load-path "~/.emacs.d/modules/zenburn-emacs/")
+;;(load-theme 'zenburn t)
 (when (>= emacs-major-version 24)
   (add-to-list 'custom-theme-load-path "~/.emacs.d/modules/solarized/")
-  (load-theme 'solarized-dark t))
-;; (load-theme 'solarized-light t)
+  (load-theme 'solarized-dark t)
+  ;;(load-theme 'solarized-light t)
+  )
 
 
 (require 'rainbow-delimiters)
@@ -1411,11 +1412,11 @@ static char * arrow_right[] = {
 (yas-global-mode 1)
 (custom-set-variables '(yas-trigger-key "TAB"))
 
-;; 既存スニペットを挿入する
+;; insert new snippet
 (define-key yas-minor-mode-map (kbd "C-x i i") 'yas-insert-snippet)
-;; 新規スニペットを作成するバッファを用意する
+;; create a new snippet
 (define-key yas-minor-mode-map (kbd "C-x i n") 'yas-new-snippet)
-;; 既存スニペットを閲覧・編集する
+;; edit a snippet
 (define-key yas-minor-mode-map (kbd "C-x i v") 'yas-visit-snippet-file)
 (setq yas-buffer-local-condition
       '(or (not (or (string= "font-lock-comment-face"
@@ -1423,11 +1424,13 @@ static char * arrow_right[] = {
                     (string= "font-lock-string-face"
                              (get-char-property (point) 'face))))
            '(require-snippet-condition . force-in-comment)))
-
+;; bind M-- to list snippets
 (when (require 'helm-c-yasnippet nil t)
   (setq helm-c-yas-space-match-any-greedy t) ;[default: nil]
   (global-set-key (kbd "M--") 'helm-c-yas-complete)
   )
+
+
 
 
 (provide 'garaemon-dot-emacs)
