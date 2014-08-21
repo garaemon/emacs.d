@@ -1,6 +1,6 @@
 # -*- mode: snippet; require-final-newline: nil -*-
-# name: param
-# key: param
+# name: arg
+# key: arg
 # binding: direct-keybinding
 # --
-<param name="$1" value="$2" />
+<arg name="$1" default="$2" />
