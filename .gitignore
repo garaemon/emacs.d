@@ -4,3 +4,4 @@ tramp
 .mc-lists.el
 ac-comphist.dat
 games/trrscores
+session.*
