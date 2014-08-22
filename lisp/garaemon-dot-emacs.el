@@ -1430,7 +1430,8 @@ static char * arrow_right[] = {
   (global-set-key (kbd "M--") 'helm-c-yas-complete)
   )
 
-
-
+(require 'wakatime-mode)
+(setq wakatime-cli-path "~/gprog/wakatime/wakatime-cli.py")
+(global-wakatime-mode t)
 
 (provide 'garaemon-dot-emacs)

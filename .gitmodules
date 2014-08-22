@@ -122,3 +122,6 @@
 [submodule "modules/emacs-deferred"]
 	path = modules/emacs-deferred
 	url = https://github.com/kiwanami/emacs-deferred.git
+[submodule "modules/wakatime-mode"]
+	path = modules/wakatime-mode
+	url = https://github.com/wakatime/wakatime-mode.git
