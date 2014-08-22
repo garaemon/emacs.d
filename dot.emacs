@@ -81,7 +81,7 @@
  '(eshell-term-name "ansi")
  '(eshell-visual-commands (quote ("vi" "top" "screen" "less" "lynx" "ssh" "rlogin" "telnet")))
  '(wakatime-api-key "862a46e8-3936-486b-b21c-e10479e7453d")
- '(wakatime-cli-path "~/gprog/wakatime")
+ '(wakatime-cli-path "~/gprog/wakatime/wakatime-cli.py")
  '(yas-trigger-key "TAB"))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
