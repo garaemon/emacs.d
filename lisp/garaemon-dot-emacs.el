@@ -1431,7 +1431,7 @@ static char * arrow_right[] = {
   )
 
 (require 'wakatime-mode)
-(setq wakatime-cli-path "~/gprog/wakatime/wakatime-cli.py")
+(customize-save-variable 'wakatime-cli-path "~/gprog/wakatime/wakatime-cli.py")
 (if wakatime-api-key (global-wakatime-mode t))
 
 (provide 'garaemon-dot-emacs)
