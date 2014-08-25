@@ -1,0 +1,8 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: pluginlib-declare-class
+# key: pluginlib-declare-class
+# binding: direct-keybinding
+# --
+#include <pluginlib/class_list_macros.h>
+typedef $1::$2 $2;
+PLUGINLIB_DECLARE_CLASS ($3, $2, $2, nodelet::Nodelet);
