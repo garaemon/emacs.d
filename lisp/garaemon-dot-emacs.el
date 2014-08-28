@@ -1112,10 +1112,10 @@ file is a remote file (include directory)."
 (nyan-mode)
 (nyan-start-animation)
 
-(require 'garaemon-objective-c)
-(add-hook 'objc-mode-hook
-          (function (lambda ()
-                      (setq c-basic-offset 2))))
+;; (require 'garaemon-objective-c)
+;; (add-hook 'objc-mode-hook
+;;           (function (lambda ()
+;;                       (setq c-basic-offset 2))))
 
 
 (require 'puppet-mode)
