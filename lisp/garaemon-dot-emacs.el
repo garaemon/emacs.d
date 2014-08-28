@@ -1435,3 +1435,4 @@ static char * arrow_right[] = {
 (if wakatime-api-key (global-wakatime-mode t))
 
 (provide 'garaemon-dot-emacs)
+
