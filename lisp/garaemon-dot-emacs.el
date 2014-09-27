@@ -1104,7 +1104,7 @@ file is a remote file (include directory)."
 (setq auto-mode-alist (cons '("CMakeLists.txt" . cmake-mode) auto-mode-alist))
 (setq auto-mode-alist (cons '("\\.cmake$" . cmake-mode) auto-mode-alist))
 
-(setq-default tab-width 2)
+(setq-default tab-width 8)
 (setq-default c-basic-offset 2)
 
 ;; nyan-mode
@@ -1435,4 +1435,3 @@ static char * arrow_right[] = {
 (if wakatime-api-key (global-wakatime-mode t))
 
 (provide 'garaemon-dot-emacs)
-
