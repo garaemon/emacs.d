@@ -1105,8 +1105,8 @@ file is a remote file (include directory)."
 (setq auto-mode-alist (cons '("\\.cmake$" . cmake-mode) auto-mode-alist))
 
 (defun my-cc-style ()
-  (c-set-offset 'inline-open '0)
-  (c-set-offset 'innamespace '0)
+  ;; (c-set-offset 'inline-open '0)
+  ;; (c-set-offset 'innamespace '0)
 )
 
 (add-hook 'c++-mode-hook 'my-cc-style)
