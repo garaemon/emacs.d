@@ -339,12 +339,6 @@
 (set-variable 'inferior-euslisp-program "rosrun roseus roseus")
 (global-set-key "\C-cE" 'lisp-other-window)
 
-;; (add-hook
-;;  'tex-mode-hook
-;;  '(lambda()
-;;     (flyspell-mode)
-;;     (local-set-key [(control .)] 'flyspell-auto-correct-word)))
-
 ;; flycheck
 (require 'flycheck)
 ;; (defun flycheck-exclude-tramp ()
@@ -360,6 +354,24 @@
 ;; (add-hook 'c++-mode-hook 'flycheck-exclude-tramp)
 ;; (add-hook 'sh-mode-hook 'flycheck-exclude-tramp)
 
+(require 'flyspell)
+(require 'ispell)
+(setq-default ispell-program-name "aspell")
+(eval-after-load "ispell"
+  '(add-to-list 'ispell-skip-region-alist '("[^\000-\377]+")))
+(add-to-list 'auto-mode-alist '("\\.tex" . flyspell-mode))
+(add-hook 'LaTeX-mode-hook 'flyspell-mode)
+(global-set-key (kbd "<f8>") 'ispell-word)
+(global-set-key (kbd "C-S-<f8>") 'flyspell-mode)
+(global-set-key (kbd "C-M-<f8>") 'flyspell-buffer)
+(global-set-key (kbd "C-<f8>") 'flyspell-check-previous-highlighted-word)
+(defun flyspell-check-next-highlighted-word ()
+  "Custom function to spell check next highlighted word"
+  (interactive)
+  (flyspell-goto-next-error)
+  (ispell-word)
+  )
+(global-set-key (kbd "M-<f8>") 'flyspell-check-next-highlighted-word)
 
 ;; bind to M-h
 (global-set-key "\M-h" 'anything-cheat-sheat)
@@ -792,46 +804,46 @@
 ;; (setq org-blog-styles
 ;;       '("<link rel=\"stylesheet\" type=\"text/css\" href=\"worg.css\" />"))
 
-(require 'org)
-(require 'org-remember)
-(require 'remember)
-(setq org-startup-truncated nil)
-(setq org-return-follows-link t)
-(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
-(org-remember-insinuate)
-(setq org-directory "~/memo/")
-(setq org-default-notes-file (concat org-directory "agenda.org"))
-(setq org-remember-templates
-      '(("Todo" ?t "** TODO %?\n   %i\n   %a\n   %t" nil "Inbox")
-        ("Bug" ?b "** TODO %?   :bug:\n   %i\n   %a\n   %t" nil "Inbox")
-        ("Idea" ?i "** %?\n   %i\n   %a\n   %t" nil "New Ideas")
-        ))
-(defvar org-code-reading-software-name nil)
+;; (require 'org)
+;; (require 'org-remember)
+;; (require 'remember)
+;; (setq org-startup-truncated nil)
+;; (setq org-return-follows-link t)
+;; (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
+;; (org-remember-insinuate)
+;; (setq org-directory "~/memo/")
+;; (setq org-default-notes-file (concat org-directory "agenda.org"))
+;; (setq org-remember-templates
+;;       '(("Todo" ?t "** TODO %?\n   %i\n   %a\n   %t" nil "Inbox")
+;;         ("Bug" ?b "** TODO %?   :bug:\n   %i\n   %a\n   %t" nil "Inbox")
+;;         ("Idea" ?i "** %?\n   %i\n   %a\n   %t" nil "New Ideas")
+;;         ))
+;; (defvar org-code-reading-software-name nil)
 
-(defvar org-code-reading-file "code-reading.org")
-(defun org-code-reading-read-software-name ()
-  (set (make-local-variable 'org-code-reading-software-name)
-       (read-string "Code Reading Software: "
-                    (or org-code-reading-software-name
-                        (file-name-nondirectory
-                         (buffer-file-name))))))
+;; (defvar org-code-reading-file "code-reading.org")
+;; (defun org-code-reading-read-software-name ()
+;;   (set (make-local-variable 'org-code-reading-software-name)
+;;        (read-string "Code Reading Software: "
+;;                     (or org-code-reading-software-name
+;;                         (file-name-nondirectory
+;;                          (buffer-file-name))))))
 
-(defun org-code-reading-get-prefix (lang)
-  (concat "[" lang "]"
-          "[" (org-code-reading-read-software-name) "]"))
+;; (defun org-code-reading-get-prefix (lang)
+;;   (concat "[" lang "]"
+;;           "[" (org-code-reading-read-software-name) "]"))
 
-(defun org-remember-code-reading ()
-  (interactive)
-  (let* ((prefix (org-code-reading-get-prefix (substring (symbol-name major-mode) 0 -5)))
-         (org-remember-templates
-          `(("CodeReading" ?r "** %(identity prefix)%?\n   \n   %a\n   %t"
-             ,org-code-reading-file "Memo"))))
-    (org-remember)))
+;; (defun org-remember-code-reading ()
+;;   (interactive)
+;;   (let* ((prefix (org-code-reading-get-prefix (substring (symbol-name major-mode) 0 -5)))
+;;          (org-remember-templates
+;;           `(("CodeReading" ?r "** %(identity prefix)%?\n   \n   %a\n   %t"
+;;              ,org-code-reading-file "Memo"))))
+;;     (org-remember)))
 
-(setq org-log-done t)
-(define-key global-map "\C-ca" 'org-agenda)
-(setq org-agenda-files (list "~/memo/agenda.org"
-                 "~/memo/software.org"))
+;; (setq org-log-done t)
+;; (define-key global-map "\C-ca" 'org-agenda)
+;; (setq org-agenda-files (list "~/memo/agenda.org"
+;;                  "~/memo/software.org"))
 ;; (defun set-pretty-patterns (patterns)
 ;;   (loop for (glyph . pairs) in patterns do
 ;;      (loop for (regexp . major-modes) in pairs do
@@ -1104,7 +1116,7 @@ file is a remote file (include directory)."
 (setq auto-mode-alist (cons '("CMakeLists.txt" . cmake-mode) auto-mode-alist))
 (setq auto-mode-alist (cons '("\\.cmake$" . cmake-mode) auto-mode-alist))
 
-(setq-default tab-width 2)
+(setq-default tab-width 8)
 (setq-default c-basic-offset 2)
 
 ;; nyan-mode
@@ -1398,13 +1410,6 @@ static char * arrow_right[] = {
 
 (require 'emoji-cheat-sheet)
 
-(require 'flyspell)
-(require 'ispell)
-(eval-after-load "ispell"
-  '(add-to-list 'ispell-skip-region-alist '("[^\000-\377]+")))
-(add-to-list 'auto-mode-alist '("\\.tex" . flyspell-mode))
-(add-hook 'LaTeX-mode-hook 'flyspell-mode)
-
 (require 'yasnippet)
 (setq yas-snippet-dirs
       '("~/.emacs.d/snippets"
@@ -1430,9 +1435,6 @@ static char * arrow_right[] = {
   (global-set-key (kbd "M--") 'helm-c-yas-complete)
   )
 
-(require 'wakatime-mode)
-(customize-save-variable 'wakatime-cli-path "~/gprog/wakatime/wakatime-cli.py")
-(if wakatime-api-key (global-wakatime-mode t))
+(windmove-default-keybindings 'meta)
 
 (provide 'garaemon-dot-emacs)
-
