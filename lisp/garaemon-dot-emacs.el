@@ -1116,8 +1116,16 @@ file is a remote file (include directory)."
 (setq auto-mode-alist (cons '("CMakeLists.txt" . cmake-mode) auto-mode-alist))
 (setq auto-mode-alist (cons '("\\.cmake$" . cmake-mode) auto-mode-alist))
 
+(defun my-cc-style ()
+  ;; (c-set-offset 'inline-open '0)
+  ;; (c-set-offset 'innamespace '0)
+)
+
+(add-hook 'c++-mode-hook 'my-cc-style)
+
 (setq-default tab-width 8)
 (setq-default c-basic-offset 2)
+
 
 ;; nyan-mode
 (require 'nyan-mode)
