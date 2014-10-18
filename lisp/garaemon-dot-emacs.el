@@ -1445,4 +1445,6 @@ static char * arrow_right[] = {
 
 (windmove-default-keybindings 'meta)
 
+(require 'multi-term)
+
 (provide 'garaemon-dot-emacs)
