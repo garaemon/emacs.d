@@ -1125,6 +1125,7 @@ file is a remote file (include directory)."
 
 (setq-default tab-width 8)
 (setq-default c-basic-offset 2)
+(c-set-offset 'substatement-open 0)
 
 
 ;; nyan-mode
@@ -1446,5 +1447,9 @@ static char * arrow_right[] = {
 (windmove-default-keybindings 'meta)
 
 (require 'multi-term)
+
+(defun insert-date()
+  (interactive)
+  (insert (format-time-string "%Y-%m-%dT%H:%M:%SZ\n" nil t)))
 
 (provide 'garaemon-dot-emacs)
