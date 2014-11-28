@@ -125,3 +125,6 @@
 [submodule "modules/wakatime-mode"]
 	path = modules/wakatime-mode
 	url = https://github.com/wakatime/wakatime-mode.git
+[submodule "modules/graphviz-dot-mode"]
+	path = modules/graphviz-dot-mode
+	url = https://github.com/ppareit/graphviz-dot-mode.git

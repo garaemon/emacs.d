@@ -14,6 +14,7 @@
                          "yascroll" "indent-guide" "volatile-highlights"
                          "twittering-mode" "sublimity" "emoji-cheat-sheet"
                          "git-gutter" "auto-complete" "popup" "zenburn-emacs"
+                         "graphviz-dot-mode"
                          "wakatime-mode"))
 (add-to-list 'load-path "~/.emacs.d/modules")
 (dolist (module emacs-submodules)

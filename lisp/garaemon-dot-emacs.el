@@ -1452,4 +1452,12 @@ static char * arrow_right[] = {
   (interactive)
   (insert (format-time-string "%Y-%m-%dT%H:%M:%SZ\n" nil t)))
 
+(require 'graphviz-dot-mode)
+(defun graphviz-compile-preview ()
+  (interactive)
+  (compile compile-command)
+  (sleep-for 1)
+  (graphviz-dot-preview))
+(global-set-key [f5] 'graphviz-compile-preview)
+
 (provide 'garaemon-dot-emacs)
