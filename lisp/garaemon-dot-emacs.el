@@ -336,7 +336,9 @@
    (get-buffer-create "*inferior-lisp*"))
   (run-lisp inferior-euslisp-program))
 
-(set-variable 'inferior-euslisp-program "rosrun roseus roseus")
+;; (shell-quote-argument "rosrun roseus roseus")
+(set-variable 'inferior-euslisp-program "~/.emacs.d/roseus.sh")
+
 (global-set-key "\C-cE" 'lisp-other-window)
 
 ;; flycheck
