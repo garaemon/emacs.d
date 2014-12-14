@@ -128,3 +128,9 @@
 [submodule "modules/graphviz-dot-mode"]
 	path = modules/graphviz-dot-mode
 	url = https://github.com/ppareit/graphviz-dot-mode.git
+[submodule "modules/direx-el"]
+	path = modules/direx-el
+	url = https://github.com/m2ym/direx-el.git
+[submodule "modules/popwin-el"]
+	path = modules/popwin-el
+	url = https://github.com/m2ym/popwin-el.git

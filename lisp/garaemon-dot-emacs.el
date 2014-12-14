@@ -1462,4 +1462,13 @@ static char * arrow_right[] = {
   (graphviz-dot-preview))
 (global-set-key [f5] 'graphviz-compile-preview)
 
+;; direx
+(require 'direx)
+;; (global-set-key (kbd "C-x C-j") 'direx:jump-to-directory)
+(require 'popwin)
+(push '(direx:direx-mode :position left :width 25 :dedicated t)
+      popwin:special-display-config)
+(global-set-key (kbd "C-x C-j") 'direx:jump-to-directory-other-window)
+
+
 (provide 'garaemon-dot-emacs)
