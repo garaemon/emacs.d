@@ -1470,5 +1470,7 @@ static char * arrow_right[] = {
       popwin:special-display-config)
 (global-set-key (kbd "C-x C-j") 'direx:jump-to-directory-other-window)
 
+(require 'dockerfile-mode)
+(add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
 
 (provide 'garaemon-dot-emacs)

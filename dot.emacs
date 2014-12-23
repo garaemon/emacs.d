@@ -14,7 +14,7 @@
                          "yascroll" "indent-guide" "volatile-highlights"
                          "twittering-mode" "sublimity" "emoji-cheat-sheet"
                          "git-gutter" "auto-complete" "popup" "zenburn-emacs"
-                         "graphviz-dot-mode"
+                         "graphviz-dot-mode" "dockerfile-mode"
                          "direx-el" "popwin-el"
                          "wakatime-mode"))
 (add-to-list 'load-path "~/.emacs.d/modules")
