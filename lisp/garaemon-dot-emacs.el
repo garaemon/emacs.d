@@ -1257,7 +1257,6 @@ file is a remote file (include directory)."
     ("o"        . 'mc/sort-regions)
     ("O"        . 'mc/reverse-regions)))
 
-(add-to-list 'custom-theme-load-path "~/.emacs.d/modules/zenburn-emacs/")
 ;;(load-theme 'zenburn t)
 (when (>= emacs-major-version 24)
   (add-to-list 'custom-theme-load-path "~/.emacs.d/modules/solarized/")
