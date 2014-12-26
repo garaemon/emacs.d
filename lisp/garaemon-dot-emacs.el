@@ -1164,10 +1164,6 @@ file is a remote file (include directory)."
 (global-git-gutter-mode +1)
 
 
-;; (when (require 'helm-descbinds)
-;;   (helm-descbinds-mode t))
-
-
 ;; defining keymap with C-q prefix
 (declare-function smartrep-define-key "smartrep")
 (global-unset-key "\C-q")
@@ -1193,6 +1189,7 @@ file is a remote file (include directory)."
 (when (>= emacs-major-version 24)
   (require 'helm)
   (require 'helm-config)
+  (require 'helm-swoop)
   (helm-mode t)
   ;; does not activate helm for find-file
   ;; For find-file etc.
@@ -1238,6 +1235,7 @@ file is a remote file (include directory)."
 			   helm-source-buffer-not-found)
 			 "*helm mini*")))
   (global-set-key "\C-xb" 'helm-mini-with-ros)
+  (global-set-key (kbd "M-i") 'helm-swoop)
   )
 ;; defining keymap with C-q prefix
 (declare-function smartrep-define-key "smartrep")

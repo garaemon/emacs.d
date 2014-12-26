@@ -134,3 +134,6 @@
 [submodule "modules/dockerfile-mode"]
 	path = modules/dockerfile-mode
 	url = https://github.com/spotify/dockerfile-mode.git
+[submodule "modules/helm-swoop"]
+	path = modules/helm-swoop
+	url = https://github.com/ShingoFukuyama/helm-swoop.git
