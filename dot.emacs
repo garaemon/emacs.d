@@ -15,7 +15,7 @@
                          "twittering-mode" "sublimity" "emoji-cheat-sheet"
                          "git-gutter" "auto-complete" "popup" "zenburn-emacs"
                          "graphviz-dot-mode" "dockerfile-mode"
-                         "direx-el" "popwin-el"
+                         "direx-el" "popwin-el" "foreign-regexp"
                          "wakatime-mode"))
 (add-to-list 'load-path "~/.emacs.d/modules")
 (dolist (module emacs-submodules)

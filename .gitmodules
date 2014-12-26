@@ -137,3 +137,6 @@
 [submodule "modules/helm-swoop"]
 	path = modules/helm-swoop
 	url = https://github.com/ShingoFukuyama/helm-swoop.git
+[submodule "modules/foreign-regexp"]
+	path = modules/foreign-regexp
+	url = https://github.com/k-talo/foreign-regexp.el.git

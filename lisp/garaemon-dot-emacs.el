@@ -1235,7 +1235,7 @@ file is a remote file (include directory)."
 			   helm-source-buffer-not-found)
 			 "*helm mini*")))
   (global-set-key "\C-xb" 'helm-mini-with-ros)
-  (global-set-key (kbd "M-i") 'helm-swoop)
+  (global-set-key (kbd "C-s") 'helm-swoop)
   )
 ;; defining keymap with C-q prefix
 (declare-function smartrep-define-key "smartrep")
@@ -1469,5 +1469,12 @@ static char * arrow_right[] = {
 
 (require 'dockerfile-mode)
 (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
+
+(require 'foreign-regexp)
+(custom-set-variables
+'(foreign-regexp/regexp-type 'perl) ;; Choose your taste of foreign regexp
+                                    ;; from 'perl, 'ruby or 'javascript.
+'(reb-re-syntax 'foreign-regexp))   ;; Tell re-builder to use foreign regex.
+
 
 (provide 'garaemon-dot-emacs)
