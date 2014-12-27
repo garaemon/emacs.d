@@ -1235,7 +1235,7 @@ file is a remote file (include directory)."
 			   helm-source-buffer-not-found)
 			 "*helm mini*")))
   (global-set-key "\C-xb" 'helm-mini-with-ros)
-  (global-set-key (kbd "C-s") 'helm-swoop)
+  (global-set-key (kbd "M-i") 'helm-swoop)
   )
 ;; defining keymap with C-q prefix
 (declare-function smartrep-define-key "smartrep")
