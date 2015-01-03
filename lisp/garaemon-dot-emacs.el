@@ -1476,5 +1476,7 @@ static char * arrow_right[] = {
                                     ;; from 'perl, 'ruby or 'javascript.
 '(reb-re-syntax 'foreign-regexp))   ;; Tell re-builder to use foreign regex.
 
+(require 'smart-cursor-color)
+(smart-cursor-color-mode +1)
 
 (provide 'garaemon-dot-emacs)

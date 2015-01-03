@@ -16,7 +16,7 @@
                          "git-gutter" "auto-complete" "popup" "zenburn-emacs"
                          "graphviz-dot-mode" "dockerfile-mode"
                          "direx-el" "popwin-el" "foreign-regexp"
-                         "wakatime-mode"))
+                         "wakatime-mode" "wanderlust" "smart-cursor-color"))
 (add-to-list 'load-path "~/.emacs.d/modules")
 (dolist (module emacs-submodules)
   (add-to-list 'load-path (format "~/.emacs.d/modules/%s" module)))

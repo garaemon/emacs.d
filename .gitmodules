@@ -140,3 +140,9 @@
 [submodule "modules/foreign-regexp"]
 	path = modules/foreign-regexp
 	url = https://github.com/k-talo/foreign-regexp.el.git
+[submodule "modules/wanderlust"]
+	path = modules/wanderlust
+	url = https://github.com/wanderlust/wanderlust.git
+[submodule "modules/smart-cursor-color"]
+	path = modules/smart-cursor-color
+	url = https://github.com/7696122/smart-cursor-color.git
