@@ -1209,7 +1209,7 @@ file is a remote file (include directory)."
   (setq helm-ag-base-command "ag --nocolor --nogroup --ignore-case")
   (setq helm-ag-command-option "--all-text")
   (setq helm-ag-thing-at-point 'symbol)
-
+  (define-key global-map (kbd "C-x g")   'helm-ag)
   ;; fix ctrl-h in helm
   (define-key helm-map (kbd "C-h") 'delete-backward-char)
   ;;(define-key helm-find-files-map (kbd "C-h") 'delete-backward-char)
