@@ -627,6 +627,25 @@
 
 (setq auto-mode-alist
    (cons '("\\.md" . markdown-mode) auto-mode-alist))
+(define-key markdown-mode-map (kbd "M-p") nil)
+(define-key markdown-mode-map (kbd "M-n") nil)
+
+(require 'w3m)
+(defun w3m-browse-url-other-window (url &optional newwin)
+  (let ((w3m-pop-up-windows t))
+    (if (one-window-p) (split-window))
+    (other-window 1)
+    (w3m-browse-url url newwin)))
+
+(defun markdown-render-w3m (n)
+  (interactive "p")
+  (call-process "/usr/local/bin/grip" nil nil nil
+                "--gfm" "--export"
+                (buffer-file-name)
+                "/tmp/grip.html")
+  (w3m-browse-url-other-window "file://tmp/grip.html")
+  )
+(define-key markdown-mode-map (kbd "C-c C-c") 'markdown-render-w3m)
 
 (when-meadow
  (let ((make-spec
@@ -1478,5 +1497,9 @@ static char * arrow_right[] = {
 
 (require 'smart-cursor-color)
 (smart-cursor-color-mode +1)
+
+(require 'w3m)
+(define-key w3m-mode-map (kbd "M-p") nil)
+(define-key w3m-mode-map (kbd "M-n") nil)
 
 (provide 'garaemon-dot-emacs)

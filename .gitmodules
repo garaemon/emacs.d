@@ -146,3 +146,6 @@
 [submodule "modules/smart-cursor-color"]
 	path = modules/smart-cursor-color
 	url = https://github.com/7696122/smart-cursor-color.git
+[submodule "modules/w3m"]
+	path = modules/w3m
+	url = https://github.com/emacsmirror/w3m.git
