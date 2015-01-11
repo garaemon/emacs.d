@@ -149,3 +149,9 @@
 [submodule "modules/w3m"]
 	path = modules/w3m
 	url = https://github.com/emacsmirror/w3m.git
+[submodule "modules/dired-hacks"]
+	path = modules/dired-hacks
+	url = https://github.com/Fuco1/dired-hacks.git
+[submodule "modules/dired-plus"]
+	path = modules/dired-plus
+	url = https://github.com/emacsmirror/dired-plus.git

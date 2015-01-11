@@ -1502,4 +1502,12 @@ static char * arrow_right[] = {
 (define-key w3m-mode-map (kbd "M-p") nil)
 (define-key w3m-mode-map (kbd "M-n") nil)
 
+(defun w3m-ros (pkg)
+  (interactive (list (read-string "ros package: ")))
+  (w3m-browse-url-other-window (format "http://wiki.ros.org/%s" pkg)))
+
+(require 'dired-subtree)
+
+(require 'dired+)
+
 (provide 'garaemon-dot-emacs)
