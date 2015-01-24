@@ -17,7 +17,8 @@
                          "graphviz-dot-mode" "dockerfile-mode"
                          "direx-el" "popwin-el" "foreign-regexp" "w3m"
                          "wakatime-mode" "wanderlust" "smart-cursor-color"
-                         "dired-hacks" "dired-plus"))
+                         "dired-hacks" "dired-plus"
+                         "gtags" "helm-gtags"))
 (add-to-list 'load-path "~/.emacs.d/modules")
 (dolist (module emacs-submodules)
   (add-to-list 'load-path (format "~/.emacs.d/modules/%s" module)))

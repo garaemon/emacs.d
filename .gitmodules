@@ -155,3 +155,9 @@
 [submodule "modules/dired-plus"]
 	path = modules/dired-plus
 	url = https://github.com/emacsmirror/dired-plus.git
+[submodule "modules/gtags"]
+	path = modules/gtags
+	url = https://github.com/voins/gtags.git
+[submodule "modules/helm-gtags"]
+	path = modules/helm-gtags
+	url = https://github.com/syohex/emacs-helm-gtags.git
