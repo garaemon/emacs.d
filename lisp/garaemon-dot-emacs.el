@@ -1510,4 +1510,7 @@ static char * arrow_right[] = {
 
 (require 'dired+)
 
+(global-hl-line-mode +1)
+
+
 (provide 'garaemon-dot-emacs)
