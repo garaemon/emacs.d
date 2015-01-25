@@ -1527,13 +1527,28 @@ static char * arrow_right[] = {
  '(helm-gtags-auto-update t))
 (eval-after-load "helm-gtags"
   '(progn
-     (define-key helm-gtags-mode-map (kbd "M-t") 'helm-gtags-find-tag)
-     (define-key helm-gtags-mode-map (kbd "M-r") 'helm-gtags-find-rtag)
-     (define-key helm-gtags-mode-map (kbd "M-s") 'helm-gtags-find-symbol)
-     (define-key helm-gtags-mode-map (kbd "M-g M-p") 'helm-gtags-parse-file)
-     (define-key helm-gtags-mode-map (kbd "C-c <") 'helm-gtags-previous-history)
-     (define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history)
-     (define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-pop-stack)))
+     (define-key helm-gtags-mode-map (kbd "C-:") 'helm-gtags-find-pattern)
+     ;; (define-key helm-gtags-mode-map (kbd "M-t") 'helm-gtags-find-tag)
+     ;; (define-key helm-gtags-mode-map (kbd "M-r") 'helm-gtags-find-rtag)
+     ;; (define-key helm-gtags-mode-map (kbd "M-s") 'helm-gtags-find-symbol)
+     ;; (define-key helm-gtags-mode-map (kbd "M-g M-p") 'helm-gtags-parse-file)
+     ;; (define-key helm-gtags-mode-map (kbd "C-c <") 'helm-gtags-previous-history)
+     ;; (define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history)
+     ;; (define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-pop-stack))
+     ))
+
+
+(defun un-camelcase-word-at-point ()
+  "un-camelcase the word at point, replacing uppercase chars with
+the lowercase version preceded by an underscore.
+
+The first char, if capitalized (eg, PascalCase) is just
+downcased, no preceding underscore.
+"
+  (interactive)
+  (progn (replace-regexp "\\([A-Z]\\)" "_\\1" nil (region-beginning)(region-end))
+       (downcase-region (region-beginning)(region-end))))
+(global-set-key "\M-\C-C"  'un-camelcase-word-at-point)
 
 
 (provide 'garaemon-dot-emacs)
