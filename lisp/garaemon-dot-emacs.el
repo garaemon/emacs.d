@@ -1241,6 +1241,7 @@ file is a remote file (include directory)."
 
   (custom-set-variables
    '(helm-mini-default-sources '(helm-source-buffers-list
+                                 helm-source-files-in-current-dir
                                  helm-source-ls-git
                                  helm-source-recentf
                                  helm-source-buffer-not-found)))
@@ -1251,7 +1252,7 @@ file is a remote file (include directory)."
   (define-key global-map (kbd "C-x C-r") 'helm-recentf)
   (define-key global-map (kbd "M-y")     'helm-show-kill-ring)
   (define-key global-map (kbd "C-c i")   'helm-imenu)
-  (define-key global-map (kbd "C-x b")   'helm-buffers-list)
+  (define-key global-map (kbd "C-x b")   'helm-mini)
 
   (require 'helm-ag)
   (setq helm-ag-base-command "ag --nocolor --nogroup --ignore-case")
@@ -1268,6 +1269,7 @@ file is a remote file (include directory)."
     "Emulate `kill-line' in helm minibuffer"
     (kill-new (buffer-substring (point) (field-end))))
 
+  (require 'helm-ls-git)
 
   (require 'helm-ros)
   (setq helm-source-catkin-root "~/ros_catkin_ws/hydro/src")
@@ -1277,11 +1279,13 @@ file is a remote file (include directory)."
     (require 'helm-files)
     (let ((helm-ff-transformer-show-only-basename nil))
       (helm-other-buffer '(helm-source-buffers-list
-         helm-source-recentf
-         ;;helm-source-catkin-packages
-         ;;helm-source-rospack-list
-         helm-source-buffer-not-found)
-       "*helm mini*")))
+                           helm-source-files-in-current-dir
+                           helm-source-ls-git
+                           helm-source-recentf
+                           ;;helm-source-catkin-packages
+                           ;;helm-source-rospack-list
+                           helm-source-buffer-not-found)
+                         "*helm mini*")))
   ;;(global-set-key "\C-xb" 'helm-mini-with-ros)
   (global-set-key (kbd "M-i") 'helm-swoop)
   )
