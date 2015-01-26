@@ -1209,12 +1209,41 @@ file is a remote file (include directory)."
   (require 'helm)
   (require 'helm-config)
   (require 'helm-swoop)
+  (require 'helm-gtags)
+
+  (add-hook 'c-mode-hook 'helm-gtags-mode)
+  (add-hook 'c++-mode-hook 'helm-gtags-mode)
+  (add-hook 'asm-mode-hook 'helm-gtags-mode)
+  (custom-set-variables
+   '(helm-gtags-prefix-key "C-t")
+   '(helm-gtags-suggested-key-mapping t)
+   '(helm-gtags-ignore-case t)
+   '(helm-gtags-auto-update t))
+  (eval-after-load "helm-gtags"
+    '(progn
+       (define-key helm-gtags-mode-map (kbd "C-:") 'helm-gtags-find-pattern)
+       ;; (define-key helm-gtags-mode-map (kbd "M-t") 'helm-gtags-find-tag)
+       ;; (define-key helm-gtags-mode-map (kbd "M-r") 'helm-gtags-find-rtag)
+       ;; (define-key helm-gtags-mode-map (kbd "M-s") 'helm-gtags-find-symbol)
+       ;; (define-key helm-gtags-mode-map (kbd "M-g M-p") 'helm-gtags-parse-file)
+       ;; (define-key helm-gtags-mode-map (kbd "C-c <") 'helm-gtags-previous-history)
+       ;; (define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history)
+       ;; (define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-pop-stack))
+       ))
+
+  (helm-autoresize-mode 1)
   (helm-mode t)
   ;; does not activate helm for find-file
   ;; For find-file etc.
   ;;(define-key helm-read-file-map (kbd "TAB") 'helm-execute-persistent-action)
   ;; For helm-find-files etc.
   ;;(define-key helm-find-files-map (kbd "TAB") 'helm-execute-persistent-action)
+
+  (custom-set-variables
+   '(helm-mini-default-sources '(helm-source-buffers-list
+                                 helm-source-ls-git
+                                 helm-source-recentf
+                                 helm-source-buffer-not-found)))
   (add-to-list 'helm-completing-read-handlers-alist '(find-file . nil))
 
   (define-key global-map (kbd "M-x")     'helm-M-x)
@@ -1248,12 +1277,12 @@ file is a remote file (include directory)."
     (require 'helm-files)
     (let ((helm-ff-transformer-show-only-basename nil))
       (helm-other-buffer '(helm-source-buffers-list
-			   helm-source-recentf
-			   ;;helm-source-catkin-packages
-			   ;;helm-source-rospack-list
-			   helm-source-buffer-not-found)
-			 "*helm mini*")))
-  (global-set-key "\C-xb" 'helm-mini-with-ros)
+         helm-source-recentf
+         ;;helm-source-catkin-packages
+         ;;helm-source-rospack-list
+         helm-source-buffer-not-found)
+       "*helm mini*")))
+  ;;(global-set-key "\C-xb" 'helm-mini-with-ros)
   (global-set-key (kbd "M-i") 'helm-swoop)
   )
 ;; defining keymap with C-q prefix
@@ -1512,32 +1541,6 @@ static char * arrow_right[] = {
 
 (global-hl-line-mode +1)
 
-(setq gtags-prefix-key "\C-c")
-
-(require 'gtags)
-(require 'helm-gtags)
-
-(add-hook 'c-mode-hook 'helm-gtags-mode)
-(add-hook 'c++-mode-hook 'helm-gtags-mode)
-(add-hook 'asm-mode-hook 'helm-gtags-mode)
-(custom-set-variables
- '(helm-gtags-prefix-key "C-t")
- '(helm-gtags-suggested-key-mapping t)
- '(helm-gtags-ignore-case t)
- '(helm-gtags-auto-update t))
-(eval-after-load "helm-gtags"
-  '(progn
-     (define-key helm-gtags-mode-map (kbd "C-:") 'helm-gtags-find-pattern)
-     ;; (define-key helm-gtags-mode-map (kbd "M-t") 'helm-gtags-find-tag)
-     ;; (define-key helm-gtags-mode-map (kbd "M-r") 'helm-gtags-find-rtag)
-     ;; (define-key helm-gtags-mode-map (kbd "M-s") 'helm-gtags-find-symbol)
-     ;; (define-key helm-gtags-mode-map (kbd "M-g M-p") 'helm-gtags-parse-file)
-     ;; (define-key helm-gtags-mode-map (kbd "C-c <") 'helm-gtags-previous-history)
-     ;; (define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history)
-     ;; (define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-pop-stack))
-     ))
-
-
 (defun un-camelcase-word-at-point ()
   "un-camelcase the word at point, replacing uppercase chars with
 the lowercase version preceded by an underscore.
@@ -1549,6 +1552,5 @@ downcased, no preceding underscore.
   (progn (replace-regexp "\\([A-Z]\\)" "_\\1" nil (region-beginning)(region-end))
        (downcase-region (region-beginning)(region-end))))
 (global-set-key "\M-\C-C"  'un-camelcase-word-at-point)
-
 
 (provide 'garaemon-dot-emacs)
