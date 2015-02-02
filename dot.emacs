@@ -19,7 +19,8 @@
                          "wakatime-mode" "wanderlust" "smart-cursor-color"
                          "dired-hacks" "dired-plus"
                          "helm-ls-git"
-                         "gtags" "helm-gtags" "helm-replace-string"))
+                         "gtags" "helm-gtags" "helm-replace-string"
+                         "symon"))
 (add-to-list 'load-path "~/.emacs.d/modules")
 (dolist (module emacs-submodules)
   (add-to-list 'load-path (format "~/.emacs.d/modules/%s" module)))

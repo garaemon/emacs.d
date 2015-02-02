@@ -1569,4 +1569,8 @@ downcased, no preceding underscore.
        (downcase-region (region-beginning)(region-end))))
 (global-set-key "\M-\C-C"  'un-camelcase-word-at-point)
 
+(defalias 'qrr 'query-replace-regexp)
+(require 'symon)
+(symon-mode)
+
 (provide 'garaemon-dot-emacs)

@@ -167,3 +167,6 @@
 [submodule "modules/helm-replace-string"]
 	path = modules/helm-replace-string
 	url = https://github.com/jixiuf/helm-replace-string.git
+[submodule "modules/symon"]
+	path = modules/symon
+	url = https://github.com/zk-phi/symon.git
