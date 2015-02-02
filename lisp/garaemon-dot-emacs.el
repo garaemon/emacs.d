@@ -109,6 +109,8 @@
 
 (when (eq system-type 'gnu/linux)
   (set-face-attribute 'default nil :height 120) ;font size
+  (set-frame-font "Ricty Diminished-12")
+  ;;(set-frame-font "Ricty Diminished Discord-12")
   )
 
 (require 'column-marker)
