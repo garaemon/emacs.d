@@ -1218,7 +1218,8 @@ file is a remote file (include directory)."
    '(helm-gtags-prefix-key "C-t")
    '(helm-gtags-suggested-key-mapping t)
    '(helm-gtags-ignore-case t)
-   '(helm-gtags-auto-update t))
+   '(helm-gtags-auto-update nil)
+   )
   (eval-after-load "helm-gtags"
     '(progn
        (define-key helm-gtags-mode-map (kbd "C-:") 'helm-gtags-find-pattern)
@@ -1238,9 +1239,14 @@ file is a remote file (include directory)."
   ;;(define-key helm-read-file-map (kbd "TAB") 'helm-execute-persistent-action)
   ;; For helm-find-files etc.
   ;;(define-key helm-find-files-map (kbd "TAB") 'helm-execute-persistent-action)
+  (require 'helm-replace-string)
+  (require 'helm-regexp)
+  (defadvice query-replace (before helm-replace-string-query-replace(from-string to-string &optional delimited start end backward) activate)
+    (helm-replace-string-push-history from-string to-string 'query-string))
 
   (custom-set-variables
    '(helm-mini-default-sources '(helm-source-buffers-list
+                                 helm-c-source-replace-string
                                  helm-source-files-in-current-dir
                                  helm-source-ls-git
                                  helm-source-recentf
@@ -1272,6 +1278,7 @@ file is a remote file (include directory)."
   (require 'helm-ls-git)
 
   (require 'helm-ros)
+
   (setq helm-source-catkin-root "~/ros_catkin_ws/hydro/src")
   (defun helm-mini-with-ros ()
     "Preconfigured `helm' lightweight version \(buffer -> recentf\)."
@@ -1288,6 +1295,9 @@ file is a remote file (include directory)."
                          "*helm mini*")))
   ;;(global-set-key "\C-xb" 'helm-mini-with-ros)
   (global-set-key (kbd "M-i") 'helm-swoop)
+
+  ;;helm-query-replace-regexp
+  ;;(global-set-key (kbd "M-%") 'helm-replace-string)
   )
 ;; defining keymap with C-q prefix
 (declare-function smartrep-define-key "smartrep")

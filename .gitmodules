@@ -164,3 +164,6 @@
 [submodule "modules/helm-ls-git"]
 	path = modules/helm-ls-git
 	url = https://github.com/emacs-helm/helm-ls-git.git
+[submodule "modules/helm-replace-string"]
+	path = modules/helm-replace-string
+	url = https://github.com/jixiuf/helm-replace-string.git
