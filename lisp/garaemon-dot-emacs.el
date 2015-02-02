@@ -1573,4 +1573,5 @@ downcased, no preceding underscore.
 (require 'symon)
 (symon-mode)
 
+(global-linum-mode)
 (provide 'garaemon-dot-emacs)
