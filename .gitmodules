@@ -170,3 +170,9 @@
 [submodule "modules/symon"]
 	path = modules/symon
 	url = https://github.com/zk-phi/symon.git
+[submodule "modules/gmail-mode"]
+	path = modules/gmail-mode
+	url = https://github.com/Bruce-Connor/gmail-mode.git
+[submodule "modules/ham-mode"]
+	path = modules/ham-mode
+	url = https://github.com/Bruce-Connor/ham-mode.git
