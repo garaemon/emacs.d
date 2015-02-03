@@ -1183,6 +1183,7 @@ file is a remote file (include directory)."
 
 (require 'git-gutter)
 (global-git-gutter-mode +1)
+(git-gutter:linum-setup)
 
 
 ;; defining keymap with C-q prefix
