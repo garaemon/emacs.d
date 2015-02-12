@@ -1603,5 +1603,5 @@ downcased, no preceding underscore.
  ;; If there is more than one, they won't work right.
  '(rainbow-delimiters-depth-1-face ((t (:foreground "#7f8c8d")))))
 
-
+(global-set-key "\M-%" 'query-replace)
 (provide 'garaemon-dot-emacs)
