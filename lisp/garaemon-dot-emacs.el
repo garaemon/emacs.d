@@ -1073,7 +1073,7 @@ file is a remote file (include directory)."
 (fset 'yes-or-no-p 'y-or-n-p)
 
  (setq auto-mode-alist
-       (cons (cons "\\.tex$" 'tex-mode) auto-mode-alist))FF
+       (cons (cons "\\.tex$" 'tex-mode) auto-mode-alist))
 
 ;;  (setq load-path (cons "~/elisp/auctex" load-path))
 ;;  (setq auto-mode-alist
