@@ -182,3 +182,6 @@
 [submodule "modules/ace-jump-mode"]
 	path = modules/ace-jump-mode
 	url = https://github.com/winterTTr/ace-jump-mode.git
+[submodule "modules/clang-complete-async"]
+	path = modules/clang-complete-async
+	url = https://github.com/Golevka/emacs-clang-complete-async.git

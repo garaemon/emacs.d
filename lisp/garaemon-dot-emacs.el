@@ -35,6 +35,14 @@
 
 (global-set-key "\C-xp" (lambda () (interactive) (other-window -1)))
 
+(require 'auto-complete-clang-async)
+
+(defun ac-cc-mode-setup ()
+  (setq ac-clang-complete-executable "~/.emacs.d/modules/clang-complete-async/clang-complete")
+  (setq ac-sources '(ac-source-clang-async))
+  (ac-clang-launch-completion-process)
+)
+
 (when (require 'auto-complete nil t)
   (require 'auto-complete-config)
   (global-auto-complete-mode t)
@@ -57,6 +65,8 @@
           xhtml-mode
           ;;org-mode
           )))
+  (add-hook 'c-mode-common-hook 'ac-cc-mode-setup)
+  (add-hook 'auto-complete-mode-hook 'ac-common-setup)
   (add-hook 'emacs-lisp-mode-hook
         (lambda ()
           (setq ac-sources '(ac-source-yasnippet
