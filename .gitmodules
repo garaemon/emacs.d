@@ -176,3 +176,9 @@
 [submodule "modules/ham-mode"]
 	path = modules/ham-mode
 	url = https://github.com/Bruce-Connor/ham-mode.git
+[submodule "modules/ace-isearch"]
+	path = modules/ace-isearch
+	url = https://github.com/tam17aki/ace-isearch.git
+[submodule "modules/ace-jump-mode"]
+	path = modules/ace-jump-mode
+	url = https://github.com/winterTTr/ace-jump-mode.git

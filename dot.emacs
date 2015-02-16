@@ -21,7 +21,8 @@
                          "helm-ls-git"
                          "gtags" "helm-gtags" "helm-replace-string"
                          "symon"
-                         "ham-mode" "gmail-mode"))
+                         "ham-mode" "gmail-mode" "ace-isearch"
+                         "ace-jump-mode"))
 (add-to-list 'load-path "~/.emacs.d/modules")
 (dolist (module emacs-submodules)
   (add-to-list 'load-path (format "~/.emacs.d/modules/%s" module)))

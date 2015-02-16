@@ -1301,7 +1301,8 @@ file is a remote file (include directory)."
                          "*helm mini*")))
   ;;(global-set-key "\C-xb" 'helm-mini-with-ros)
   (global-set-key (kbd "M-i") 'helm-swoop)
-
+  (require 'ace-isearch)
+  (global-ace-isearch-mode +1)
   ;;helm-query-replace-regexp
   ;;(global-set-key (kbd "M-%") 'helm-replace-string)
   )
