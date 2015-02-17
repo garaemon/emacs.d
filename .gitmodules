@@ -185,3 +185,18 @@
 [submodule "modules/clang-complete-async"]
 	path = modules/clang-complete-async
 	url = https://github.com/Golevka/emacs-clang-complete-async.git
+[submodule "modules/swoop"]
+	path = modules/swoop
+	url = https://github.com/ShingoFukuyama/emacs-swoop.git
+[submodule "modules/async"]
+	path = modules/async
+	url = https://github.com/jwiegley/emacs-async.git
+[submodule "modules/pcre2el"]
+	path = modules/pcre2el
+	url = https://github.com/joddie/pcre2el.git
+[submodule "modules/bm"]
+	path = modules/bm
+	url = https://github.com/joodland/bm.git
+[submodule "modules/ht"]
+	path = modules/ht
+	url = https://github.com/Wilfred/ht.el.git

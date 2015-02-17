@@ -1,6 +1,8 @@
 ;; -*- mode: emacs-lisp -*-
 
 (require 'garaemon-util)
+(setq gc-cons-threshold 134217728)
+
 (setq file-name-coding-system 'utf-8)
 (setq locale-coding-system 'utf-8)
 
@@ -1311,8 +1313,14 @@ file is a remote file (include directory)."
                          "*helm mini*")))
   ;;(global-set-key "\C-xb" 'helm-mini-with-ros)
   (global-set-key (kbd "M-i") 'helm-swoop)
+
+  (require 'swoop)
   (require 'ace-isearch)
   (global-ace-isearch-mode +1)
+  (define-key helm-swoop-map (kbd "C-s") 'helm-next-line)
+  (define-key helm-swoop-map (kbd "C-r") 'helm-previous-line)
+  ;; (define-key helm-swoop-map (kbd "C-n") 'helm-exit-minibuffer)
+  ;; (define-key helm-swoop-map (kbd "C-p") 'helm-exit-minibuffer)
   ;;helm-query-replace-regexp
   ;;(global-set-key (kbd "M-%") 'helm-replace-string)
   )
@@ -1469,8 +1477,8 @@ static char * arrow_right[] = {
 ;; (require 'sublimity-attractive)
 ;; (sublimity-mode 1)
 
-(require 'indent-guide)
-(indent-guide-global-mode)
+;; (require 'indent-guide)
+;; (indent-guide-global-mode nil)
 
 (require 'volatile-highlights)
 (volatile-highlights-mode)
