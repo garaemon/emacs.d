@@ -15,7 +15,7 @@ function _update_emacs_update() {
 }
 
 function _upgrade_emacs() {
-  (cd ~/.emacs.d && git pull --rebase origin master && git submodule update --init)
+  (cd ~/.emacs.d && ./update.sh)
   # update the emacs file
   _update_emacs_update
 }
