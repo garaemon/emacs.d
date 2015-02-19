@@ -1314,11 +1314,11 @@ file is a remote file (include directory)."
   ;;(global-set-key "\C-xb" 'helm-mini-with-ros)
   (global-set-key (kbd "M-i") 'helm-swoop)
 
-  (require 'swoop)
-  (require 'ace-isearch)
-  (global-ace-isearch-mode +1)
-  (define-key helm-swoop-map (kbd "C-s") 'helm-next-line)
-  (define-key helm-swoop-map (kbd "C-r") 'helm-previous-line)
+  ;; (require 'swoop)
+  ;; (require 'ace-isearch)
+  ;; (global-ace-isearch-mode +1)
+  ;; (define-key helm-swoop-map (kbd "C-s") 'helm-next-line)
+  ;; (define-key helm-swoop-map (kbd "C-r") 'helm-previous-line)
   ;; (define-key helm-swoop-map (kbd "C-n") 'helm-exit-minibuffer)
   ;; (define-key helm-swoop-map (kbd "C-p") 'helm-exit-minibuffer)
   ;;helm-query-replace-regexp
