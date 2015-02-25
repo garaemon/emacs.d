@@ -1633,5 +1633,12 @@ downcased, no preceding underscore.
  ;; If there is more than one, they won't work right.
  '(rainbow-delimiters-depth-1-face ((t (:foreground "#7f8c8d")))))
 
+;; for mistype :)
 (global-set-key "\M-%" 'query-replace)
+
+(require 'bm)
+(global-set-key [?\C-\M-\ ] 'bm-toggle)
+(global-set-key [?\C-\M-n] 'bm-next)
+(global-set-key [?\C-\M-p] 'bm-previous)
+
 (provide 'garaemon-dot-emacs)
