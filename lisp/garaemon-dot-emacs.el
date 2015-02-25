@@ -363,6 +363,17 @@
 ;;               (string-match "sudo:.*:" (buffer-file-name)))
 ;;     (flycheck-mode t)
 ;;   ))
+(add-hook 'after-init-hook #'global-flycheck-mode)
+;; (flycheck-define-checker c/c++
+;;   "A C/C++ checker using g++."
+;;   :command ("g++" "-Wall" "-Wextra" source)
+;;   :error-patterns  ((error line-start
+;;                            (file-name) ":" line ":" column ":" " エラー: " (message)
+;;                            line-end)
+;;                     (warning line-start
+;;                            (file-name) ":" line ":" column ":" " 警告: " (message)
+;;                            line-end))
+;;   :modes (c-mode c++-mode))
 
 ;; (add-hook 'python-mode-hook 'flycheck-exclude-tramp)
 ;; (add-hook 'emacs-lisp-mode-hook 'flycheck-exclude-tramp)
