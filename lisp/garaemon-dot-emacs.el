@@ -1275,9 +1275,9 @@ file is a remote file (include directory)."
 
   (custom-set-variables
    '(helm-mini-default-sources '(helm-source-buffers-list
+                                 helm-source-ls-git
                                  helm-c-source-replace-string
                                  helm-source-files-in-current-dir
-                                 helm-source-ls-git
                                  helm-source-recentf
                                  helm-source-buffer-not-found)))
   (add-to-list 'helm-completing-read-handlers-alist '(find-file . nil))
