@@ -37,13 +37,13 @@
 
 (global-set-key "\C-xp" (lambda () (interactive) (other-window -1)))
 
-(require 'auto-complete-clang-async)
+;; (require 'auto-complete-clang-async)
 
-(defun ac-cc-mode-setup ()
-  (setq ac-clang-complete-executable "~/.emacs.d/modules/clang-complete-async/clang-complete")
-  (setq ac-sources '(ac-source-clang-async))
-  (ac-clang-launch-completion-process)
-)
+;; (defun ac-cc-mode-setup ()
+;;   (setq ac-clang-complete-executable "~/.emacs.d/modules/clang-complete-async/clang-complete")
+;;   (setq ac-sources '(ac-source-clang-async))
+;;   (ac-clang-launch-completion-process)
+;; )
 
 (when (require 'auto-complete nil t)
   (require 'auto-complete-config)
@@ -356,14 +356,14 @@
 (global-set-key "\C-cE" 'lisp-other-window)
 
 ;; flycheck
-(require 'flycheck)
+;;(require 'flycheck)
 ;; (defun flycheck-exclude-tramp ()
 ;;   (unless (or (and (fboundp 'tramp-tramp-file-p)
 ;;                    (tramp-tramp-file-p buffer-file-name))
 ;;               (string-match "sudo:.*:" (buffer-file-name)))
 ;;     (flycheck-mode t)
 ;;   ))
-(add-hook 'after-init-hook #'global-flycheck-mode)
+;;(add-hook 'after-init-hook #'global-flycheck-mode)
 ;; (flycheck-define-checker c/c++
 ;;   "A C/C++ checker using g++."
 ;;   :command ("g++" "-Wall" "-Wextra" source)
@@ -1123,6 +1123,7 @@ file is a remote file (include directory)."
 (add-to-list 'auto-mode-alist '("\\.ejs$" . html-mode))
 (add-to-list 'auto-mode-alist '("\\.xml$" . html-mode))
 (add-to-list 'auto-mode-alist '("\\.launch$" . html-mode))
+(add-to-list 'auto-mode-alist '("\\.cfg$" . python-mode))
 (add-to-list 'auto-mode-alist '("\\.h$" . c++-mode))
 (add-to-list 'auto-mode-alist '("\\.test$" . html-mode))
 (add-to-list 'auto-mode-alist '("\\.thor$" . ruby-mode))
@@ -1175,6 +1176,9 @@ file is a remote file (include directory)."
 (setq-default tab-width 8)
 (setq-default c-basic-offset 2)
 (c-set-offset 'substatement-open 0)
+(require 'judge-indent)
+(global-judge-indent-mode t)
+(setq judge-indent-major-modes '(c-mode python-mode sh-mode c++-mode lisp-mode euslisp-mode html-mode))
 
 
 ;; nyan-mode

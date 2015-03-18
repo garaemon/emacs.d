@@ -203,3 +203,6 @@
 [submodule "modules/elpa"]
 	path = modules/elpa
 	url = git://git.sv.gnu.org/emacs/elpa.git
+[submodule "modules/judge-indent"]
+	path = modules/judge-indent
+	url = https://github.com/yascentur/judge-indent-el.git
