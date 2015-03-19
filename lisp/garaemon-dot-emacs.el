@@ -1609,6 +1609,9 @@ downcased, no preceding underscore.
 
 (defalias 'qrr 'query-replace-regexp)
 (require 'symon)
+(custom-set-variables
+ '(symon-sparkline-type symon-sparkline-type-gridded)
+ '(symon-delay 5))
 (symon-mode)
 
 (global-linum-mode)
@@ -1629,7 +1632,7 @@ downcased, no preceding underscore.
  '(eshell-term-name "ansi")
  '(eshell-visual-commands (quote ("vi" "top" "screen" "less" "lynx" "ssh" "rlogin" "telnet")))
  '(wakatime-cli-path "~/gprog/wakatime/wakatime-cli.py")
- '(yas-trigger-key "TAB"))
+ '(yas-trigger-key "Enter"))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
