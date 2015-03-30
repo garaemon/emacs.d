@@ -206,3 +206,6 @@
 [submodule "modules/judge-indent"]
 	path = modules/judge-indent
 	url = https://github.com/yascentur/judge-indent-el.git
+[submodule "modules/scss-mode"]
+	path = modules/scss-mode
+	url = https://github.com/antonj/scss-mode.git
