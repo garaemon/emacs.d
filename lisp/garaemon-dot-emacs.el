@@ -1525,7 +1525,7 @@ static char * arrow_right[] = {
       '("~/.emacs.d/snippets"
         "~/.emacs.d/modules/yasnippet/snippets"))
 (yas-global-mode 1)
-(custom-set-variables '(yas-trigger-key "TAB"))
+;;(custom-set-variables '(yas-trigger-key "TAB"))
 
 ;; insert new snippet
 (define-key yas-minor-mode-map (kbd "C-x i i") 'yas-insert-snippet)
@@ -1533,12 +1533,12 @@ static char * arrow_right[] = {
 (define-key yas-minor-mode-map (kbd "C-x i n") 'yas-new-snippet)
 ;; edit a snippet
 (define-key yas-minor-mode-map (kbd "C-x i v") 'yas-visit-snippet-file)
-(setq yas-buffer-local-condition
-      '(or (not (or (string= "font-lock-comment-face"
-                             (get-char-property (point) 'face))
-                    (string= "font-lock-string-face"
-                             (get-char-property (point) 'face))))
-           '(require-snippet-condition . force-in-comment)))
+;; (setq yas-buffer-local-condition
+;;       '(or (not (or (string= "font-lock-comment-face"
+;;                              (get-char-property (point) 'face))
+;;                     (string= "font-lock-string-face"
+;;                              (get-char-property (point) 'face))))
+;;            '(require-snippet-condition . force-in-comment)))
 ;; bind M-- to list snippets
 (when (require 'helm-c-yasnippet nil t)
   (setq helm-c-yas-space-match-any-greedy t) ;[default: nil]
