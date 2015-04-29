@@ -1212,4 +1212,9 @@ downcased, no preceding underscore.
 (require 'scss-mode)
 (add-to-list 'auto-mode-alist '("\\.scss$" . scss-mode))
 
+(when (require 'rosemacs nil t)
+  (invoke-rosemacs)
+  (global-set-key "\C-xr" ros-keymap)
+  )
+
 (provide 'garaemon-dot-emacs)
