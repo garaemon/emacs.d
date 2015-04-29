@@ -94,14 +94,6 @@
 
 (setq auto-mode-alist (cons (cons "\\.cg?$" 'c-mode) auto-mode-alist))
 
-(autoload 'clmemo "clmemo" "ChangeLog memo mode." t)
-;; あなたの ChangeLog メモファイルへのパス
-(setq clmemo-file-name "~/Documents/changelog/ChangeLog")
-;; 好きなキーへバインド
-(global-set-key "\C-xM" 'clmemo)
-;; タイトルの補完
-(setq clmemo-title-list '("idea" "bookmark" "Emacs" "EusLisp" "Research"))
-
 (when-darwin
  ;; フォントフェースの設定
  ;; see http://d.hatena.ne.jp/kazu-yamamoto/20090122/1232589385
@@ -157,188 +149,16 @@
 
 
 (setq mac-pass-control-to-system nil)
-(global-set-key "\C-x\C-j" 'skk-mode)
-(global-set-key "\C-xj" 'skk-auto-fill-mode)
-(global-set-key "\C-xt" 'skk-tutorial)
- (when-darwin
-  (setq skk-server-host "localhost")
-  (setq skk-jisyo-code 'utf-8-unix)
-  (setq skk-server-portnum 1178))
-
-(setq skk-henkan-show-candidates-keys '(?a ?o ?e ?u ?h ?t ?n))
-(setq skk-kutouten-type 'en)
 
 (line-number-mode 1)
 (column-number-mode 1)
 
 (display-time)
 
-(autoload 'svn-status "dsvn" "Run `svn status'." t)
-(autoload 'svn-update "dsvn" "Run `svn update'." t)
-
-
-(when-emacs22
- (setq load-path (cons "~/elisp/emacs-wiki" load-path))
- (setq load-path (cons "~/elisp/planner" load-path))
- (require 'emacs-wiki)
-
- (defun emacs-wiki-get-modtime (file)
-   (format-time-string " %Y/%m/%d %h:%M:%S " (nth 4 (file-attributes file))))
-
- (defun emacs-wiki-get-filesize (file)
-   (format "<center> %d </center>" (nth 7 (file-attributes file))))
-;;; emacs-wiki-publishing-{header, footer} 用
-
- (defun emacs-wiki-project-insert-header (project)
-   "project 名を prefix とした header を挿入"
-   (emacs-wiki-project-insert-templete (symbol-name project) "-header"))
-
- (defun emacs-wiki-project-insert-footer (project)
-   "project 名を prefix とした footer を挿入"
-   (emacs-wiki-project-insert-templete (symbol-name project) "-footer"))
-
- (defun emacs-wiki-project-insert-templete (project templete)
-   "project 名 + テンプレート名 のファイル内容を挿入"
-   (let ((file (concat "~/Wiki/wiki/" project templete)))
-     (when (file-readable-p file)
-       (ignore (insert-file-contents file)))))
-
-;;; <lisp> ... </lisp> 用
- (defun emacs-wiki-figure-with-class (class url width height caption)
-   "caption 付きの図を挿入する関数 (クラス指定付き)"
-   (format (concat "<nowiki><div class=\"%s\"><a href=\"%s\">"
-           "<img width=\"%s\" height=\"%s\" src=\"%s\" /></a>\n"
-           "<p class=\"caption\">%s</p></div></nowiki>")
-       class url width height url caption))
-
- (defun emacs-wiki-figure (url width height caption)
-   "caption 付きの図を挿入"
-   (emacs-wiki-figure-with-class "fig" url width height caption))
-
- (defun emacs-wiki-figure-right (url width height caption)
-   "caption 付きの図を挿入 (float: right)"
-   (emacs-wiki-figure-with-class "figright" url width height caption))
-
- (defun emacs-wiki-figure-left (url width height caption)
-   "caption 付きの図を挿入 (float: left)"
-   (emacs-wiki-figure-with-class "figleft" url width height caption))
-
- (require 'planner)
- (require 'emacs-wiki-menu)
-
- (setq emacs-wiki-directories '("~/ewiki/wiki"))
- (setq planner-directory "~/plans")
- (setq emacs-wiki-publishing-directory "~/ewiki/www")
- (setq emacs-wiki-maintainer "garaemon@gmail.com")
- (setq emacs-wiki-inline-images t)
- (setq emacs-wiki-publishing-transforms '(("WelcomePage" . "index")))
- (setq emacs-wiki-meta-content-coding "UTF-8")
- (setq emacs-wiki-charset-default "UTF-8")
-
- (custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
-  '(emacs-wiki-footer-date-format "%Y-%m-%d %T")
-  '(emacs-wiki-link-face ((t (:foreground "blue"))))
-  '(emacs-wiki-style-sheet "<link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\">")
-  '(safe-local-variable-values (quote ((Syntax . Common-lisp)
-                       (Package . XLIB)
-                       (Lowercase . Yes)
-                       (Syntax . ANSI-Common-Lisp)
-                       (Base . 10)
-                       (Package . CLIM-CLX)
-                       (Package JPEG :use (common-lisp))
-                       (Syntax . COMMON-LISP)))))
- )
+;; (autoload 'svn-status "dsvn" "Run `svn status'." t)
+;; (autoload 'svn-update "dsvn" "Run `svn update'." t)
 
 (setq-default transient-mark-mode t)
-
-(modify-coding-system-alist 'process "\\*eshell\\*" 'undecided-unix)
-(require 'eshell)
-(defun eshell-scroll-to-bottom (window display-start)
-  (if (and window (window-live-p window))
-      (let ((resize-mini-windows nil))
-        (save-selected-window
-          (select-window window)
-          (save-restriction
-            (widen)
-            (when (> (point) eshell-last-output-start)
-              ;; we're editing a line. Scroll.
-              (save-excursion
-                (recenter -1)
-                (sit-for 0))))))))
-(defun eshell-add-scroll-to-bottom ()
-  (interactive)
-  (make-local-hook 'window-scroll-functions)
-  (add-hook 'window-scroll-functions 'eshell-scroll-to-bottom nil t))
-
-(add-hook 'eshell-mode-hook 'eshell-add-scroll-to-bottom)
-;; ;;clear
-(defun eshell/clear ()
-  "Clear the current buffer, leaving one prompt at the top."
-  (interactive)
-  (let ((inhibit-read-only t))
-    (erase-buffer)))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(eshell-ask-to-save-history (quote always))
- '(eshell-history-size 1000)
- '(eshell-ls-dired-initial-args (quote ("-h")))
- '(eshell-ls-exclude-regexp "~\\'")
- '(eshell-ls-use-in-dired t nil (em-ls))
- '(eshell-modules-list (quote (eshell-alias
-                               eshell-basic
-                               eshell-cmpl
-                               eshell-dirs
-                               eshell-glob
-                               eshell-ls
-                               eshell-pred
-                               eshell-prompt
-                               eshell-rebind
-                               eshell-script
-                               eshell-smart
-                               eshell-term
-                               eshell-unix
-                               eshell-xtra)))
- '(eshell-prefer-o-shell t nil (eshell))
- '(eshell-stringify-t nil)
- '(eshell-term-name "ansi")
- '(eshell-visual-commands (quote ("vi" "top" "screen" "less" "lynx" "ssh" "rlogin" "telnet"))))
-
-;; ;;current directory
-(defun eshell-cd-default-directory ()
-  (interactive)
-  (let ((dir default-directory))
-    (eshell)
-    (cd dir)
-    (eshell-interactive-print (concat "cd " dir "\n"))
-    (eshell-emit-prompt)))
-
-;; ;;prompt
-(setq eshell-prompt-function
-      (lambda ()
-        (concat "[Yes,Master?] "
-                (eshell/pwd)
-                (if (= (user-uid) 0) "]# " "]$ ")
-                )))
-(setq eshell-prompt-regexp "^[^#$]*[$#] ")
-
-;;less
-(defun eshell/less (&rest args)
-  "Invoke `view-file' on the file.
-\"less +42 foo\" also goes to line 42 in the buffer."
-  (while args
-    (if (string-match "\\`\\+\\([0-9]+\\)\\'" (car args))
-        (let* ((line (string-to-number (match-string 1 (pop args))))
-               (file (pop args)))
-          (view-file file)
-          (goto-line line))
-      (view-file (pop args)))))
 
 (require 'euslisp-mode)
 (setq auto-mode-alist (cons (cons "\\.l$" 'euslisp-mode) auto-mode-alist))
@@ -354,87 +174,6 @@
 (set-variable 'inferior-euslisp-program "~/.emacs.d/roseus.sh")
 
 (global-set-key "\C-cE" 'lisp-other-window)
-
-;; flycheck
-;;(require 'flycheck)
-;; (defun flycheck-exclude-tramp ()
-;;   (unless (or (and (fboundp 'tramp-tramp-file-p)
-;;                    (tramp-tramp-file-p buffer-file-name))
-;;               (string-match "sudo:.*:" (buffer-file-name)))
-;;     (flycheck-mode t)
-;;   ))
-;;(add-hook 'after-init-hook #'global-flycheck-mode)
-;; (flycheck-define-checker c/c++
-;;   "A C/C++ checker using g++."
-;;   :command ("g++" "-Wall" "-Wextra" source)
-;;   :error-patterns  ((error line-start
-;;                            (file-name) ":" line ":" column ":" " エラー: " (message)
-;;                            line-end)
-;;                     (warning line-start
-;;                            (file-name) ":" line ":" column ":" " 警告: " (message)
-;;                            line-end))
-;;   :modes (c-mode c++-mode))
-
-;; (add-hook 'python-mode-hook 'flycheck-exclude-tramp)
-;; (add-hook 'emacs-lisp-mode-hook 'flycheck-exclude-tramp)
-;; (add-hook 'c-mode-hook 'flycheck-exclude-tramp)
-;; (add-hook 'c++-mode-hook 'flycheck-exclude-tramp)
-;; (add-hook 'sh-mode-hook 'flycheck-exclude-tramp)
-
-(require 'flyspell)
-(require 'ispell)
-(setq-default ispell-program-name "aspell")
-(eval-after-load "ispell"
-  '(add-to-list 'ispell-skip-region-alist '("[^\000-\377]+")))
-(add-to-list 'auto-mode-alist '("\\.tex" . flyspell-mode))
-(add-hook 'LaTeX-mode-hook 'flyspell-mode)
-(global-set-key (kbd "<f8>") 'ispell-word)
-(global-set-key (kbd "C-S-<f8>") 'flyspell-mode)
-(global-set-key (kbd "C-M-<f8>") 'flyspell-buffer)
-(global-set-key (kbd "C-<f8>") 'flyspell-check-previous-highlighted-word)
-(defun flyspell-check-next-highlighted-word ()
-  "Custom function to spell check next highlighted word"
-  (interactive)
-  (flyspell-goto-next-error)
-  (ispell-word)
-  )
-(global-set-key (kbd "M-<f8>") 'flyspell-check-next-highlighted-word)
-
-;; bind to M-h
-(global-set-key "\M-h" 'anything-cheat-sheat)
-
-;; (require 'js2-mode)
-;; (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
-
-(require 'js-comint)
-(setq inferior-js-program-command "/usr/bin/env node")
-(setenv "NODE_NO_READLINE" "1")
-(setq js-indent-level 2)
-;; (add-hook 'js2-mode-hook
-;;           '(lambda ()
-;;              (ansi-color-for-comint-mode-on)
-;;              (add-to-list
-;;               'comint-preoutput-filter-functions
-;;               (lambda (output)
-;;                 (replace-regexp-in-string "\033\\[[0-9]+[GK]" "" output)))
-;;              (local-set-key "\C-x\C-e" 'js-send-last-sexp)
-;;              (local-set-key "\C-\M-x" 'js-send-last-sexp-and-go)
-;;              (local-set-key "\C-cb" 'js-send-buffer)
-;;              (local-set-key "\C-c\C-b" 'js-send-buffer-and-go)
-;;              (local-set-key "\C-c\C-l" 'js-load-file-and-go)
-;;              ))
-(defun js-other-window ()
-  "Run JavaScript on other window"
-  (interactive)
-  ;;(split-window-horizontally 80)
-  (switch-to-buffer-other-window
-   (get-buffer-create "*js*"))
-  (run-js inferior-js-program-command)
-  )
-(define-key global-map
-  "\C-cj" 'js-other-window)
-
-
 
 ;;(autoload 'js-mode "js")
 (defun my-js2-indent-function ()
@@ -1447,24 +1186,13 @@ downcased, no preceding underscore.
  '(symon-delay 5))
 (symon-mode)
 
-;;(global-linum-mode)
+(global-linum-mode)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(eshell-ask-to-save-history (quote always))
- '(eshell-history-size 1000)
- '(eshell-ls-dired-initial-args (quote ("-h")))
- '(eshell-ls-exclude-regexp "~\\'")
- '(eshell-ls-use-in-dired t nil (em-ls))
- '(eshell-modules-list (quote (eshell-alias eshell-basic eshell-cmpl eshell-dirs eshell-glob eshell-ls eshell-pred eshell-prompt eshell-rebind eshell-script eshell-smart eshell-term eshell-unix eshell-xtra)))
- '(eshell-prefer-o-shell t nil (eshell))
- '(eshell-stringify-t nil)
- '(eshell-term-name "ansi")
- '(eshell-visual-commands (quote ("vi" "top" "screen" "less" "lynx" "ssh" "rlogin" "telnet")))
- '(wakatime-cli-path "~/gprog/wakatime/wakatime-cli.py")
  '(yas-trigger-key "Enter"))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
