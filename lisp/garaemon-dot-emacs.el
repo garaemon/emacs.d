@@ -1186,7 +1186,7 @@ downcased, no preceding underscore.
  '(symon-delay 5))
 (symon-mode)
 
-(global-linum-mode)
+;; (global-linum-mode)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
