@@ -748,9 +748,9 @@
 (setq-default tab-width 8)
 (setq-default c-basic-offset 2)
 (c-set-offset 'substatement-open 0)
-(require 'judge-indent)
-(global-judge-indent-mode t)
-(setq judge-indent-major-modes '(c-mode python-mode sh-mode c++-mode lisp-mode euslisp-mode html-mode))
+;; (require 'judge-indent)
+;; (global-judge-indent-mode t)
+;; (setq judge-indent-major-modes '(c-mode python-mode sh-mode c++-mode lisp-mode euslisp-mode html-mode))
 
 
 ;; nyan-mode
