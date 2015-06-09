@@ -738,13 +738,6 @@
 (setq auto-mode-alist (cons '("CMakeLists.txt" . cmake-mode) auto-mode-alist))
 (setq auto-mode-alist (cons '("\\.cmake$" . cmake-mode) auto-mode-alist))
 
-(defun my-cc-style ()
-  ;; (c-set-offset 'inline-open '0)
-  ;; (c-set-offset 'innamespace '0)
-)
-
-(add-hook 'c++-mode-hook 'my-cc-style)
-
 (setq-default tab-width 8)
 (setq-default c-basic-offset 2)
 (c-set-offset 'substatement-open 0)
@@ -846,7 +839,8 @@
   ;;(define-key helm-find-files-map (kbd "TAB") 'helm-execute-persistent-action)
   (require 'helm-replace-string)
   (require 'helm-regexp)
-  (defadvice query-replace (before helm-replace-string-query-replace(from-string to-string &optional delimited start end backward) activate)
+  (defadvice query-replace (before helm-replace-string-query-replace
+                                   (from-string to-string &optional delimited start end backward) activate)
     (helm-replace-string-push-history from-string to-string 'query-string))
 
   (custom-set-variables
