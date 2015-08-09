@@ -1211,4 +1211,14 @@ downcased, no preceding underscore.
   (global-set-key "\C-xr" ros-keymap)
   )
 
+(require 'gist)
+;; gist-buffer to save buffer to gist
+
+(defun klf-region-run ()
+  "Run KLatexFormula"
+  (interactive)
+  (start-process "klatexformula" "*KLatexFormula*" "klatexformula" "--daemonize" "-I" "--latexinput" (buffer-substring (region-beginning) (region-end)))
+)
+(global-set-key [(control c) (control k)] 'klf-region-run)
+
 (provide 'garaemon-dot-emacs)
