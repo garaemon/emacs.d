@@ -1221,4 +1221,10 @@ downcased, no preceding underscore.
 )
 (global-set-key [(control c) (control k)] 'klf-region-run)
 
+(defun open-with-shiba ()
+  "open a current markdown file with shiba"
+  (interactive)
+  (start-process "shiba" "*shiba*" "zsh" "-ic" (format "shiba --detach %s" buffer-file-name))
+  )
+(define-key markdown-mode-map (kbd "C-c C-c") 'open-with-shiba)
 (provide 'garaemon-dot-emacs)
