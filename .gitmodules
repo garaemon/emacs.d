@@ -209,3 +209,6 @@
 [submodule "modules/scss-mode"]
 	path = modules/scss-mode
 	url = https://github.com/antonj/scss-mode.git
+[submodule "modules/yatex"]
+	path = modules/yatex
+	url = https://github.com/emacsmirror/yatex.git

@@ -682,8 +682,61 @@
 
 (fset 'yes-or-no-p 'y-or-n-p)
 
+;; Yatex
+(require 'yatex)
 (setq auto-mode-alist
-      (cons (cons "\\.tex$" 'tex-mode) auto-mode-alist))
+      (append '(("\\.tex$" . yatex-mode)
+                ("\\.ltx$" . yatex-mode)
+                ("\\.cls$" . yatex-mode)
+                ("\\.sty$" . yatex-mode)
+                ("\\.clo$" . yatex-mode)
+                ("\\.bbl$" . yatex-mode)) auto-mode-alist))
+(setq YaTeX-kanji-code 4)
+
+(defun shell-command-sequence (cmd &rest others)
+  (mapc 'shell-command `(,cmd ,@others)))
+
+(defun yatex-typeset-and-preview ()
+  (interactive)
+  (let* ((f (buffer-file-name))
+         (dir (file-name-directory f))
+         (stem (file-name-sans-extension f)))
+    (save-excursion
+      (basic-save-buffer)
+      (shell-command-sequence (concat "cd " dir)
+                              (concat "platex " f)
+                              (concat "dvipdfmx " stem ".dvi")
+                              (concat "rm " stem ".dvi")
+                              (concat "rm " stem ".aux") ;; ここはコメントアウトすべきかも
+                              (concat "rm " stem ".log"))
+      (pop-to-buffer (find-file-noselect (concat stem ".pdf"))))))
+(defun yatex-typeset-and-preview-region (beg end)
+  (interactive "r")
+  (let* ((f (file-name-nondirectory (buffer-file-name)))
+         (tmpfile (concat "/tmp/" f))
+         (stem (file-name-sans-extension tmpfile))
+         (contents (buffer-substring-no-properties beg end))
+         header)
+    (save-excursion
+      (goto-char (point-min))
+      (re-search-forward "\\\\begin{document}")
+      (setq header (buffer-substring-no-properties (point-min) (1+ (match-end 0))))
+      (set-buffer (find-file-noselect tmpfile))
+      (insert header)
+      (insert contents)
+      (insert "\\end{document}")
+      (unwind-protect
+          (yatex-typeset-and-preview)
+        ;;(shell-command (concat "rm " tmpfile))
+        (kill-buffer (current-buffer))))))
+
+(add-hook 'yatex-mode-hook
+          '(lambda ()
+             (auto-fill-mode nil)
+             (local-set-key (kbd "C-c C-c") 'yatex-typeset-and-preview)
+             (local-set-key (kbd "C-c C-r") 'yatex-typeset-and-preview-region)))
+(setq dvi2-command "xdvi")
+(setq YaTeX-inhibit-prefix-letter t)
 
 ;; for emacs24 x mac
 (setq mac-command-modifier 'meta)

@@ -2,7 +2,7 @@
 
 ;; written by R.Ueda, a.k.a. garaemon
 (add-to-list 'load-path "~/.emacs.d/lisp")
-(setq emacs-submodules '("nyan-mode" "git-modes" "magit"
+(setq emacs-submodules '("nyan-mode" "git-modes" "magit" "yatex"
                          "markdown-mode" "less-css-mode"
                          "gist" "gh" "powerline" "yasnippet"
                          "helm-c-yasnippet" "helm-swoop"
