@@ -692,6 +692,8 @@
                 ("\\.clo$" . yatex-mode)
                 ("\\.bbl$" . yatex-mode)) auto-mode-alist))
 (setq YaTeX-kanji-code 4)
+(setq YaTeX-latex-message-code 'utf-8)
+
 
 (defun shell-command-sequence (cmd &rest others)
   (mapc 'shell-command `(,cmd ,@others)))
@@ -704,12 +706,13 @@
     (save-excursion
       (basic-save-buffer)
       (shell-command-sequence (concat "cd " dir)
-                              (concat "platex " f)
+                              (concat "platex --kanji=utf8 " f)
                               (concat "dvipdfmx " stem ".dvi")
                               (concat "rm " stem ".dvi")
                               (concat "rm " stem ".aux") ;; ここはコメントアウトすべきかも
                               (concat "rm " stem ".log"))
       (pop-to-buffer (find-file-noselect (concat stem ".pdf"))))))
+
 (defun yatex-typeset-and-preview-region (beg end)
   (interactive "r")
   (let* ((f (file-name-nondirectory (buffer-file-name)))
