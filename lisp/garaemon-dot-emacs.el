@@ -1283,4 +1283,9 @@ downcased, no preceding underscore.
   (start-process "shiba" "*shiba*" "zsh" "-ic" (format "shiba --detach %s" buffer-file-name))
   )
 (define-key markdown-mode-map (kbd "C-c C-c") 'open-with-shiba)
+(define-key markdown-mode-map (kbd "C-c m") 'newline)
+;; For emacs 24
+(add-hook 'markdown-mode-hook
+          '(lambda ()
+             (electric-indent-local-mode -1)))
 (provide 'garaemon-dot-emacs)
