@@ -1230,11 +1230,13 @@ downcased, no preceding underscore.
 (global-set-key "\M-\C-C"  'un-camelcase-word-at-point)
 
 (defalias 'qrr 'query-replace-regexp)
-(require 'symon)
-(custom-set-variables
- '(symon-sparkline-type symon-sparkline-type-gridded)
- '(symon-delay 5))
-(symon-mode)
+(when nil
+  (require 'symon)
+  (custom-set-variables
+   '(symon-sparkline-type symon-sparkline-type-gridded)
+   '(symon-delay 5))
+  (symon-mode)
+  )
 
 ;; (global-linum-mode)
 
