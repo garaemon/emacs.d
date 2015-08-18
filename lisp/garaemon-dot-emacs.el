@@ -1290,4 +1290,10 @@ downcased, no preceding underscore.
 (add-hook 'markdown-mode-hook
           '(lambda ()
              (electric-indent-local-mode -1)))
+
+;; (require 'milkode)
+;; Path-to-gmilk
+;; (setq gmilk-command "~/.rvm/gems/ruby-2.2.0/bin/gmilk")
+;; (global-set-key (kbd "C-c C-s") 'milkode:search)
+
 (provide 'garaemon-dot-emacs)

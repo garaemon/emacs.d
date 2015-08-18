@@ -212,3 +212,6 @@
 [submodule "modules/yatex"]
 	path = modules/yatex
 	url = https://github.com/emacsmirror/yatex.git
+[submodule "modules/milkode"]
+	path = modules/milkode
+	url = https://github.com/ongaeshi/emacs-milkode.git
