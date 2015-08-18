@@ -1295,5 +1295,5 @@ downcased, no preceding underscore.
 ;; Path-to-gmilk
 ;; (setq gmilk-command "~/.rvm/gems/ruby-2.2.0/bin/gmilk")
 ;; (global-set-key (kbd "C-c C-s") 'milkode:search)
-
+(require 'coffee-mode)
 (provide 'garaemon-dot-emacs)

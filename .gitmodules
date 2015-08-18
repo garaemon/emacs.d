@@ -215,3 +215,6 @@
 [submodule "modules/milkode"]
 	path = modules/milkode
 	url = https://github.com/ongaeshi/emacs-milkode.git
+[submodule "modules/coffee"]
+	path = modules/coffee
+	url = https://github.com/defunkt/coffee-mode.git
