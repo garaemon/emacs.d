@@ -1,5 +1,11 @@
 ;; -*- mode: emacs-lisp; -*-
 
+;; Load path from shellenv.el
+(load-file (expand-file-name "~/.emacs.d/shellenv.el"))
+(dolist (path (reverse (split-string (getenv "PATH") ":")))
+  (add-to-list 'exec-path path))
+
+
 ;; written by R.Ueda, a.k.a. garaemon
 (add-to-list 'load-path "~/.emacs.d/lisp")
 (setq emacs-submodules '("nyan-mode" "git-modes" "magit" "yatex"

@@ -5,3 +5,4 @@ tramp
 ac-comphist.dat
 games/trrscores
 session.*
+shellenv.el
