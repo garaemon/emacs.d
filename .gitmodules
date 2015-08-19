@@ -218,3 +218,6 @@
 [submodule "modules/coffee"]
 	path = modules/coffee
 	url = https://github.com/defunkt/coffee-mode.git
+[submodule "modules/rosemacs"]
+	path = modules/rosemacs
+	url = https://github.com/code-iai/ros_emacs_utils.git

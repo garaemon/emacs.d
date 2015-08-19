@@ -10,7 +10,7 @@
 (add-to-list 'load-path "~/.emacs.d/lisp")
 (setq emacs-submodules '("nyan-mode" "git-modes" "magit" "yatex"
                          "markdown-mode" "less-css-mode"
-                         "milkode" "coffee"
+                         "milkode" "coffee" "c-eldoc"
                          "gist" "gh" "powerline" "yasnippet"
                          "helm-c-yasnippet" "helm-swoop"
                          "php-mode" "puppet" "pcache" "logito"
@@ -31,8 +31,8 @@
                          "ham-mode" "gmail-mode" "ace-isearch"
                          "ace-jump-mode" "clang-complete-async"
                          "swoop" "async" "pcre2el" "ht" "bm"
-                         "elpa/packages/let-alist"
-                         "judge-indent"
+                         "elpa/packages/let-alist" "emacs-deferred"
+                         "judge-indent" "rosemacs/rosemacs"
                          "scss-mode"))
 (add-to-list 'load-path "~/.emacs.d/modules")
 (dolist (module emacs-submodules)

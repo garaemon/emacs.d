@@ -1266,7 +1266,7 @@ downcased, no preceding underscore.
 
 (when (require 'rosemacs nil t)
   (invoke-rosemacs)
-  (global-set-key "\C-xr" ros-keymap)
+  (global-set-key "\C-x\C-r" ros-keymap)
   )
 
 (require 'gist)
@@ -1295,5 +1295,11 @@ downcased, no preceding underscore.
 ;; Path-to-gmilk
 ;; (setq gmilk-command "~/.rvm/gems/ruby-2.2.0/bin/gmilk")
 ;; (global-set-key (kbd "C-c C-s") 'milkode:search)
+
+(require 'c-eldoc)
+(add-hook 'c-mode-hook 'c-turn-on-eldoc-mode)
+(add-hook 'c++-mode-hook 'c-turn-on-eldoc-mode)
+(setq c-eldoc-buffer-regenerate-time 10)
+
 (require 'coffee-mode)
 (provide 'garaemon-dot-emacs)
