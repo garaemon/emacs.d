@@ -1301,7 +1301,7 @@ downcased, no preceding underscore.
 (require 'c-eldoc)
 (add-hook 'c-mode-hook 'c-turn-on-eldoc-mode)
 (add-hook 'c++-mode-hook 'c-turn-on-eldoc-mode)
-(setq c-eldoc-buffer-regenerate-time 10)
+(setq c-eldoc-buffer-regenerate-time 60)
 
 (require 'coffee-mode)
 (provide 'garaemon-dot-emacs)
