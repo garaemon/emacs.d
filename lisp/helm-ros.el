@@ -1,7 +1,7 @@
 ;; helm-ros.el
 
 ;; written by garaemon
-;; 
+;;
 ;; please use like:
 ;;  (require 'helm-ros)
 ;;  (global-set-key "\C-xb" 'helm-mini-with-ros)
@@ -16,7 +16,7 @@
       dirs)))
 
 (defun helm-rospack-list ()
-  (let ((string-output (shell-command-to-string "rospack list")))
+  (let ((string-output (shell-command-to-string "zsh -c 'source ~/ros/hydro/devel/setup.zsh >/dev/null 2>&1; rospack list'")))
     (let ((dir-and-packs (split-string string-output "\n")))
       (mapcar #'(lambda (line)
                   (cadr (split-string line " ")))
@@ -31,8 +31,9 @@
 (defvar helm-source-rospack-list
   `((name . "rospack list")
     (init . (lambda () (setq helm-rospack-list (helm-rospack-list))))
-    (candidates . helm-catkin-packages-list)
+    (candidates . (lambda () helm-rospack-list))
     (type . file)))
+
 
 (defun helm-mini-with-ros ()
   "Preconfigured `helm' lightweight version \(buffer -> recentf\)."

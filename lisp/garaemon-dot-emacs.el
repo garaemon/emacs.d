@@ -905,9 +905,10 @@
                                  helm-c-source-replace-string
                                  helm-source-files-in-current-dir
                                  helm-source-recentf
+;;                                 helm-source-rospack-list
                                  helm-source-buffer-not-found)))
   (add-to-list 'helm-completing-read-handlers-alist '(find-file . nil))
-
+  (add-to-list 'helm-completing-read-handlers-alist '(find-ros-file . nil))
   (define-key global-map (kbd "M-x")     'helm-M-x)
   ;;(define-key global-map (kbd "C-x C-f") 'helm-find-files)
   (define-key global-map (kbd "C-x C-r") 'helm-recentf)
@@ -932,7 +933,7 @@
 
   (require 'helm-ls-git)
 
-  (require 'helm-ros)
+;;  (require 'helm-ros)
 
   (setq helm-source-catkin-root "~/ros_catkin_ws/hydro/src")
   (defun helm-mini-with-ros ()
@@ -944,6 +945,7 @@
                            helm-source-files-in-current-dir
                            helm-source-ls-git
                            helm-source-recentf
+                           helm-source-rospack-list
                            ;;helm-source-catkin-packages
                            ;;helm-source-rospack-list
                            helm-source-buffer-not-found)
