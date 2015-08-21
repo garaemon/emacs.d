@@ -166,8 +166,9 @@
 (defun lisp-other-window ()
   "Run lisp on other window"
   (interactive)
-  (switch-to-buffer-other-window
-   (get-buffer-create "*inferior-lisp*"))
+  (if (not (string= (buffer-name) "*inferior-lisp*"))
+      (switch-to-buffer-other-window
+       (get-buffer-create "*inferior-lisp*")))
   (run-lisp inferior-euslisp-program))
 
 ;; (shell-quote-argument "rosrun roseus roseus")
