@@ -818,6 +818,9 @@
 (add-to-list 'auto-mode-alist '("\\.pp$" . puppet-mode))
 
 (require 'expand-region)
+(defmacro save-mark-and-excursion (&rest body)
+  `(save-excursion ,@body))
+
 (require 'multiple-cursors)
 (require 'smartrep)
 
@@ -906,7 +909,7 @@
                                  helm-c-source-replace-string
                                  helm-source-files-in-current-dir
                                  helm-source-recentf
-;;                                 helm-source-rospack-list
+                                 ;;helm-source-rospack-list
                                  helm-source-buffer-not-found)))
   (add-to-list 'helm-completing-read-handlers-alist '(find-file . nil))
   (add-to-list 'helm-completing-read-handlers-alist '(find-ros-file . nil))
@@ -934,24 +937,10 @@
 
   (require 'helm-ls-git)
 
-;;  (require 'helm-ros)
+  (require 'helm-ros)
 
   (setq helm-source-catkin-root "~/ros_catkin_ws/hydro/src")
-  (defun helm-mini-with-ros ()
-    "Preconfigured `helm' lightweight version \(buffer -> recentf\)."
-    (interactive)
-    (require 'helm-files)
-    (let ((helm-ff-transformer-show-only-basename nil))
-      (helm-other-buffer '(helm-source-buffers-list
-                           helm-source-files-in-current-dir
-                           helm-source-ls-git
-                           helm-source-recentf
-                           helm-source-rospack-list
-                           ;;helm-source-catkin-packages
-                           ;;helm-source-rospack-list
-                           helm-source-buffer-not-found)
-                         "*helm mini*")))
-  ;;(global-set-key "\C-xb" 'helm-mini-with-ros)
+
   (global-set-key (kbd "M-i") 'helm-swoop)
 
   ;; (require 'swoop)
@@ -1326,7 +1315,8 @@ downcased, no preceding underscore.
 (global-set-key "\C-x#" '(lambda ()
                            (interactive)
                            (split-window-horizontally-n 3)))
-
-
+(require 'thingopt)
+(define-thing-commands)
+(global-set-key "\M-@" 'mark-word*)
 (require 'coffee-mode)
 (provide 'garaemon-dot-emacs)

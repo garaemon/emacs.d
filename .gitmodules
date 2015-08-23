@@ -221,3 +221,6 @@
 [submodule "modules/rosemacs"]
 	path = modules/rosemacs
 	url = https://github.com/code-iai/ros_emacs_utils.git
+[submodule "modules/thingopt"]
+	path = modules/thingopt
+	url = https://github.com/m2ym/thingopt-el.git
