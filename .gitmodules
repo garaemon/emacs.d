@@ -224,3 +224,6 @@
 [submodule "modules/thingopt"]
 	path = modules/thingopt
 	url = https://github.com/m2ym/thingopt-el.git
+[submodule "modules/magit-gh-pulls"]
+	path = modules/magit-gh-pulls
+	url = https://github.com/sigma/magit-gh-pulls.git

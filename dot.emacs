@@ -33,7 +33,9 @@
                          "swoop" "async" "pcre2el" "ht" "bm"
                          "elpa/packages/let-alist" "emacs-deferred"
                          "judge-indent" "rosemacs/rosemacs"
-                         "scss-mode"))
+                         "scss-mode"
+                         "magit-gh-pulls"
+                         ))
 (add-to-list 'load-path "~/.emacs.d/modules")
 (dolist (module emacs-submodules)
   (add-to-list 'load-path (format "~/.emacs.d/modules/%s" module)))
