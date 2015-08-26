@@ -15,6 +15,7 @@
                          "helm-c-yasnippet" "helm-swoop"
                          "php-mode" "puppet" "pcache" "logito"
                          "expand-region.el" "smartrep.el" "multiple-cursors.el"
+                         "auto-highlight-symbol"
                          "highlight-symbol.el" "solarized" "thingopt"
                          "flycheck" "s" "dash" "f" "undo-tree" "yaml-mode"
                          "helm" "helm-ag" "rainbow-delimiters" "trr" "anzu"

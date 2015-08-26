@@ -839,6 +839,8 @@
 (global-set-key (kbd "<f3>") 'highlight-symbol-at-point)
 (global-set-key (kbd "<f4>") 'highlight-symbol-remove-all)
 
+(require 'auto-highlight-symbol-config)
+
 (require 'git-gutter)
 (global-git-gutter-mode +1)
 ;;(git-gutter:linum-setup)
