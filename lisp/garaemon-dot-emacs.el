@@ -912,7 +912,7 @@
                                  helm-c-source-replace-string
                                  helm-source-files-in-current-dir
                                  helm-source-recentf
-                                 ;;helm-source-rospack-list
+                                 helm-source-rospack-list
                                  helm-source-buffer-not-found)))
   (add-to-list 'helm-completing-read-handlers-alist '(find-file . nil))
   (add-to-list 'helm-completing-read-handlers-alist '(find-ros-file . nil))

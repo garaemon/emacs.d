@@ -19,6 +19,7 @@
   (let ((string-output (shell-command-to-string "zsh -c 'source ~/ros/hydro/devel/setup.zsh >/dev/null 2>&1; rospack list'")))
     (let ((dir-and-packs (split-string string-output "\n")))
       (mapcar #'(lambda (line)
+                  (message (cadr (split-string line " ")))
                   (cadr (split-string line " ")))
               dir-and-packs))))
 
@@ -26,13 +27,16 @@
   `((name . "catkin packages")
     (init . (lambda () (setq helm-catkin-packages-list (helm-catkin-packages-list))))
     (candidates . helm-catkin-packages-list)
+    (action . (lambda (candidate)
+                    (message-box "%s" candidate)))
     (type . file)))
 
 (defvar helm-source-rospack-list
   `((name . "rospack list")
-    (init . (lambda () (setq helm-rospack-list (helm-rospack-list))))
-    (candidates . (lambda () helm-rospack-list))
-    (type . file)))
+    (candidates-in-buffer)
+    (init . (lambda () (helm-init-candidates-in-buffer 'global
+                         (shell-command-to-string "rospack list | cut -f 2 -d ' '"))))
+    (action . find-file)))
 
 
 (defun helm-mini-with-ros ()
