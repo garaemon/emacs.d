@@ -1137,6 +1137,9 @@ static char * arrow_right[] = {
 
 (require 'emoji-cheat-sheet)
 
+;; Force to load yasnippet/yasnippet.el in order to avoid
+;; to use yasnippet.el under elpa packages.
+(load "~/.emacs.d/modules/yasnippet/yasnippet.el")
 (require 'yasnippet)
 (setq yas-snippet-dirs
       '("~/.emacs.d/snippets"
