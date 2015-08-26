@@ -1291,10 +1291,10 @@ downcased, no preceding underscore.
 ;; (setq gmilk-command "~/.rvm/gems/ruby-2.2.0/bin/gmilk")
 ;; (global-set-key (kbd "C-c C-s") 'milkode:search)
 
-(require 'c-eldoc)
-(add-hook 'c-mode-hook 'c-turn-on-eldoc-mode)
-(add-hook 'c++-mode-hook 'c-turn-on-eldoc-mode)
-(setq c-eldoc-buffer-regenerate-time 60)
+;; (require 'c-eldoc)
+;; (add-hook 'c-mode-hook 'c-turn-on-eldoc-mode)
+;; (add-hook 'c++-mode-hook 'c-turn-on-eldoc-mode)
+;; (setq c-eldoc-buffer-regenerate-time 60)
 
 (defun split-window-vertically-n (num_wins)
   (interactive "p")
