@@ -1296,10 +1296,10 @@ downcased, no preceding underscore.
           '(lambda ()
              (electric-indent-local-mode -1)))
 
-;; (require 'milkode)
+(require 'milkode)
 ;; Path-to-gmilk
 ;; (setq gmilk-command "~/.rvm/gems/ruby-2.2.0/bin/gmilk")
-;; (global-set-key (kbd "C-c C-s") 'milkode:search)
+(global-set-key (kbd "C-c C-s") 'milkode:search-from-all-packages)
 
 ;; (require 'c-eldoc)
 ;; (add-hook 'c-mode-hook 'c-turn-on-eldoc-mode)
