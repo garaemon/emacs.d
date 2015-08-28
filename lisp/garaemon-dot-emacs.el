@@ -821,8 +821,9 @@
 (add-to-list 'auto-mode-alist '("\\.pp$" . puppet-mode))
 
 (require 'expand-region)
-(defmacro save-mark-and-excursion (&rest body)
-  `(save-excursion ,@body))
+(when (<= emacs-major-version 24)
+  (defmacro save-mark-and-excursion (&rest body)
+    `(save-excursion ,@body)))
 
 (require 'multiple-cursors)
 (require 'smartrep)
@@ -1332,4 +1333,8 @@ downcased, no preceding underscore.
 (define-thing-commands)
 (global-set-key "\M-@" 'mark-word*)
 (require 'coffee-mode)
+(add-hook 'coffee-mode-hook
+          '(lambda() (set (make-local-variable 'tab-width) 2)
+             (setq coffee-tab-width 2)))
+
 (provide 'garaemon-dot-emacs)
