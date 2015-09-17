@@ -697,6 +697,7 @@
                 ("\\.bbl$" . yatex-mode)) auto-mode-alist))
 (setq YaTeX-kanji-code 4)
 (setq YaTeX-latex-message-code 'utf-8)
+(setq YaTeX-no-begend-shortcut t)
 
 
 (defun shell-command-sequence (cmd &rest others)
@@ -1135,11 +1136,14 @@ static char * arrow_right[] = {
             "\\.cmake" "\\.xml"))
 
 (require 'cl)
+
 (defun delete-trailing-whitespace-with-exclude-pattern ()
   (interactive)
   (cond ((equal nil (loop for pattern in delete-trailing-whitespace-exclude-patterns
                           thereis (string-match pattern buffer-file-name)))
          (delete-trailing-whitespace))))
+
+;; (defun delete-trailing-whitespace-with-exclude-pattern () (interactive))
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace-with-exclude-pattern)
 
