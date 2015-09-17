@@ -1340,5 +1340,10 @@ downcased, no preceding underscore.
 (add-hook 'coffee-mode-hook
           '(lambda() (set (make-local-variable 'tab-width) 2)
              (setq coffee-tab-width 2)))
+(require 'flycheck)
+(defun flycheck-python-setup ()
+  (flycheck-mode))
+(add-hook 'python-mode-hook #'flycheck-python-setup)
+
 
 (provide 'garaemon-dot-emacs)
