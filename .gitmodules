@@ -227,3 +227,9 @@
 [submodule "modules/magit-gh-pulls"]
 	path = modules/magit-gh-pulls
 	url = https://github.com/sigma/magit-gh-pulls.git
+[submodule "modules/flycheck-pos-tip"]
+	path = modules/flycheck-pos-tip
+	url = https://github.com/flycheck/flycheck-pos-tip.git
+[submodule "modules/flycheck-google-cpplint"]
+	path = modules/flycheck-google-cpplint
+	url = https://github.com/flycheck/flycheck-google-cpplint.git

@@ -1344,6 +1344,20 @@ downcased, no preceding underscore.
 (defun flycheck-python-setup ()
   (flycheck-mode))
 (add-hook 'python-mode-hook #'flycheck-python-setup)
+(require 'flycheck-pos-tip)
+(eval-after-load 'flycheck
+  '(custom-set-variables
+   '(flycheck-display-errors-function #'flycheck-pos-tip-error-messages)))
+
+(eval-after-load 'flycheck
+  '(progn
+     (require 'flycheck-google-cpplint)
+     (custom-set-variables
+      '(flycheck-c/c++-googlelint-executable (executable-find "cpplint")))
+     ;; Add Google C++ Style checker.
+     ;; In default, syntax checked by Clang and Cppcheck.
+     (flycheck-add-next-checker 'c/c++-cppcheck
+                                '(warning . c/c++-googlelint))))
 
 
 (provide 'garaemon-dot-emacs)
