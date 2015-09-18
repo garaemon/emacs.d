@@ -1359,5 +1359,6 @@ downcased, no preceding underscore.
      (flycheck-add-next-checker 'c/c++-cppcheck
                                 '(warning . c/c++-googlelint))))
 
-
+(require 'typescript)
+(setq auto-mode-alist (cons (cons "\\.ts?$" 'typescript-mode) auto-mode-alist))
 (provide 'garaemon-dot-emacs)
