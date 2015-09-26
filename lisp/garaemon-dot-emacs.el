@@ -1361,4 +1361,14 @@ downcased, no preceding underscore.
 
 (require 'typescript)
 (setq auto-mode-alist (cons (cons "\\.ts?$" 'typescript-mode) auto-mode-alist))
+
+(defun calc-eval-region (arg beg end)
+  "Calculate the region and display the result in the echo area.
+With prefix ARG non-nil, insert the result at the end of region."
+  (interactive "P\nr")
+  (let* ((expr (buffer-substring-no-properties beg end))
+         (result (calc-eval expr)))
+    (insert (format "\n%s" result))))
+(global-set-key "\C-cc" 'calc-eval-region)
+
 (provide 'garaemon-dot-emacs)
