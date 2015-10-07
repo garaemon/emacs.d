@@ -387,6 +387,7 @@
 (require 'magit-gh-pulls)
 (add-hook 'magit-mode-hook 'turn-on-magit-gh-pulls)
 (global-set-key "\C-cl" 'magit-status)
+(global-set-key "\C-cL" 'magit-status)
 
 ;; initial parameter for commit
 ;;(setq magit-custom-options '("--author" "\"Ryohei Ueda\" <garaemon@gmail.com>"))
