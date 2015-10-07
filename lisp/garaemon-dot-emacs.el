@@ -742,6 +742,8 @@
           '(lambda ()
              (auto-fill-mode nil)
              (local-set-key (kbd "C-c C-c") 'yatex-typeset-and-preview)
+             (local-set-key "\C-cl" 'magit-status)
+             (local-set-key "\C-cL" 'magit-status)
              (local-set-key (kbd "C-c C-r") 'yatex-typeset-and-preview-region)))
 (setq dvi2-command "xdvi")
 (setq YaTeX-inhibit-prefix-letter t)
@@ -1292,8 +1294,7 @@ downcased, no preceding underscore.
 (defun open-with-shiba ()
   "open a current markdown file with shiba"
   (interactive)
-  (start-process "shiba" "*shiba*" "zsh" "-ic" (format "shiba --detach %s" buffer-file-name))
-  )
+  (start-process "shiba" "*shiba*" "shiba" "--detach" buffer-file-name))
 (define-key markdown-mode-map (kbd "C-c C-c") 'open-with-shiba)
 (define-key markdown-mode-map (kbd "C-c m") 'newline)
 ;; For emacs 24
