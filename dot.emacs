@@ -10,7 +10,7 @@
 (add-to-list 'load-path "~/.emacs.d/lisp")
 (setq emacs-submodules '("nyan-mode" "git-modes" "magit" "yatex"
                          "markdown-mode" "less-css-mode"
-                         "milkode" "coffee" "c-eldoc"
+                         "milkode" "coffee" "c-eldoc" "migemo"
                          "gist" "gh" "powerline" "yasnippet"
                          "helm-c-yasnippet" "helm-swoop"
                          "php-mode" "puppet" "pcache" "logito"

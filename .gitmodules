@@ -233,3 +233,6 @@
 [submodule "modules/flycheck-google-cpplint"]
 	path = modules/flycheck-google-cpplint
 	url = https://github.com/flycheck/flycheck-google-cpplint.git
+[submodule "modules/migemo"]
+	path = modules/migemo
+	url = https://github.com/emacs-jp/migemo.git
