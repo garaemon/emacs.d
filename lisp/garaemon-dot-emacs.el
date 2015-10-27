@@ -1361,4 +1361,21 @@ With prefix ARG non-nil, insert the result at the end of region."
     (insert (format "\n%s" result))))
 (global-set-key "\C-cc" 'calc-eval-region)
 
+(defun replace-punctuation (a1 a2 b1 b2)
+  "Replace periods and commas"
+  (let ((s1 (if mark-active "選択領域" "バッファ全体"))
+        (s2 (concat a2 b2))
+        (b (if mark-active (region-beginning) (point-min)))
+        (e (if mark-active (region-end) (point-max))))
+    (if (y-or-n-p (concat s1 "の句読点を「" s2 "」にしますがよろしいですか?"))
+        (progn
+          (replace-string a1 a2 nil b e)
+          (replace-string b1 b2 nil b e)))))
+
+(defun commaperiod ()
+  "選択領域またはバッファ全体の句読点を「，．」にします"
+  (interactive)
+  (replace-punctuation "、" ", " "。" ". "))
+
+
 (provide 'garaemon-dot-emacs)
