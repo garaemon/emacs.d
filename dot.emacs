@@ -11,6 +11,7 @@
 (setq emacs-submodules '("nyan-mode" "git-modes" "magit" "yatex"
                          "markdown-mode" "less-css-mode"
                          "milkode" "coffee" "c-eldoc" "migemo"
+                         "milkode" "coffee" "c-eldoc"
                          "gist" "gh" "powerline" "yasnippet"
                          "helm-c-yasnippet" "helm-swoop"
                          "php-mode" "puppet" "pcache" "logito"

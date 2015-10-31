@@ -487,16 +487,18 @@
 (when-meadow
  (setq w32-hide-mouse-on-key t))
 
-;; (when (and (executable-find "cmigemo")
-;;            (require 'migemo nil t))
-;;   (setq migemo-options '("-q" "--emacs"))
-;;   (setq migemo-dictionary "/usr/share/cmigemo/utf-8/migemo-dict")
-;;   (setq migemo-user-dictionary nil)
-;;   (setq migemo-regex-dictionary nil)
-;;   (setq migemo-coding-system 'utf-8-unix)
-;;   (load-library "migemo")
-;;   (migemo-init)
-;; )
+;; sudo apt-get install cmigemo is required
+(when (and (executable-find "cmigemo")
+           (require 'migemo nil t))
+  (setq migemo-command "cmigemo")
+  (setq migemo-options '("-q" "--emacs"))
+  (setq migemo-dictionary "/usr/share/cmigemo/utf-8/migemo-dict")
+  (setq migemo-user-dictionary nil)
+  (setq migemo-regex-dictionary nil)
+  (setq migemo-coding-system 'utf-8-unix)
+  (load-library "migemo")
+  (migemo-init)
+  )
 
 ;;=============================================
 ;;               mode-info
@@ -1339,15 +1341,18 @@ downcased, no preceding underscore.
   '(custom-set-variables
    '(flycheck-display-errors-function #'flycheck-pos-tip-error-messages)))
 
-(eval-after-load 'flycheck
-  '(progn
-     (require 'flycheck-google-cpplint)
-     (custom-set-variables
-      '(flycheck-c/c++-googlelint-executable (executable-find "cpplint")))
+;; (require 'flycheck-google-cpplint)
+;; (custom-set-variables
+;;  '(flycheck-c/c++-googlelint-executable (executable-find "cpplint")))
      ;; Add Google C++ Style checker.
-     ;; In default, syntax checked by Clang and Cppcheck.
-     (flycheck-add-next-checker 'c/c++-cppcheck
-                                '(warning . c/c++-googlelint))))
+;; In default, syntax checked by Clang and Cppcheck.
+;; (add-to-list 'flycheck-disabled-checkers 'c/c++-clang)
+;; (add-to-list 'flycheck-disabled-checkers 'c/c++-gcc)
+;; (flycheck-add-next-checker 'c/c++-clang
+;;                            '(warning . c/c++-googlelint))
+;; (defun flycheck-cpp-setup()
+;;   (flycheck-mode))
+;; (add-hook 'cpp-mode-hook #'flycheck-cpp-setup)
 
 (require 'typescript)
 (setq auto-mode-alist (cons (cons "\\.ts?$" 'typescript-mode) auto-mode-alist))
