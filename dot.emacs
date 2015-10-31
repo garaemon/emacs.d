@@ -8,12 +8,12 @@
 
 ;; written by R.Ueda, a.k.a. garaemon
 (add-to-list 'load-path "~/.emacs.d/lisp")
-(setq emacs-submodules '("nyan-mode" "git-modes" "magit" "yatex"
+(setq emacs-submodules '("nyan-mode" "git-modes" "magit"
                          "markdown-mode" "less-css-mode"
                          "milkode" "coffee" "c-eldoc" "migemo"
                          "milkode" "coffee" "c-eldoc"
                          "gist" "gh" "powerline" "yasnippet"
-                         "helm-c-yasnippet" "helm-swoop"
+                         "helm-c-yasnippet" "helm-swoop" "auctex"
                          "php-mode" "puppet" "pcache" "logito"
                          "expand-region.el" "smartrep.el" "multiple-cursors.el"
                          "auto-highlight-symbol"

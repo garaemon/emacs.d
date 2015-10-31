@@ -236,3 +236,6 @@
 [submodule "modules/migemo"]
 	path = modules/migemo
 	url = https://github.com/emacs-jp/migemo.git
+[submodule "modules/auctex"]
+	path = modules/auctex
+	url = https://github.com/jwiegley/auctex.git

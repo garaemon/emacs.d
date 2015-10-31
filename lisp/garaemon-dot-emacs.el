@@ -678,17 +678,18 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 
 ;; Yatex
-(require 'yatex)
-(setq auto-mode-alist
-      (append '(("\\.tex$" . yatex-mode)
-                ("\\.ltx$" . yatex-mode)
-                ("\\.cls$" . yatex-mode)
-                ("\\.sty$" . yatex-mode)
-                ("\\.clo$" . yatex-mode)
-                ("\\.bbl$" . yatex-mode)) auto-mode-alist))
-(setq YaTeX-kanji-code 4)
-(setq YaTeX-latex-message-code 'utf-8)
-(setq YaTeX-no-begend-shortcut t)
+(when nil
+  (require 'yatex)
+  (setq auto-mode-alist
+        (append '(("\\.tex$" . yatex-mode)
+                  ("\\.ltx$" . yatex-mode)
+                  ("\\.cls$" . yatex-mode)
+                  ("\\.sty$" . yatex-mode)
+                  ("\\.clo$" . yatex-mode)
+                  ("\\.bbl$" . yatex-mode)) auto-mode-alist))
+  (setq YaTeX-kanji-code 4)
+  (setq YaTeX-latex-message-code 'utf-8)
+  (setq YaTeX-no-begend-shortcut t))
 
 
 (defun shell-command-sequence (cmd &rest others)
