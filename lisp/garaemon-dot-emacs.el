@@ -16,34 +16,7 @@
   (setq default-input-method "japanese-anthy")
   (global-set-key "\C-\\" 'anthy-mode))
 
-;; ;; anthying-cheat-sheat-popup
-;; (require 'anything-cheat-sheat-popup)
-
-;; ;; (defanything-cheat-sheat emacs-lisp                ;name, must be unique
-;; ;;   (emacs-lisp-mode lisp-interaction-mode)          ;major mode list
-;; ;;   "~/org/cheat-sheat/emacs-lisp.org")              ;cheat file name
-
-;; ;; (defanything-cheat-sheat slime
-;; ;;   (slime-repl-mode)
-;; ;;   "~/org/cheat-sheat/slime.org")
-
-;; ;; (defanything-cheat-sheat org
-;; ;;   (org-mode)
-;; ;;   "~/org/cheat-sheat/org.org")
-
-;; ;;;; bind to M-h
-;; ;;(global-set-key "\M-h" 'anything-cheat-sheat)
-
-
 (global-set-key "\C-xp" (lambda () (interactive) (other-window -1)))
-
-;; (require 'auto-complete-clang-async)
-
-;; (defun ac-cc-mode-setup ()
-;;   (setq ac-clang-complete-executable "~/.emacs.d/modules/clang-complete-async/clang-complete")
-;;   (setq ac-sources '(ac-source-clang-async))
-;;   (ac-clang-launch-completion-process)
-;; )
 
 (when (require 'auto-complete nil t)
   (require 'auto-complete-config)
@@ -155,9 +128,6 @@
 
 (display-time)
 
-;; (autoload 'svn-status "dsvn" "Run `svn status'." t)
-;; (autoload 'svn-update "dsvn" "Run `svn update'." t)
-
 (setq-default transient-mark-mode t)
 
 (require 'euslisp-mode)
@@ -262,15 +232,6 @@
 (define-key function-key-map [201326757] [?\C-\M-\\])
 
 (autoload 'goby "goby" nil t)
-
-(defun gcode-lookup ()
-  "カーソル位置のシンボルをGoogle Codeで検索(lisp決め打ち)"
-  (interactive)
-  (browse-url
-   (format
-    "http://www.google.com/codesearch?q=%s+lang:%s+file:\\.%s$&hl=ja&num=20"
-    (thing-at-point 'symbol) "lisp" "lisp")))
-(global-set-key "\C-cs" 'gcode-lookup)
 
 (global-set-key "\M-g" 'goto-line)
 
@@ -499,41 +460,6 @@
   (load-library "migemo")
   (migemo-init)
   )
-
-;;=============================================
-;;               mode-info
-;;---------------------------------------------
-;; http://www.namazu.org/~tsuchiya/elisp/mode-info.html
-;; M-x mode-info-make-all-indicesでインデックス作成
-;; M-x help-for-help f setqとかするらしいがうまくうごかん.
-;; M-.でもつかえるとか
-;;=============================================
-
-;; (require 'mi-config)
-;; (setq mode-info-index-directory "~/Documents/info/index")
-;; (setq Info-directory-list
-;;       (append
-;;        Info-default-directory-list
-;;        (list
-;;      (expand-file-name "~/Documents/info")
-;;      (expand-file-name "~/Documents/info/glibc-2.3.2"))))
-;; (define-key global-map "\C-chf" 'mode-info-describe-function)
-;; (define-key global-map "\C-chv" 'mode-info-describe-variable)
-;; (define-key global-map "\M-." 'mode-info-find-tag)
-;; (require 'mi-fontify)
-;; (setq mode-info-class-alist
-;;       '((elisp  emacs-lisp-mode lisp-interaction-mode)
-;;      (libc   c-mode c++-mode)
-;;      (make   makefile-mode)
-;;      (perl   perl-mode cperl-mode eperl-mode)
-;;      (ruby   ruby-mode)
-;;      (gauche scheme-mode scheme-interaction-mode inferior-scheme-mode)))
-
-
-(setq navi2ch-article-auto-range nil)
-(autoload 'navi2ch "navi2ch" "Navigator for 2ch for Emacs" t)
-(setq navi2ch-list-bbstable-url
-      "http://azlucky.s25.xrea.com/2chboard/bbsmenu2.html")
 
 (setq visible-bell t)
 (setq make-backup-files nil)
