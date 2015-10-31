@@ -1384,4 +1384,37 @@ With prefix ARG non-nil, insert the result at the end of region."
   (replace-punctuation "、" ", " "。" ". "))
 
 
+;;バッファ全体の句読点と読点をコンマとピリオドに変換
+(defun replace-commaperiod-buffer ()
+  (interactive "r")
+  (save-excursion
+    (replace-string "、" ", " nil (point-min) (point-max))
+    (replace-string "。" ". " nil (point-min) (point-max))))
+
+;;選択範囲内の全角英数字を半角英数字に変換
+(defun hankaku-eisuu-region (start end)
+  (interactive "r")
+  (while (string-match
+          "[０-９Ａ-Ｚａ-ｚ]+"
+          (buffer-substring start end))
+    (save-excursion
+      (japanese-hankaku-region
+       (+ start (match-beginning 0))
+       (+ start (match-end 0))
+       ))))
+
+;;バッファ全体の全角英数字を半角英数字に変換
+(defun hankaku-eisuu-buffer ()
+  (interactive)
+  (hankaku-eisuu-region (point-min) (point-max)))
+
+(defun replace-commaperiod-before-save-if-needed ()
+  (when (memq major-mode
+              '(latex-mode))
+    (replace-commaperiod-buffer)(hankaku-eisuu-buffer)))
+
+;;保存前フックに追加
+(add-hook 'before-save-hook 'replace-commaperiod-before-save-if-needed)
+
+
 (provide 'garaemon-dot-emacs)
