@@ -239,3 +239,6 @@
 [submodule "modules/auctex"]
 	path = modules/auctex
 	url = https://github.com/jwiegley/auctex.git
+[submodule "modules/helm-google"]
+	path = modules/helm-google
+	url = https://github.com/steckerhalter/helm-google.git

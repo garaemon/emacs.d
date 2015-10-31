@@ -13,7 +13,7 @@
                          "milkode" "coffee" "c-eldoc" "migemo"
                          "milkode" "coffee" "c-eldoc"
                          "gist" "gh" "powerline" "yasnippet"
-                         "helm-c-yasnippet" "helm-swoop" "auctex"
+                         "helm-c-yasnippet" "helm-swoop" "auctex" "helm-google"
                          "php-mode" "puppet" "pcache" "logito"
                          "expand-region.el" "smartrep.el" "multiple-cursors.el"
                          "auto-highlight-symbol"
