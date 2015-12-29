@@ -242,3 +242,12 @@
 [submodule "modules/helm-google"]
 	path = modules/helm-google
 	url = https://github.com/steckerhalter/helm-google.git
+[submodule "modules/ipython-notebook"]
+	path = modules/ipython-notebook
+	url = git://github.com/tkf/emacs-ipython-notebook.git
+[submodule "modules/websocket"]
+	path = modules/websocket
+	url = https://github.com/ahyatt/emacs-websocket.git
+[submodule "modules/request"]
+	path = modules/request
+	url = https://github.com/tkf/emacs-request.git

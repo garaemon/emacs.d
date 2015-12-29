@@ -19,7 +19,7 @@
                          "auto-highlight-symbol"
                          "highlight-symbol.el" "solarized" "thingopt"
                          "flycheck" "flycheck-pos-tip" "flycheck-google-cpplint"
-                         "s" "dash" "f" "undo-tree" "yaml-mode"
+                         "s" "dash" "f" "undo-tree" "yaml-mode" "ipython-notebook"
                          "helm" "helm-ag" "rainbow-delimiters" "trr" "anzu"
                          "yascroll" "indent-guide" "volatile-highlights"
                          "twittering-mode" "sublimity" "emoji-cheat-sheet"
