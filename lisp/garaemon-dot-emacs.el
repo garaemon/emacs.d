@@ -345,8 +345,6 @@
 ;; magit!
 (add-to-list 'exec-path "/opt/local/bin")
 (require 'magit)
-(require 'magit-gh-pulls)
-(add-hook 'magit-mode-hook 'turn-on-magit-gh-pulls)
 (global-set-key "\C-cl" 'magit-status)
 (global-set-key "\C-cL" 'magit-status)
 
@@ -1353,5 +1351,12 @@ With prefix ARG non-nil, insert the result at the end of region."
       (revert-buffer :ignore-auto :noconfirm)
     (error "The buffer has been modified")))
 (global-set-key "\M-r" 'revert-buffer-no-confirm)
+
+(require 'google-this)
+(global-set-key (kbd "C-x g") 'google-this-mode-submap)
+(require 'speed-type)
+
+(setq speed-type--gb-url-format
+  "http://www.gutenberg.org/cache/epub/%d/pg%d.txt")
 
 (provide 'garaemon-dot-emacs)

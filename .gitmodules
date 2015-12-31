@@ -1,10 +1,6 @@
 [submodule "modules/nyan-mode"]
 	path = modules/nyan-mode
 	url = https://github.com/TeMPOraL/nyan-mode.git
-[submodule "modules/git-modes"]
-       path = modules/git-modes
-       url = https://github.com/magit/git-modes.git
-
 [submodule "modules/markdown-mode"]
 	path = modules/markdown-mode
 	url = git://jblevins.org/git/markdown-mode.git
@@ -224,9 +220,6 @@
 [submodule "modules/thingopt"]
 	path = modules/thingopt
 	url = https://github.com/m2ym/thingopt-el.git
-[submodule "modules/magit-gh-pulls"]
-	path = modules/magit-gh-pulls
-	url = https://github.com/sigma/magit-gh-pulls.git
 [submodule "modules/flycheck-pos-tip"]
 	path = modules/flycheck-pos-tip
 	url = https://github.com/flycheck/flycheck-pos-tip.git
@@ -251,3 +244,9 @@
 [submodule "modules/request"]
 	path = modules/request
 	url = https://github.com/tkf/emacs-request.git
+[submodule "modules/google-this"]
+	path = modules/google-this
+	url = https://github.com/Malabarba/emacs-google-this.git
+[submodule "modules/speed-type"]
+	path = modules/speed-type
+	url = https://github.com/hagleitn/speed-type
