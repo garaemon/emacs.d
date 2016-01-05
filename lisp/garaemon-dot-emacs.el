@@ -1352,11 +1352,11 @@ With prefix ARG non-nil, insert the result at the end of region."
     (error "The buffer has been modified")))
 (global-set-key "\M-r" 'revert-buffer-no-confirm)
 
-(require 'google-this)
-(global-set-key (kbd "C-x g") 'google-this-mode-submap)
-(require 'speed-type)
+;; (require 'google-this)
+;; (global-set-key (kbd "C-x g") 'google-this-mode-submap)
+;; (require 'speed-type)
 
-(setq speed-type--gb-url-format
-  "http://www.gutenberg.org/cache/epub/%d/pg%d.txt")
+;; (setq speed-type--gb-url-format
+;;   "http://www.gutenberg.org/cache/epub/%d/pg%d.txt")
 
 (provide 'garaemon-dot-emacs)
