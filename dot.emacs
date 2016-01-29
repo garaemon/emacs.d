@@ -1,13 +1,15 @@
 ;; -*- mode: emacs-lisp; -*-
 
 ;; Load path from shellenv.el
-(load-file (expand-file-name "~/.emacs.d/shellenv.el"))
+(let ((shellenv-file (expand-file-name "~/.emacs.d/shellenv.el")))
+  (if (file-exists-p shellenv-file)
+      (load-file shellenv-file)))
 (dolist (path (reverse (split-string (getenv "PATH") ":")))
   (add-to-list 'exec-path path))
 
 
 ;; written by R.Ueda, a.k.a. garaemon
-(add-to-list 'load-path "~/.emacs.d/lisp")
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp"))
 (setq emacs-submodules '("nyan-mode" "magit/lisp" "google-this"
                          "speed-type"
                          "markdown-mode" "less-css-mode"
@@ -39,9 +41,9 @@
                          "judge-indent" "rosemacs/rosemacs"
                          "scss-mode"
                          ))
-(add-to-list 'load-path "~/.emacs.d/modules")
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/modules"))
 (dolist (module emacs-submodules)
-  (add-to-list 'load-path (format "~/.emacs.d/modules/%s" module)))
+  (add-to-list 'load-path (expand-file-name (format "~/.emacs.d/modules/%s" module))))
 
 (require 'garaemon-dot-emacs)
 
