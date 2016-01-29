@@ -459,7 +459,10 @@
   (migemo-init)
   )
 
-(setq visible-bell t)
+(setq visible-bell nil)
+ (setq ring-bell-function 'ignore)
+
+
 (setq make-backup-files nil)
 
 (unless-cygwin
