@@ -825,16 +825,16 @@
   ;;(define-key helm-read-file-map (kbd "TAB") 'helm-execute-persistent-action)
   ;; For helm-find-files etc.
   ;;(define-key helm-find-files-map (kbd "TAB") 'helm-execute-persistent-action)
-  (require 'helm-replace-string)
-  (require 'helm-regexp)
-  (defadvice query-replace (before helm-replace-string-query-replace
-                                   (from-string to-string &optional delimited start end backward) activate)
-    (helm-replace-string-push-history from-string to-string 'query-string))
+  ;; (require 'helm-replace-string)
+  ;; (require 'helm-regexp)
+  ;; (defadvice query-replace (before helm-replace-string-query-replace
+  ;;                                  (from-string to-string &optional delimited start end backward) activate)
+  ;;   (helm-replace-string-push-history from-string to-string 'query-string))
 
   (custom-set-variables
    '(helm-mini-default-sources '(helm-source-buffers-list
                                  helm-source-ls-git
-                                 helm-c-source-replace-string
+                                 ;; helm-c-source-replace-string
                                  helm-source-files-in-current-dir
                                  helm-source-recentf
                                  helm-source-rospack-list
@@ -1040,13 +1040,13 @@ static char * arrow_right[] = {
 (require 'volatile-highlights)
 (volatile-highlights-mode)
 
-(require 'anzu)
-(global-anzu-mode +1)
-(setq anzu-search-threshold 1000)
-(setq anzu-minimum-input-length 3)
+;; (require 'anzu)
+;; (global-anzu-mode +1)
+;; (setq anzu-search-threshold 1000)
+;; (setq anzu-minimum-input-length 3)
 
-(global-set-key (kbd "M-%") 'anzu-query-replace)
-(global-set-key (kbd "M-&") 'anzu-query-replace) ;for mistype
+;; (global-set-key (kbd "M-%") 'anzu-query-replace)
+;; (global-set-key (kbd "M-&") 'anzu-query-replace) ;for mistype
 
 ;; (require 'yascroll)
 ;; (global-yascroll-bar-mode 0)
