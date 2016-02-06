@@ -733,11 +733,17 @@
 (nyan-mode)
 (nyan-start-animation)
 
-;; (require 'garaemon-objective-c)
-;; (add-hook 'objc-mode-hook
-;;           (function (lambda ()
-;;                       (setq c-basic-offset 2))))
-
+;; objective-c
+;; Path to iOS SDK
+(defvar xcode:sdk "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk")
+(add-to-list 'magic-mode-alist
+             `(,(lambda ()
+                  (and (string= (file-name-extension buffer-file-name) "h")
+                       (re-search-forward "@\\<interface\\>"
+                                          magic-mode-regexp-match-limit t)))
+               . objc-mode))
+(add-to-list 'auto-mode-alist '("\\.mm$" . objc-mode))
+(add-to-list 'auto-mode-alist '("\\.m$" . objc-mode))
 
 (require 'puppet-mode)
 (add-to-list 'auto-mode-alist '("\\.pp$" . puppet-mode))
