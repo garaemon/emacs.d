@@ -250,3 +250,6 @@
 [submodule "modules/speed-type"]
 	path = modules/speed-type
 	url = https://github.com/hagleitn/speed-type
+[submodule "modules/lua"]
+	path = modules/lua
+	url = https://github.com/immerrr/lua-mode.git

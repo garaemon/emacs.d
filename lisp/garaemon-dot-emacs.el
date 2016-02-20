@@ -1368,4 +1368,6 @@ With prefix ARG non-nil, insert the result at the end of region."
 ;; (setq speed-type--gb-url-format
 ;;   "http://www.gutenberg.org/cache/epub/%d/pg%d.txt")
 
+(require 'lua-mode)
+
 (provide 'garaemon-dot-emacs)
