@@ -221,7 +221,9 @@
   (message "My JS2 hook"))
 
 (add-hook 'js2-mode-hook 'my-js2-mode-hook)
-
+(require 'js2-mode)
+(setq auto-mode-alist (cons (cons "\\.js$" 'js2-mode) auto-mode-alist))
+(setq auto-mode-alist (cons (cons "\\.jsx$" 'js2-jsx-mode) auto-mode-alist))
 (define-key global-map [165] nil)
 (define-key global-map [67109029] nil)
 (define-key global-map [134217893] nil)
