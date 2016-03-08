@@ -675,7 +675,8 @@
 (require 'magit)
 (prefer-coding-system 'utf-8)
 
-(add-to-list 'auto-mode-alist '("\\.json$" . javascript-mode))
+;;(add-to-list 'auto-mode-alist '("\\.json$" . javascript-mode))
+(add-to-list 'auto-mode-alist '("\\.json$" . js2-mode))
 (add-to-list 'auto-mode-alist '("\\.ejs$" . html-mode))
 (add-to-list 'auto-mode-alist '("\\.xml$" . html-mode))
 (add-to-list 'auto-mode-alist '("\\.launch$" . html-mode))
