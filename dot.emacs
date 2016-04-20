@@ -12,7 +12,7 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp"))
 (setq emacs-submodules '("nyan-mode" "magit/lisp" "google-this"
                          "speed-type"
-                         "lua" "js2-mode"
+                         "lua" "js2-mode" "clang-format-diff"
                          "markdown-mode" "less-css-mode"
                          "milkode" "coffee" "c-eldoc" "migemo"
                          "milkode" "coffee" "c-eldoc"

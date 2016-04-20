@@ -1278,18 +1278,46 @@ downcased, no preceding underscore.
   '(custom-set-variables
    '(flycheck-display-errors-function #'flycheck-pos-tip-error-messages)))
 
-;; (require 'flycheck-google-cpplint)
-;; (custom-set-variables
-;;  '(flycheck-c/c++-googlelint-executable (executable-find "cpplint")))
+(require 'flycheck-google-cpplint)
+(custom-set-variables
+ '(flycheck-c/c++-googlelint-executable (executable-find "cpplint")))
      ;; Add Google C++ Style checker.
 ;; In default, syntax checked by Clang and Cppcheck.
-;; (add-to-list 'flycheck-disabled-checkers 'c/c++-clang)
-;; (add-to-list 'flycheck-disabled-checkers 'c/c++-gcc)
-;; (flycheck-add-next-checker 'c/c++-clang
-;;                            '(warning . c/c++-googlelint))
-;; (defun flycheck-cpp-setup()
-;;   (flycheck-mode))
-;; (add-hook 'cpp-mode-hook #'flycheck-cpp-setup)
+(add-to-list 'flycheck-disabled-checkers 'c/c++-clang)
+(add-to-list 'flycheck-disabled-checkers 'c/c++-gcc)
+(flycheck-add-next-checker 'c/c++-clang
+                           '(warning . c/c++-googlelint))
+(defun flycheck-cpp-setup()
+  (flycheck-mode))
+(add-hook 'cpp-mode-hook #'flycheck-cpp-setup)
+
+(defconst flycheck-hooks-alist
+  '(
+    ;; Handle events that may start automatic syntax checks
+    (after-save-hook                  . flycheck-handle-save)
+    ;;(after-change-functions           . flycheck-handle-change)
+    ;; Handle events that may triggered pending deferred checks
+    ;; (window-configuration-change-hook . flycheck-perform-deferred-syntax-check)
+    ;; (post-command-hook                . flycheck-perform-deferred-syntax-check)
+    ;; Teardown Flycheck whenever the buffer state is about to get lost, to
+    ;; clean up temporary files and directories.
+    ;; (kill-buffer-hook                 . flycheck-teardown)
+    ;; (change-major-mode-hook           . flycheck-teardown)
+    ;; (before-revert-hook               . flycheck-teardown)
+    ;; Update the error list if necessary
+    ;; (post-command-hook                . flycheck-error-list-update-source)
+    ;; (post-command-hook                . flycheck-error-list-highlight-errors)
+    ;; Show or hide error popups after commands
+    ;; (post-command-hook                . flycheck-display-error-at-point-soon)
+    (post-command-hook                . flycheck-hide-error-buffer)
+    ;; Immediately show error popups when navigating to an error
+    (next-error-hook                  . flycheck-display-error-at-point))
+  "Hooks which Flycheck needs to hook in.
+
+The `car' of each pair is a hook variable, the `cdr' a function
+to be added or removed from the hook variable if Flycheck mode is
+enabled and disabled respectively.")
+(global-flycheck-mode t)
 
 (require 'typescript)
 (setq auto-mode-alist (cons (cons "\\.ts?$" 'typescript-mode) auto-mode-alist))
@@ -1372,5 +1400,18 @@ With prefix ARG non-nil, insert the result at the end of region."
 ;;   "http://www.gutenberg.org/cache/epub/%d/pg%d.txt")
 
 (require 'lua-mode)
+
+(require 'gtags)
+(global-set-key "\M-." 'gtags-find-tag)
+(global-set-key "\M-r" 'gtags-find-rtag)
+(global-set-key "\M-s" 'gtags-find-symbol)
+(global-set-key "\M-," 'gtags-pop-stack)
+
+(require 'clang-format-diff)
+(global-set-key "\M-[" 'clang-format-diff-view)
+(custom-set-variables '(ediff-split-window-function 'split-window-horizontally))
+
+(require 'protobuf-mode)
+(setq auto-mode-alist (cons (cons "\\.proto?$" 'protobuf-mode) auto-mode-alist))
 
 (provide 'garaemon-dot-emacs)
