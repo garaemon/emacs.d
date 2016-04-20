@@ -259,3 +259,6 @@
 [submodule "modules/clang-format-diff"]
 	path = modules/clang-format-diff
 	url = https://github.com/garaemon/emacs-clang-format-diff.git
+[submodule "modules/fill-column-indicator"]
+	path = modules/fill-column-indicator
+	url = https://github.com/alpaker/Fill-Column-Indicator.git

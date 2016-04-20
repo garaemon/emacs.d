@@ -90,6 +90,9 @@
   ;;(set-frame-font "Ricty Diminished Discord-12")
   )
 
+(require 'fill-column-indicator)
+(setq-default fci-rule-column 100)
+
 (require 'column-marker)
 (dolist (mode '(c-mode-hook
                 c++-mode-hook
@@ -100,7 +103,11 @@
                 cmake-mode-hook
                 javascript-mode-hook js-mode-hook
                 emacs-lisp-mode-hook))
-  (add-hook mode (lambda () (interactive) (column-marker-1 80)))
+  (add-hook mode (lambda () (interactive)
+                   ;;(column-marker-1 80)
+                   (fci-mode)
+                   (setq fci-rule-column 100)
+                   ))
   )
 
 (global-set-key "\C-x;" 'comment-region)

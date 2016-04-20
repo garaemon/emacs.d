@@ -11,7 +11,7 @@
 ;; written by R.Ueda, a.k.a. garaemon
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp"))
 (setq emacs-submodules '("nyan-mode" "magit/lisp" "google-this"
-                         "speed-type"
+                         "speed-type" "fill-column-indicator"
                          "lua" "js2-mode" "clang-format-diff"
                          "markdown-mode" "less-css-mode"
                          "milkode" "coffee" "c-eldoc" "migemo"
