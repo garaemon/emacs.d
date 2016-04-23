@@ -1,0 +1,4 @@
+(:name package
+       :description "dummy rcp to resolve dependencies for (el-get 'sync)"
+       :type builtin)
+

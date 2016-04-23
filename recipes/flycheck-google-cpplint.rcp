@@ -1,0 +1,4 @@
+(:name flycheck-google-cpplint
+       :type github
+       :description "flycheck plugin for google cpplint"
+       :pkgname "flycheck/flycheck-google-cpplint")

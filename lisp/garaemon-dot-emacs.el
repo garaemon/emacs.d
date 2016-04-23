@@ -90,7 +90,10 @@
   ;;(set-frame-font "Ricty Diminished Discord-12")
   )
 
-(require 'column-marker)
+(require 'fill-column-indicator)
+(setq-default fci-rule-column 100)
+
+;; (require 'column-marker)
 (dolist (mode '(c-mode-hook
                 c++-mode-hook
                 sh-mode-hook
@@ -100,7 +103,8 @@
                 cmake-mode-hook
                 javascript-mode-hook js-mode-hook
                 emacs-lisp-mode-hook))
-  (add-hook mode (lambda () (interactive) (column-marker-1 80)))
+  (add-hook mode (lambda () (interactive)
+                   (fci-mode)))
   )
 
 (global-set-key "\C-x;" 'comment-region)
@@ -124,7 +128,7 @@
 (setq mac-pass-control-to-system nil)
 
 (line-number-mode 1)
-(column-number-mode 1)
+;;(column-number-mode 1)
 
 (display-time)
 
@@ -238,27 +242,6 @@
 
 (global-set-key "\M-g" 'goto-line)
 
-
-;; (when t
-;;   (when-gui
-;;    ;; 文字の色を設定します。
-;;    (set-foreground-color "white")
-;;    ;; 背景色を設定します。
-;;    (set-background-color "black")
-;;    ;; モードラインの文字の色を設定します。
-;;    (set-face-foreground 'modeline "white")
-;;    ;; モードラインの背景色を設定します。
-;;    (set-face-background 'modeline "gray40")
-;;    ;; カーソルの色を設定します。
-;;    (set-cursor-color "yellow")
-;;    ;; マウスポインタの色を設定します。
-;;    (set-mouse-color  "yellow")
-;;    )
-;;   (when-gui
-;;    ;; 透明に
-;;    (set-frame-parameter nil 'alpha '(85 70)))
-;;   )
-
 (cond ((carbon-emacs-p)
        (setq default-frame-alist
          (append (list '(alpha . (90 90))) default-frame-alist)))
@@ -302,10 +285,15 @@
 
 (setq c-default-style "stroustrup")
 
-(eval-after-load "ispell"
-  '(setq ispell-skip-region-alist
-     (cons '("[^¥000-¥377]")
-           ispell-skip-region-alist)))
+;; (eval-after-load "ispell"
+;;   '(progn
+;;      (setq ispell-skip-region-alist
+;;            (cons '("[^¥000-¥377]")
+;;                  ispell-skip-region-alist))
+;;      (setq ispell-extra-args '("-C"))
+;;      ))
+;; (add-hook 'prog-mode-hook 'flyspell-prog-mode)
+
 
 ;;(iswitchb-mode 1)
 
@@ -360,23 +348,6 @@
    (cons '("\\.md" . markdown-mode) auto-mode-alist))
 (define-key markdown-mode-map (kbd "M-p") nil)
 (define-key markdown-mode-map (kbd "M-n") nil)
-
-(require 'w3m)
-(defun w3m-browse-url-other-window (url &optional newwin)
-  (let ((w3m-pop-up-windows t))
-    (if (one-window-p) (split-window))
-    (other-window 1)
-    (w3m-browse-url url newwin)))
-
-(defun markdown-render-w3m (n)
-  (interactive "p")
-  (call-process "/usr/local/bin/grip" nil nil nil
-                "--gfm" "--export"
-                (buffer-file-name)
-                "/tmp/grip.html")
-  (w3m-browse-url-other-window "file://tmp/grip.html")
-  )
-(define-key markdown-mode-map (kbd "C-c C-c") 'markdown-render-w3m)
 
 (when-meadow
  (let ((make-spec
@@ -464,7 +435,6 @@
 
 (setq visible-bell nil)
  (setq ring-bell-function 'ignore)
-
 
 (setq make-backup-files nil)
 
@@ -909,7 +879,6 @@
     ("o"        . 'mc/sort-regions)
     ("O"        . 'mc/reverse-regions)))
 
-;;(load-theme 'zenburn t)
 (when (>= emacs-major-version 24)
   (add-to-list 'custom-theme-load-path "~/.emacs.d/modules/solarized/")
   (load-theme 'solarized-dark t)
@@ -918,8 +887,10 @@
 
 
 (require 'rainbow-delimiters)
-(global-rainbow-delimiters-mode t)
 (custom-set-faces '(rainbow-delimiters-depth-1-face ((t (:foreground "#7f8c8d")))))
+(add-hook 'c-mode-common-hook #'rainbow-delimiters-mode)
+(add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
+(add-hook 'js2-mode-hook #'rainbow-delimiters-mode)
 
 ;; undo tree
 ;; C-x u
@@ -1038,15 +1009,6 @@ static char * arrow_right[] = {
 
 (require 'trr)
 
-;; (require 'sublimity)
-;; (require 'sublimity-map)
-;; (require 'sublimity-scroll)
-;; (require 'sublimity-attractive)
-;; (sublimity-mode 1)
-
-;; (require 'indent-guide)
-;; (indent-guide-global-mode nil)
-
 (require 'volatile-highlights)
 (volatile-highlights-mode)
 
@@ -1082,11 +1044,10 @@ static char * arrow_right[] = {
 
 ;; Force to load yasnippet/yasnippet.el in order to avoid
 ;; to use yasnippet.el under elpa packages.
-(load "~/.emacs.d/modules/yasnippet/yasnippet.el")
 (require 'yasnippet)
 (setq yas-snippet-dirs
       '("~/.emacs.d/snippets"
-        "~/.emacs.d/modules/yasnippet/snippets"))
+        "~/.emacs.d/el-get/yasnippet/snippets"))
 (yas-global-mode 1)
 ;;(custom-set-variables '(yas-trigger-key "TAB"))
 
@@ -1135,28 +1096,22 @@ static char * arrow_right[] = {
 (require 'dockerfile-mode)
 (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
 
-(require 'foreign-regexp)
-(custom-set-variables
-'(foreign-regexp/regexp-type 'perl) ;; Choose your taste of foreign regexp
-                                    ;; from 'perl, 'ruby or 'javascript.
-'(reb-re-syntax 'foreign-regexp))   ;; Tell re-builder to use foreign regex.
-
 (require 'smart-cursor-color)
 (smart-cursor-color-mode +1)
-
-(require 'w3m)
-(define-key w3m-mode-map (kbd "M-p") nil)
-(define-key w3m-mode-map (kbd "M-n") nil)
-
-(defun w3m-ros (pkg)
-  (interactive (list (read-string "ros package: ")))
-  (w3m-browse-url-other-window (format "http://wiki.ros.org/%s" pkg)))
 
 (require 'dired-subtree)
 
 (require 'dired+)
 
-(global-hl-line-mode +1)
+;; (require 'hl-line)
+;; (defun global-hl-line-timer-function ()
+;;   (global-hl-line-unhighlight-all)
+;;   (let ((global-hl-line-mode t))
+;;     (global-hl-line-highlight)))
+;; (setq global-hl-line-timer
+;;       (run-with-idle-timer 0.03 t 'global-hl-line-timer-function))
+
+;;(global-hl-line-mode -1)
 
 (defun un-camelcase-word-at-point ()
   "un-camelcase the word at point, replacing uppercase chars with
@@ -1179,7 +1134,7 @@ downcased, no preceding underscore.
   (symon-mode)
   )
 
-;; (global-linum-mode)
+;; (global-linum-mode -1)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -1235,6 +1190,7 @@ downcased, no preceding underscore.
 ;; Path-to-gmilk
 ;; (setq gmilk-command "~/.rvm/gems/ruby-2.2.0/bin/gmilk")
 (global-set-key (kbd "C-c C-s") 'milkode:search-from-all-packages)
+(global-set-key (kbd "C-c C-m") 'milkode:search-from-all-packages)
 
 ;; (require 'c-eldoc)
 ;; (add-hook 'c-mode-hook 'c-turn-on-eldoc-mode)
@@ -1271,26 +1227,55 @@ downcased, no preceding underscore.
           '(lambda() (set (make-local-variable 'tab-width) 2)
              (setq coffee-tab-width 2)))
 (require 'flycheck)
-(defun flycheck-python-setup ()
-  (flycheck-mode))
-(add-hook 'python-mode-hook #'flycheck-python-setup)
 (require 'flycheck-pos-tip)
 (eval-after-load 'flycheck
   '(custom-set-variables
    '(flycheck-display-errors-function #'flycheck-pos-tip-error-messages)))
+(setq-default flycheck-disabled-checkers '(c/c++-clang c/c++-gcc))
+(setq
+ flycheck-googlelint-filter "-runtime/references,-readability/braces"
+ flycheck-googlelint-verbose "3"
+ )
 
-;; (require 'flycheck-google-cpplint)
-;; (custom-set-variables
-;;  '(flycheck-c/c++-googlelint-executable (executable-find "cpplint")))
-     ;; Add Google C++ Style checker.
-;; In default, syntax checked by Clang and Cppcheck.
-;; (add-to-list 'flycheck-disabled-checkers 'c/c++-clang)
-;; (add-to-list 'flycheck-disabled-checkers 'c/c++-gcc)
-;; (flycheck-add-next-checker 'c/c++-clang
-;;                            '(warning . c/c++-googlelint))
-;; (defun flycheck-cpp-setup()
-;;   (flycheck-mode))
-;; (add-hook 'cpp-mode-hook #'flycheck-cpp-setup)
+
+;;(add-hook 'after-init-hook 'global-flycheck-mode)
+(eval-after-load 'flycheck
+'(progn
+(require 'flycheck-google-cpplint)
+(flycheck-add-next-checker 'c/c++-cppcheck '(warning . c/c++-googlelint))))
+
+
+;; Enable flycheck-googlelint in C++-mode only.
+;; (add-hook 'c++-mode-hook (lambda() (flycheck-select-checker 'c/c++-cppcheck)))
+(setq flycheck-check-syntax-automatically '(mode-enabled save))
+
+(defconst flycheck-hooks-alist
+  '(
+    ;; Handle events that may start automatic syntax checks
+    (after-save-hook                  . flycheck-handle-save)
+    ;;(after-change-functions           . flycheck-handle-change)
+    ;; Handle events that may triggered pending deferred checks
+    ;; (window-configuration-change-hook . flycheck-perform-deferred-syntax-check)
+    ;; (post-command-hook                . flycheck-perform-deferred-syntax-check)
+    ;; Teardown Flycheck whenever the buffer state is about to get lost, to
+    ;; clean up temporary files and directories.
+    ;; (kill-buffer-hook                 . flycheck-teardown)
+    ;; (change-major-mode-hook           . flycheck-teardown)
+    ;; (before-revert-hook               . flycheck-teardown)
+    ;; Update the error list if necessary
+    ;; (post-command-hook                . flycheck-error-list-update-source)
+    ;; (post-command-hook                . flycheck-error-list-highlight-errors)
+    ;; Show or hide error popups after commands
+    (post-command-hook                . flycheck-display-error-at-point-soon)
+    (post-command-hook                . flycheck-hide-error-buffer)
+    ;; Immediately show error popups when navigating to an error
+    (next-error-hook                  . flycheck-display-error-at-point))
+  "Hooks which Flycheck needs to hook in.
+The `car' of each pair is a hook variable, the `cdr' a function
+to be added or removed from the hook variable if Flycheck mode is
+enabled and disabled respectively.")
+(global-flycheck-mode t)
+
 
 (require 'typescript)
 (setq auto-mode-alist (cons (cons "\\.ts?$" 'typescript-mode) auto-mode-alist))
@@ -1373,5 +1358,116 @@ With prefix ARG non-nil, insert the result at the end of region."
 ;;   "http://www.gutenberg.org/cache/epub/%d/pg%d.txt")
 
 (require 'lua-mode)
+
+;; Colorize Protobuf
+(require 'protobuf-mode)
+(defconst my-protobuf-style '((c-basic-offset . 4) (indent-tabs-mode . nil)))
+(add-hook 'protobuf-mode-hook (lambda () (c-add-style "my-style" my-protobuf-style t)))
+(add-to-list 'auto-mode-alist '("\\.proto$" . protobuf-mode))
+;; (add-to-list 'auto-mode-alist '("\\.pb.txt$" . protobuf-mode))
+
+(require 'google-c-style)
+
+;; Quick & Dirty C++11 support
+(defun c++-mode-hook-c++11 ()
+  (font-lock-add-keywords
+   nil '(;; complete some fundamental keywords
+  ("\\<\\(void\\|unsigned\\|signed\\|char\\|short\\|bool\\|int\\|long\\|float\\|double\\)\\>" . font-lock-keyword-face)
+  ;; namespace names and tags - these are rendered as constants by cc-mode
+  ("\\<\\(\\w+::\\)" . font-lock-function-name-face)
+  ;;  new C++11 keywords
+  ("\\<\\(alignof\\|alignas\\|constexpr\\|decltype\\|noexcept\\|nullptr\\|static_assert\\|thread_local\\|override\\|final\\)\\>" . font-lock-keyword-face)
+  ("\\<\\(char16_t\\|char32_t\\)\\>" . font-lock-keyword-face)
+  ;; PREPROCESSOR_CONSTANT, PREPROCESSORCONSTANT
+  ("\\<[A-Z]*_[A-Z_]+\\>" . font-lock-constant-face)
+  ("\\<[A-Z]\\{3,\\}\\>"  . font-lock-constant-face)
+  ;; hexadecimal numbers
+  ("\\<0[xX][0-9A-Fa-f]+\\>" . font-lock-constant-face)
+  ;; integer/float/scientific numbers
+  ("\\<[\\-+]*[0-9]*\\.?[0-9]+\\([ulUL]+\\|[eE][\\-+]?[0-9]+\\)?\\>" . font-lock-constant-face)
+  ;; c++11 string literals
+  ;;       L"wide string"
+  ;;       L"wide string with UNICODE codepoint: \u2018"
+  ;;       u8"UTF-8 string", u"UTF-16 string", U"UTF-32 string"
+  ("\\<\\([LuU8]+\\)\".*?\"" 1 font-lock-keyword-face)
+  ;;       R"(user-defined literal)"
+  ;;       R"( a "quot'd" string )"
+  ;;       R"delimiter(The String Data" )delimiter"
+  ;;       R"delimiter((a-z))delimiter" is equivalent to "(a-z)"
+  ("\\(\\<[uU8]*R\"[^\\s-\\\\()]\\{0,16\\}(\\)" 1 font-lock-keyword-face t) ; start delimiter
+  (   "\\<[uU8]*R\"[^\\s-\\\\()]\\{0,16\\}(\\(.*?\\))[^\\s-\\\\()]\\{0,16\\}\"" 1 font-lock-string-face t)  ; actual string
+  (   "\\<[uU8]*R\"[^\\s-\\\\()]\\{0,16\\}(.*?\\()[^\\s-\\\\()]\\{0,16\\}\"\\)" 1 font-lock-keyword-face t) ; end delimiter
+
+  ;; user-defined types (rather project-specific)
+  ("\\<[A-Za-z_]+[A-Za-z_0-9]*_\\(type\\|ptr\\)\\>" . font-lock-type-face)
+  ("\\<\\(xstring\\|xchar\\)\\>" . font-lock-type-face)
+  ))
+  )
+
+(add-hook 'c++-mode-hook
+          (lambda()
+            (set-fill-column 100)
+            ;;(column-marker-1 100)
+            (c++-mode-hook-c++11)
+            (add-hook 'before-save-hook 'delete-trailing-whitespace)
+            (google-set-c-style)
+            (google-make-newline-indent)
+            ))
+
+;; clang-format utlities
+(require 'clang-format-diff)
+(custom-set-variables
+ '(ediff-split-window-function 'split-window-horizontally))
+(global-set-key "\M-[" 'clang-format-diff-view)
+
+(setq js-indent-level 4)
+(add-hook 'js-mode (lambda () (setq js-indent-level 4) (setq c-basic-offset 4)))
+
+;; gtags
+;; update gtags after save it
+(require 'gtags)
+(defun update-gtags (&optional prefix)
+  (interactive "P")
+  (let ((rootdir (gtags-get-rootpath))
+        (args (if prefix "-v" "-iv")))
+    (when rootdir
+      (let* ((default-directory rootdir)
+             (buffer (get-buffer-create "*update GTAGS*")))
+        (save-excursion
+          (set-buffer buffer)
+          (erase-buffer)
+          (let ((result (process-file "gtags" nil buffer nil args)))
+            (if (= 0 result)
+                (message "GTAGS successfully updated.")
+              (message "update GTAGS error with exit status %d" result))))))))
+;; it may be slow...
+;;(add-hook 'after-save-hook 'update-gtags)
+
+;;(define-key helm-gtags-mode-map (kbd "M-.") 'helm-gtags-find-pattern)
+(global-set-key (kbd "M-.") 'helm-gtags-find-pattern)
+(global-set-key (kbd "M-.") 'helm-gtags-find-tag-other-window)
+;; (define-key helm-gtags-mode-map (kbd "M-t") 'helm-gtags-find-tag)
+;; (define-key helm-gtags-mode-map (kbd "M-r") 'helm-gtags-find-rtag)
+;; (define-key helm-gtags-mode-map (kbd "M-s") 'helm-gtags-find-symbol)
+;; (define-key helm-gtags-mode-map (kbd "M-g M-p") 'helm-gtags-parse-file)
+;; (define-key helm-gtags-mode-map (kbd "C-c <") 'helm-gtags-previous-history)
+;; (define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history)
+;; (define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-pop-stack))
+(setq vc-handled-backends nil)
+
+;; (require 'auto-complete-clang-async)
+;; (defun ac-cc-mode-setup ()
+;;   (setq ac-clang-complete-executable "~/.emacs.d/modules/clang-auto-complete/clang-complete")
+;;   (setq ac-sources '(ac-source-clang-async))
+;;   (ac-clang-launch-completion-process)
+;; )
+
+;; (defun my-ac-config ()
+;;   (add-hook 'c-mode-common-hook 'ac-cc-mode-setup)
+;;   (add-hook 'auto-complete-mode-hook 'ac-common-setup)
+;;   (global-auto-complete-mode t))
+
+;; (my-ac-config)
+
 
 (provide 'garaemon-dot-emacs)

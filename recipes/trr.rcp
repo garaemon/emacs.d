@@ -1,0 +1,4 @@
+(:name trr
+       :description "trr -- typing soft"
+       :type github
+       :pkgname "kawabata/emacs-trr")

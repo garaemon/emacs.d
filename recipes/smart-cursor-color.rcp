@@ -1,0 +1,4 @@
+(:name smart-cursor-color
+       :type github
+       :description "Change corsor-color dynamically on emacs"
+       :pkgname "7696122/smart-cursor-color")

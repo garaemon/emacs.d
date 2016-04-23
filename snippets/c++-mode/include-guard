@@ -3,8 +3,7 @@
 # key: include-guard
 # binding: direct-keybinding
 # --
-
-#ifndef $1
-#define $1
+#ifndef __$1__
+#define __$1__
 $0
-#endif
+#endif  // __$1__

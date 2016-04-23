@@ -1,0 +1,4 @@
+(:name milkode
+       :type github
+       :description "milkode plugin for emacs"
+       :pkgname "ongaeshi/emacs-milkode")

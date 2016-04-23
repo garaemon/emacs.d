@@ -1,0 +1,4 @@
+(:name clang-format-diff
+       :description "emacs-clang-format-diff -- show diff by clang-format in ediff"
+       :type github
+       :pkgname "garaemon/emacs-clang-format-diff")

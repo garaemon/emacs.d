@@ -1,0 +1,4 @@
+(:name helm-replace-string
+       :description "helm-replace-string"
+       :type github
+       :pkgname "jixiuf/helm-replace-string")

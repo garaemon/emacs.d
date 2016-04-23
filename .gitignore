@@ -6,3 +6,9 @@ ac-comphist.dat
 games/trrscores
 session.*
 shellenv.el
+el-get/
+elpa/
+el-get-user/
+
+dot.emacs.local.el
+*~

@@ -1,60 +1,15 @@
 ;; -*- mode: emacs-lisp; -*-
 
 ;; Load path from shellenv.el
-(let ((shellenv-file (expand-file-name "~/.emacs.d/shellenv.el")))
-  (if (file-exists-p shellenv-file)
-      (load-file shellenv-file)))
-(dolist (path (reverse (split-string (getenv "PATH") ":")))
-  (add-to-list 'exec-path path))
-
-
-;; written by R.Ueda, a.k.a. garaemon
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp"))
-(setq emacs-submodules '("nyan-mode" "magit/lisp" "google-this"
-                         "speed-type"
-                         "lua" "js2-mode"
-                         "markdown-mode" "less-css-mode"
-                         "milkode" "coffee" "c-eldoc" "migemo"
-                         "milkode" "coffee" "c-eldoc"
-                         "gist" "gh" "powerline" "yasnippet"
-                         "helm-c-yasnippet" "helm-swoop" "auctex" "helm-google"
-                         "php-mode" "puppet" "pcache" "logito"
-                         "expand-region.el" "smartrep.el" "multiple-cursors.el"
-                         "auto-highlight-symbol"
-                         "highlight-symbol.el" "solarized" "thingopt"
-                         "flycheck" "flycheck-pos-tip" "flycheck-google-cpplint"
-                         "s" "dash" "f" "undo-tree" "yaml-mode" "ipython-notebook"
-                         "helm" "helm-ag" "rainbow-delimiters" "trr" "anzu"
-                         "yascroll" "indent-guide" "volatile-highlights"
-                         "twittering-mode" "sublimity" "emoji-cheat-sheet"
-                         "git-gutter" "auto-complete" "popup" "zenburn-emacs"
-                         "graphviz-dot-mode" "dockerfile-mode"
-                         "direx-el" "popwin-el" "foreign-regexp" "w3m"
-                         "wakatime-mode" "wanderlust" "smart-cursor-color"
-                         "dired-hacks" "dired-plus"
-                         "helm-ls-git"
-                         "gtags" "helm-gtags" "helm-replace-string"
-                         "symon"
-                         "ham-mode" "gmail-mode" "ace-isearch"
-                         "ace-jump-mode" "clang-complete-async"
-                         "swoop" "async" "pcre2el" "ht" "bm"
-                         "elpa/packages/let-alist" "emacs-deferred"
-                         "judge-indent" "rosemacs/rosemacs"
-                         "scss-mode"
-                         ))
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/modules"))
-(dolist (module emacs-submodules)
-  (add-to-list 'load-path (expand-file-name (format "~/.emacs.d/modules/%s" module))))
-
-(require 'garaemon-dot-emacs)
-
-;; (setenv "PATH" (format "%s:/usr/local/bin" (getenv "PATH")))
-;; (load (expand-file-name "~/quicklisp/slime-helper.el"))
-;; (setq inferior-lisp-program "/usr/local/bin/sbcl")
-
+;; (let ((shellenv-file (expand-file-name "~/.emacs.d/shellenv.el")))
+;;   (if (file-exists-p shellenv-file)
+;;       (load-file shellenv-file)))
+;; (dolist (path (reverse (split-string (getenv "PATH") ":")))
+;;   (add-to-list 'exec-path path))
 
 ;; minimum settings
 (setq-default tab-width 2)
+(setq-default indent-tabs-mode nil)
 (global-set-key "\C-h" 'backward-delete-char)
 (global-unset-key "\M-p")
 (global-unset-key "\M-n")
@@ -73,21 +28,135 @@
 (global-set-key [M-up] 'scroll-up-in-place)
 (global-set-key "\M-n" 'scroll-down-in-place)
 (global-set-key [M-down] 'scroll-down-in-place)
-
+(global-set-key "\C-o" 'dabbrev-expand)
 (setq mac-command-modifier 'meta)
 
-;; (let* ((zshpath (shell-command-to-string
-;;          "/usr/bin/env zsh -c 'printenv PATH'"))
-;;        (pathlst (split-string zshpath ":")))
-;;   (setq exec-path pathlst)
-;;   (setq eshell-path-env zshpath)
-;;   (setenv "PATH" zshpath)e
-;;  )
-(unless (server-running-p)
-  (server-start))
+;; setup el-get local recipes
+(add-to-list 'load-path "~/.emacs.d/el-get/el-get")
 
-(setq-default c-basic-offset 2)
+(unless (require 'el-get nil 'noerror)
+  (require 'package)
+  (add-to-list 'package-archives
+               '("melpa" . "http://melpa.org/packages/"))
+  (package-initialize)
+  (package-refresh-contents)
+  (package-initialize)
+  (package-install 'el-get)
+  (require 'el-get)
+  (el-get 'sync)
+  (save-buffers-kill-terminal)
+  )
 
+(require 'package)
+(add-to-list 'el-get-recipe-path "~/.emacs.d/recipes/")
+
+(defmacro el-get-bundle-if-not-yet (pkgname)
+  `(unless (el-get-package-installed-p ',pkgname)
+     (el-get-bundle ',pkgname)))
+
+;; (el-get 'sync)
+
+(when (executable-find "pdftex")
+  (el-get-bundle-if-not-yet auctex)) ;; it depends on tex
+(el-get-bundle-if-not-yet ace-isearch)
+(el-get-bundle ace-jump-mode)
+(el-get-bundle anzu)
+(el-get-bundle async)
+(el-get-bundle auto-complete)
+(el-get-bundle auto-highlight-symbol)
+(el-get-bundle bm)
+(el-get-bundle c-eldoc)
+(el-get-bundle clang-format-diff)
+(el-get-bundle coffee-mode)
+(el-get-bundle dash)
+(el-get-bundle deferred)
+(el-get-bundle dired-hacks)
+(el-get-bundle dired-plus)
+(el-get-bundle direx)
+(el-get-bundle dockerfile-mode)
+(el-get-bundle emoji-cheat-sheet)
+(el-get-bundle expand-region)
+(el-get-bundle f)
+(el-get-bundle fill-column-indicator)
+(el-get-bundle flycheck)
+(el-get-bundle flycheck-google-cpplint)
+(el-get-bundle flycheck-pos-tip)
+;; (el-get-bundle foreign-regexp)
+(el-get-bundle gh)
+(el-get-bundle gist)
+(el-get-bundle git-gutter)
+(el-get-bundle graphviz-dot-mode)
+(el-get-bundle-if-not-yet gtags)
+(el-get-bundle ham-mode)
+(el-get-bundle helm)
+(el-get-bundle helm-ag)
+(el-get-bundle helm-c-yasnippet)
+(el-get-bundle helm-google)
+(el-get-bundle helm-gtags)
+(el-get-bundle helm-ls-git)
+(el-get-bundle helm-replace-string)
+(el-get-bundle helm-swoop)
+(el-get-bundle highlight-symbol)
+(el-get-bundle js2-mode)
+(el-get-bundle judge-indent)
+(el-get-bundle less-css-mode)
+(el-get-bundle let-alist)
+(el-get-bundle logito)
+(el-get-bundle lua-mode)
+(el-get-bundle magit)
+(el-get-bundle markdown-mode)
+(el-get-bundle migemo)
+(el-get-bundle milkode)
+(el-get-bundle multiple-cursors)
+(el-get-bundle nyan-mode)
+(el-get-bundle pcache)
+(el-get-bundle php-mode)
+(el-get-bundle popup)
+(el-get-bundle popwin)
+(el-get-bundle powerline)
+(el-get-bundle protobuf-mode)
+(el-get-bundle puppet-mode)
+(el-get-bundle rainbow-delimiters)
+(el-get-bundle s)
+(el-get-bundle scss-mode)
+(el-get-bundle smart-cursor-color)
+(el-get-bundle smartrep)
+(el-get-bundle solarized-emacs)
+;; (el-get-bundle swoop)
+(el-get-bundle symon)
+(el-get-bundle thingopt)
+(el-get-bundle trr)
+(el-get-bundle twittering-mode)
+(el-get-bundle undo-tree)
+(el-get-bundle volatile-highlights)
+(el-get-bundle yaml-mode)
+(el-get-bundle yascroll)
+(el-get-bundle yasnippet)
+(el-get-bundle google-c-style)
+;; written by R.Ueda, a.k.a. garaemon
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp"))
+
+(require 'garaemon-dot-emacs)
+
+;; (unless (server-running-p)
+;;   (server-start))
 
 (provide 'dot)
+
+;; load machine local setup
+(if (file-exists-p "~/.emacs.d/dot.emacs.local.el")
+    (load "~/.emacs.d/dot.emacs.local.el"))
+
 ;;; dot.emacs ends here
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages (quote (lua-mode el-get))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

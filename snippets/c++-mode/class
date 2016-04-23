@@ -3,12 +3,8 @@
 # key: class
 # binding: direct-keybinding
 # --
-class $1
-{
+class $1 {
 public:
-  typedef boost::shared_ptr<$1> Ptr;
-  $1();
-  virtual ~$1();
 protected:
 private:
 $0
