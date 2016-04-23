@@ -127,6 +127,7 @@
 (el-get-bundle yascroll)
 (el-get-bundle yasnippet)
 (el-get-bundle google-c-style)
+(el-get-bundle company)
 ;; written by R.Ueda, a.k.a. garaemon
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp"))
 
@@ -156,7 +157,10 @@
  '(helm-mini-default-sources
    (quote
     (helm-source-buffers-list helm-source-ls-git helm-source-files-in-current-dir helm-source-recentf helm-source-rospack-list helm-source-buffer-not-found)))
- '(package-selected-packages (quote (nil lua-mode el-get)))
+ '(package-selected-packages (quote (company nil lua-mode el-get)))
+ '(win-switch-feedback-background-color "blue")
+ '(win-switch-feedback-foreground-color "white")
+ '(win-switch-idle-time 1.5)
  '(yas-trigger-key "Enter"))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

@@ -18,38 +18,6 @@
 
 (global-set-key "\C-xp" (lambda () (interactive) (other-window -1)))
 
-(when (require 'auto-complete nil t)
-  (require 'auto-complete-config)
-  (global-auto-complete-mode t)
-  (define-key ac-complete-mode-map "\t" 'ac-expand)
-  (define-key ac-complete-mode-map "\r" 'ac-complete)
-  (define-key ac-complete-mode-map "\M-n" 'ac-next)
-  (define-key ac-complete-mode-map "\M-p" 'ac-previous)
-  (setq ac-auto-start 2)
-  (setq ac-dwim t)
-  (set-default 'ac-sources '(ac-source-yasnippet
-                             ac-source-abbrev
-                             ac-source-words-in-buffer))
-  (setq ac-modes
-    (append ac-modes
-        '(emacs-lisp-mode
-          lisp-mode
-          euslisp-mode
-          html-mode
-          cmake-mode
-          xhtml-mode
-          ;;org-mode
-          )))
-  (add-hook 'c-mode-common-hook 'ac-cc-mode-setup)
-  (add-hook 'auto-complete-mode-hook 'ac-common-setup)
-  (add-hook 'emacs-lisp-mode-hook
-        (lambda ()
-          (setq ac-sources '(ac-source-yasnippet
-                 ac-source-abbrev
-                 ac-source-words-in-buffer
-                 ac-source-symbols))))
-  )
-
 (global-set-key "\C-h" 'backward-delete-char)
 (global-set-key "\M-h" 'help-for-help)
 
@@ -1490,5 +1458,10 @@ With prefix ARG non-nil, insert the result at the end of region."
 ;; replace C-x o
 (global-set-key (kbd "C-x o") 'win-switch-dispatch)
 
+(require 'company)
+(global-company-mode)
+(setq company-idle-delay 0) ; デフォルトは0.5
+(setq company-minimum-prefix-length 2) ; デフォルトは4
+(setq company-selection-wrap-around t) ; 候補の一番下でさらに下に行こうとすると一番上に戻る
 
 (provide 'garaemon-dot-emacs)
