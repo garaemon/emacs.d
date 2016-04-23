@@ -49,15 +49,11 @@
 (require 'package)
 (add-to-list 'el-get-recipe-path "~/.emacs.d/recipes/")
 
-(defmacro el-get-bundle-if-not-yet (pkgname)
-  `(unless (el-get-package-installed-p ',pkgname)
-     (el-get-bundle ',pkgname)))
-
 ;; (el-get 'sync)
 
 (when (executable-find "pdftex")
-  (el-get-bundle-if-not-yet auctex)) ;; it depends on tex
-(el-get-bundle-if-not-yet ace-isearch)
+  (el-get-bundle auctex)) ;; it depends on tex
+(el-get-bundle ace-isearch)
 (el-get-bundle ace-jump-mode)
 (el-get-bundle anzu)
 (el-get-bundle async)
@@ -80,12 +76,11 @@
 (el-get-bundle flycheck)
 (el-get-bundle flycheck-google-cpplint)
 (el-get-bundle flycheck-pos-tip)
-;; (el-get-bundle foreign-regexp)
 (el-get-bundle gh)
 (el-get-bundle gist)
 (el-get-bundle git-gutter)
 (el-get-bundle graphviz-dot-mode)
-(el-get-bundle-if-not-yet gtags)
+(el-get-bundle gtags)
 (el-get-bundle ham-mode)
 (el-get-bundle helm)
 (el-get-bundle helm-ag)
@@ -121,7 +116,6 @@
 (el-get-bundle smart-cursor-color)
 (el-get-bundle smartrep)
 (el-get-bundle solarized-emacs)
-;; (el-get-bundle swoop)
 (el-get-bundle symon)
 (el-get-bundle thingopt)
 (el-get-bundle trr)
