@@ -104,8 +104,7 @@
                 javascript-mode-hook js-mode-hook
                 emacs-lisp-mode-hook))
   (add-hook mode (lambda () (interactive)
-                   (fci-mode)))
-  )
+                   (fci-mode))))
 
 (global-set-key "\C-x;" 'comment-region)
 ;;(fset 'uncomment-region "\C-u\C-[xcomment-region\C-m")
@@ -1276,7 +1275,6 @@ to be added or removed from the hook variable if Flycheck mode is
 enabled and disabled respectively.")
 (global-flycheck-mode t)
 
-
 (require 'typescript)
 (setq auto-mode-alist (cons (cons "\\.ts?$" 'typescript-mode) auto-mode-alist))
 
@@ -1414,12 +1412,6 @@ With prefix ARG non-nil, insert the result at the end of region."
             (google-make-newline-indent)
             ))
 
-;; clang-format utlities
-(require 'clang-format-diff)
-(custom-set-variables
- '(ediff-split-window-function 'split-window-horizontally))
-(global-set-key "\M-[" 'clang-format-diff-view)
-
 (setq js-indent-level 4)
 (add-hook 'js-mode (lambda () (setq js-indent-level 4) (setq c-basic-offset 4)))
 
@@ -1469,5 +1461,14 @@ With prefix ARG non-nil, insert the result at the end of region."
 
 ;; (my-ac-config)
 
+(require 'gtags)
+(global-set-key "\M-." 'gtags-find-tag)
+(global-set-key "\M-r" 'gtags-find-rtag)
+(global-set-key "\M-s" 'gtags-find-symbol)
+(global-set-key "\M-," 'gtags-pop-stack)
+
+(require 'clang-format-diff)
+(global-set-key "\M-[" 'clang-format-diff-view)
+(custom-set-variables '(ediff-split-window-function 'split-window-horizontally))
 
 (provide 'garaemon-dot-emacs)

@@ -6,7 +6,6 @@
 ;;       (load-file shellenv-file)))
 ;; (dolist (path (reverse (split-string (getenv "PATH") ":")))
 ;;   (add-to-list 'exec-path path))
-
 ;; minimum settings
 (setq-default tab-width 2)
 (setq-default indent-tabs-mode nil)
