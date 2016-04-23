@@ -64,6 +64,7 @@
 (el-get-bundle clang-format-diff)
 (el-get-bundle coffee-mode)
 (el-get-bundle dash)
+(el-get-bundle linkd-mode)
 (el-get-bundle deferred)
 (el-get-bundle dired-hacks)
 (el-get-bundle dired-plus)
@@ -120,6 +121,7 @@
 (el-get-bundle trr)
 (el-get-bundle twittering-mode)
 (el-get-bundle undo-tree)
+(el-get-bundle win-switch-git)
 (el-get-bundle volatile-highlights)
 (el-get-bundle yaml-mode)
 (el-get-bundle yascroll)
@@ -145,10 +147,20 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages (quote (lua-mode el-get))))
+ '(ediff-split-window-function (quote split-window-horizontally))
+ '(flycheck-display-errors-function (function flycheck-pos-tip-error-messages))
+ '(helm-gtags-auto-update nil)
+ '(helm-gtags-ignore-case t)
+ '(helm-gtags-prefix-key "C-t")
+ '(helm-gtags-suggested-key-mapping t)
+ '(helm-mini-default-sources
+   (quote
+    (helm-source-buffers-list helm-source-ls-git helm-source-files-in-current-dir helm-source-recentf helm-source-rospack-list helm-source-buffer-not-found)))
+ '(package-selected-packages (quote (nil lua-mode el-get)))
+ '(yas-trigger-key "Enter"))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(rainbow-delimiters-depth-1-face ((t (:foreground "#7f8c8d")))))

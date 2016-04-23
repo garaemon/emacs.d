@@ -1462,4 +1462,33 @@ With prefix ARG non-nil, insert the result at the end of region."
 (global-set-key "\M-[" 'clang-format-diff-view)
 (custom-set-variables '(ediff-split-window-function 'split-window-horizontally))
 
+(require 'win-switch)
+(custom-set-variables
+ '(win-switch-feedback-background-color "blue")
+ '(win-switch-feedback-foreground-color "white")
+ '(win-switch-idle-time 1.5))
+
+;; switching window
+(win-switch-set-keys '("k") 'up)
+(win-switch-set-keys '("j") 'down)
+(win-switch-set-keys '("h") 'left)
+(win-switch-set-keys '("l") 'right)
+(win-switch-set-keys '("o") 'next-window)
+(win-switch-set-keys '("p") 'previous-window)
+;; resizing
+(win-switch-set-keys '("K") 'enlarge-vertically)
+(win-switch-set-keys '("J") 'shrink-vertically)
+(win-switch-set-keys '("H") 'shrink-horizontally)
+(win-switch-set-keys '("L") 'enlarge-horizontally)
+;; split
+(win-switch-set-keys '("3") 'split-horizontally)
+(win-switch-set-keys '("2") 'split-vertically)
+(win-switch-set-keys '("0") 'delete-window)
+(win-switch-set-keys '(" ") 'other-frame)
+(win-switch-set-keys '("u" [return]) 'exit)
+(win-switch-set-keys '("\M-\C-g") 'emergency-exit)
+;; replace C-x o
+(global-set-key (kbd "C-x o") 'win-switch-dispatch)
+
+
 (provide 'garaemon-dot-emacs)

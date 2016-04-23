@@ -1,0 +1,4 @@
+(:name linkd-mode
+       :description "linkd mode"
+       :type http
+       :url "https://www.emacswiki.org/emacs/download/linkd.el")
