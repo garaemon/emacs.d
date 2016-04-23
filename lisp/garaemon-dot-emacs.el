@@ -338,8 +338,6 @@
 (global-set-key "\C-cl" 'magit-status)
 (global-set-key "\C-cL" 'magit-status)
 
-;; initial parameter for commit
-;;(setq magit-custom-options '("--author" "\"Ryohei Ueda\" <garaemon@gmail.com>"))
 
 (require 'markdown-mode)
 
@@ -804,12 +802,7 @@
   ;;(define-key helm-read-file-map (kbd "TAB") 'helm-execute-persistent-action)
   ;; For helm-find-files etc.
   ;;(define-key helm-find-files-map (kbd "TAB") 'helm-execute-persistent-action)
-  ;; (require 'helm-replace-string)
   ;; (require 'helm-regexp)
-  ;; (defadvice query-replace (before helm-replace-string-query-replace
-  ;;                                  (from-string to-string &optional delimited start end backward) activate)
-  ;;   (helm-replace-string-push-history from-string to-string 'query-string))
-
   (custom-set-variables
    '(helm-mini-default-sources '(helm-source-buffers-list
                                  helm-source-ls-git
@@ -857,8 +850,6 @@
   ;; (define-key helm-swoop-map (kbd "C-r") 'helm-previous-line)
   ;; (define-key helm-swoop-map (kbd "C-n") 'helm-exit-minibuffer)
   ;; (define-key helm-swoop-map (kbd "C-p") 'helm-exit-minibuffer)
-  ;;helm-query-replace-regexp
-  ;;(global-set-key (kbd "M-%") 'helm-replace-string)
   )
 ;; defining keymap with C-q prefix
 (declare-function smartrep-define-key "smartrep")

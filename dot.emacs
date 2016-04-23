@@ -88,7 +88,6 @@
 (el-get-bundle helm-google)
 (el-get-bundle helm-gtags)
 (el-get-bundle helm-ls-git)
-(el-get-bundle helm-replace-string)
 (el-get-bundle helm-swoop)
 (el-get-bundle highlight-symbol)
 (el-get-bundle js2-mode)
@@ -131,8 +130,8 @@
 
 (require 'garaemon-dot-emacs)
 
-;; (unless (server-running-p)
-;;   (server-start))
+(unless (server-running-p)
+  (server-start))
 
 (provide 'dot)
 
