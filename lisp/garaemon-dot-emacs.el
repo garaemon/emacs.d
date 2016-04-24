@@ -1405,7 +1405,7 @@ With prefix ARG non-nil, insert the result at the end of region."
 ;;(add-hook 'after-save-hook 'update-gtags)
 
 ;;(define-key helm-gtags-mode-map (kbd "M-.") 'helm-gtags-find-pattern)
-(global-set-key (kbd "M-.") 'helm-gtags-find-pattern)
+(global-set-key (kbd "M-,") 'helm-gtags-find-pattern)
 (global-set-key (kbd "M-.") 'helm-gtags-find-tag-other-window)
 ;; (define-key helm-gtags-mode-map (kbd "M-t") 'helm-gtags-find-tag)
 ;; (define-key helm-gtags-mode-map (kbd "M-r") 'helm-gtags-find-rtag)
