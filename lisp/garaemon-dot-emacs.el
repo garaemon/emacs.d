@@ -3,6 +3,18 @@
 (require 'garaemon-util)
 (setq gc-cons-threshold 134217728)
 
+;; Load elscreen first.
+;; Because elscreen collides with color theme
+;; setgins.
+(require 'elscreen)
+(setq elscreen-prefix-key (kbd "C-t"))
+(elscreen-start)
+;;; タブの先頭に[X]を表示しない
+(setq elscreen-tab-display-kill-screen nil)
+;;; header-lineの先頭に[<->]を表示しない
+(setq elscreen-tab-display-control nil)
+
+
 (defvar my/color-theme nil
   "color theme to use")
 
@@ -1441,7 +1453,6 @@ With prefix ARG non-nil, insert the result at the end of region."
 (custom-set-variables '(ediff-split-window-function 'split-window-horizontally))
 
 (require 'win-switch)
-(require 'color-theme-buffer-local)
 ;; simple functions to change background color of selected buffer
 
 (custom-set-variables
@@ -1516,7 +1527,7 @@ With prefix ARG non-nil, insert the result at the end of region."
         (split-window-horizontally-n 3)
       (split-window-horizontally)))
   (win-switch-dispatch))
-(global-set-key "\C-t" 'other-window-or-split)
+(global-set-key "\M-o" 'other-window-or-split)
 
 (defun revert-buffer-no-confirm (&optional force-reverting)
   "Interactive call to revert-buffer. Ignoring the auto-save
