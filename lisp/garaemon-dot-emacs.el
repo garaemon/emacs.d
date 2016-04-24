@@ -3,6 +3,10 @@
 (require 'garaemon-util)
 (setq gc-cons-threshold 134217728)
 
+(defvar my/color-theme nil
+  "color theme to use")
+
+
 (setq file-name-coding-system 'utf-8)
 (setq locale-coding-system 'utf-8)
 
@@ -58,21 +62,23 @@
   ;;(set-frame-font "Ricty Diminished Discord-12")
   )
 
-(require 'fill-column-indicator)
-(setq-default fci-rule-column 100)
+
 
 ;; (require 'column-marker)
-(dolist (mode '(c-mode-hook
-                c++-mode-hook
-                sh-mode-hook
-                markdown-mode-hook
-                python-mode-hook
-                lisp-mode-hook euslisp-mode-hook
-                cmake-mode-hook
-                javascript-mode-hook js-mode-hook
-                emacs-lisp-mode-hook))
-  (add-hook mode (lambda () (interactive)
-                   (fci-mode))))
+;; fci mode conflicts against company mode
+;; (require 'fill-column-indicator)
+;; (setq-default fci-rule-column 100)
+;; (dolist (mode '(c-mode-hook
+;;                 c++-mode-hook
+;;                 sh-mode-hook
+;;                 markdown-mode-hook
+;;                 python-mode-hook
+;;                 lisp-mode-hook euslisp-mode-hook
+;;                 cmake-mode-hook
+;;                 javascript-mode-hook js-mode-hook
+;;                 emacs-lisp-mode-hook))
+;;   (add-hook mode (lambda () (interactive)
+;;                    (fci-mode))))
 
 (global-set-key "\C-x;" 'comment-region)
 ;;(fset 'uncomment-region "\C-u\C-[xcomment-region\C-m")
@@ -670,7 +676,8 @@
 ;; nyan-mode
 (require 'nyan-mode)
 (nyan-mode)
-(nyan-start-animation)
+;; nyan mode animation is heavy
+;; (nyan-start-animation)
 
 ;; objective-c
 ;; Path to iOS SDK
@@ -837,10 +844,10 @@
     ("o"        . 'mc/sort-regions)
     ("O"        . 'mc/reverse-regions)))
 
+(setq my/color-theme 'solarized-dark)
+
 (when (>= emacs-major-version 24)
-  (add-to-list 'custom-theme-load-path "~/.emacs.d/modules/solarized/")
-  (load-theme 'solarized-dark t)
-  ;;(load-theme 'solarized-light t)
+  (load-theme my/color-theme t)
   )
 
 
@@ -1045,11 +1052,47 @@ static char * arrow_right[] = {
 
 ;; direx
 (require 'direx)
+(require 'direx-project)
 ;; (global-set-key (kbd "C-x C-j") 'direx:jump-to-directory)
+(setq display-buffer-function 'popwin:display-buffer)
+
 (require 'popwin)
 (push '(direx:direx-mode :position left :width 25 :dedicated t)
       popwin:special-display-config)
-(global-set-key (kbd "C-x C-j") 'direx:jump-to-directory-other-window)
+
+;; re-redifine function in order to support .repo
+(defun direx-project:vc-repo-p (dirname)
+  (cl-loop for vc-dir in '(".repo")
+           thereis (file-exists-p (expand-file-name vc-dir dirname))))
+
+(defun direx-project:vc-root-p (dirname)
+   (cl-loop for vc-dir in '(".git" ".hg" ".bzr")
+            thereis (file-exists-p (expand-file-name vc-dir dirname))))
+
+(defun direx-project:project-root-p (dirname)
+  (cl-some (lambda (fun) (funcall fun dirname))
+           direx-project:project-root-predicate-functions))
+
+(defun direx-project:project-repo-root-p (dirname)
+  (cl-some (lambda (fun) (funcall fun dirname))
+           '(direx-project:vc-repo-p)))
+
+(defun direx-project:find-project-root-noselect (filename)
+  (interactive)
+  (or (cl-loop for parent-dirname in (if (file-directory-p filename)
+                                     (cons filename
+                                           (direx:directory-parents filename))
+                                   (direx:directory-parents filename))
+           if (direx-project:project-repo-root-p parent-dirname)
+           return (direx:find-directory-noselect parent-dirname))
+      (cl-loop for parent-dirname in (if (file-directory-p filename)
+                                         (cons filename
+                                               (direx:directory-parents filename))
+                                       (direx:directory-parents filename))
+               if (direx-project:project-root-p parent-dirname)
+               return (direx:find-directory-noselect parent-dirname))))
+
+(global-set-key (kbd "C-x C-j") 'direx-project:jump-to-project-root-other-window)
 
 (require 'dockerfile-mode)
 (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
@@ -1061,13 +1104,13 @@ static char * arrow_right[] = {
 
 (require 'dired+)
 
-;; (require 'hl-line)
-;; (defun global-hl-line-timer-function ()
-;;   (global-hl-line-unhighlight-all)
-;;   (let ((global-hl-line-mode t))
-;;     (global-hl-line-highlight)))
-;; (setq global-hl-line-timer
-;;       (run-with-idle-timer 0.03 t 'global-hl-line-timer-function))
+(require 'hl-line)
+(defun global-hl-line-timer-function ()
+  (global-hl-line-unhighlight-all)
+  (let ((global-hl-line-mode t))
+    (global-hl-line-highlight)))
+(setq global-hl-line-timer
+      (run-with-idle-timer 0.03 t 'global-hl-line-timer-function))
 
 ;;(global-hl-line-mode -1)
 
@@ -1431,10 +1474,15 @@ With prefix ARG non-nil, insert the result at the end of region."
 (custom-set-variables '(ediff-split-window-function 'split-window-horizontally))
 
 (require 'win-switch)
+(require 'color-theme-buffer-local)
+;; simple functions to change background color of selected buffer
+
 (custom-set-variables
- '(win-switch-feedback-background-color "blue")
- '(win-switch-feedback-foreground-color "white")
- '(win-switch-idle-time 1.5))
+ '(win-switch-feedback-background-color "yellow")
+ '(win-switch-feedback-foreground-color "black")
+ '(win-switch-idle-time 1.5)
+ '(win-switch-window-threshold 1)
+ )
 
 ;; switching window
 (win-switch-set-keys '("k") 'up)
@@ -1460,8 +1508,14 @@ With prefix ARG non-nil, insert the result at the end of region."
 
 (require 'company)
 (global-company-mode)
-(setq company-idle-delay 0) ; デフォルトは0.5
+(setq company-idle-delay 0.1) ; デフォルトは0.5
 (setq company-minimum-prefix-length 2) ; デフォルトは4
 (setq company-selection-wrap-around t) ; 候補の一番下でさらに下に行こうとすると一番上に戻る
+(define-key company-active-map (kbd "C-n") 'company-select-next)
+(define-key company-active-map (kbd "C-p") 'company-select-previous)
+(define-key company-search-map (kbd "C-n") 'company-select-next)
+(define-key company-search-map (kbd "C-p") 'company-select-previous)
+(define-key company-search-map (kbd "C-h") 'backward-delete-char)
+(define-key company-active-map (kbd "C-h") 'backward-delete-char)
 
 (provide 'garaemon-dot-emacs)
