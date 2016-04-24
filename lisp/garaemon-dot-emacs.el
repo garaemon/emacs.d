@@ -666,7 +666,7 @@
 (setq auto-mode-alist (cons '("\\.cmake$" . cmake-mode) auto-mode-alist))
 
 (setq-default tab-width 8)
-(setq-default c-basic-offset 2)
+(setq-default c-basic-offset 4)
 (c-set-offset 'substatement-open 0)
 ;; (require 'judge-indent)
 ;; (global-judge-indent-mode t)
@@ -1368,6 +1368,33 @@ With prefix ARG non-nil, insert the result at the end of region."
 
 (require 'google-c-style)
 
+;; customize google-c-style
+(setf (cdr (assoc 'c-basic-offset google-c-style)) 4)
+(setf (cdr (assoc 'c-offsets-alist google-c-style))
+      '((arglist-intro . ++)
+        (func-decl-cont . ++)
+        (member-init-intro . ++)
+        (inher-intro . ++)
+        (comment-intro . 0)
+        (arglist-close . c-lineup-arglist)
+        (topmost-intro . 0)
+        (block-open . 0)
+        (inline-open . 0)
+        (substatement-open . 0)
+        (statement-cont
+         .
+         (,(when (fboundp 'c-no-indent-after-java-annotations)
+             'c-no-indent-after-java-annotations)
+          ,(when (fboundp 'c-lineup-assignments)
+             'c-lineup-assignments)
+          ++))
+        (label . /)
+        (case-label . +)
+        (statement-case-open . +)
+        (statement-case-intro . +) ; case w/o {
+        ;;(access-label . /)
+        (innamespace . 0)))
+
 ;; Quick & Dirty C++11 support
 (defun c++-mode-hook-c++11 ()
   (font-lock-add-keywords
@@ -1406,12 +1433,14 @@ With prefix ARG non-nil, insert the result at the end of region."
 
 (add-hook 'c++-mode-hook
           (lambda()
+
             (set-fill-column 100)
             ;;(column-marker-1 100)
             (c++-mode-hook-c++11)
             (add-hook 'before-save-hook 'delete-trailing-whitespace)
             (google-set-c-style)
             (google-make-newline-indent)
+            (setq c-basic-offset 4)
             ))
 
 (setq js-indent-level 4)

@@ -7,7 +7,7 @@
 ;; (dolist (path (reverse (split-string (getenv "PATH") ":")))
 ;;   (add-to-list 'exec-path path))
 ;; minimum settings
-(setq-default tab-width 2)
+(setq-default tab-width 4)
 (setq-default indent-tabs-mode nil)
 (global-set-key "\C-h" 'backward-delete-char)
 (global-unset-key "\M-p")
