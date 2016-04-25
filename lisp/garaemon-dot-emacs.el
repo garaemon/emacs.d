@@ -748,6 +748,7 @@
   (require 'helm-config)
   (require 'helm-swoop)
   (require 'helm-gtags)
+  (setq helm-gtags-auto-update t)
 
   (add-hook 'c-mode-hook 'helm-gtags-mode)
   (add-hook 'c++-mode-hook 'helm-gtags-mode)
@@ -1534,6 +1535,7 @@ With prefix ARG non-nil, insert the result at the end of region."
 (win-switch-set-keys '("\M-\C-g") 'emergency-exit)
 ;; replace C-x o
 (global-set-key (kbd "C-x o") 'win-switch-dispatch)
+;;(global-set-key (kbd "C-x p") (win-switch-dispatch-with 'win-switch-previous-window))
 
 (require 'company)
 (global-company-mode)

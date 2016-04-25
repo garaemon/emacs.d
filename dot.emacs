@@ -57,7 +57,6 @@
 (el-get-bundle ace-jump-mode)
 (el-get-bundle anzu)
 (el-get-bundle async)
-(el-get-bundle auto-complete)
 (el-get-bundle auto-highlight-symbol)
 (el-get-bundle bm)
 (el-get-bundle c-eldoc)
