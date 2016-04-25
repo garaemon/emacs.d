@@ -37,13 +37,6 @@
 (global-set-key "\C-h" 'backward-delete-char)
 (global-set-key "\M-h" 'help-for-help)
 
-;; (require 'bm)
-;; (global-set-key [?\C-;] 'bm-previous)
-;; (global-set-key [?\C-:] 'bm-next)
-;; (global-set-key [?\C-\M- ] 'bm-toggle)
-
-
-
 (when-carbon
  (require 'carbon-font)
  (setq mac-allow-anti-aliasing t)
@@ -690,6 +683,7 @@
 
 (setq compilation-scroll-output t)
 
+(require 'recentf-ext)
 
 ;; helm
 (when (>= emacs-major-version 24)

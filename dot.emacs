@@ -115,6 +115,7 @@
 (el-get-bundle protobuf-mode)
 (el-get-bundle puppet-mode)
 (el-get-bundle rainbow-delimiters)
+(el-get-bundle recentf-ext)
 (el-get-bundle s)
 (el-get-bundle save-visited-files)
 (el-get-bundle scss-mode)
