@@ -1,0 +1,4 @@
+(:name auto-save-buffers-enhanced
+       :description "enhanced auto-save-buffers"
+       :type github
+       :pkgname "kentaro/auto-save-buffers-enhanced")

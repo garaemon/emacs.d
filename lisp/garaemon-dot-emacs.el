@@ -1138,11 +1138,6 @@ downcased, no preceding underscore.
 (global-set-key (kbd "C-c C-s") 'milkode:search-from-all-packages)
 (global-set-key (kbd "C-c C-m") 'milkode:search-from-all-packages)
 
-;; (require 'c-eldoc)
-;; (add-hook 'c-mode-hook 'c-turn-on-eldoc-mode)
-;; (add-hook 'c++-mode-hook 'c-turn-on-eldoc-mode)
-;; (setq c-eldoc-buffer-regenerate-time 60)
-
 (defun split-window-vertically-n (num_wins)
   (interactive "p")
   (if (= num_wins 2)
@@ -1300,10 +1295,6 @@ With prefix ARG non-nil, insert the result at the end of region."
 (add-hook 'before-save-hook 'replace-commaperiod-before-save-if-needed)
 ;; (require 'google-this)
 ;; (global-set-key (kbd "C-x g") 'google-this-mode-submap)
-;; (require 'speed-type)
-
-;; (setq speed-type--gb-url-format
-;;   "http://www.gutenberg.org/cache/epub/%d/pg%d.txt")
 
 (require 'lua-mode)
 
@@ -1381,7 +1372,6 @@ With prefix ARG non-nil, insert the result at the end of region."
 
 (add-hook 'c++-mode-hook
           (lambda()
-
             (set-fill-column 100)
             ;;(column-marker-1 100)
             (c++-mode-hook-c++11)
@@ -1540,10 +1530,6 @@ With prefix ARG non-nil, insert the result at the end of region."
     (error "The buffer has been modified")))
 (global-set-key "\M-r" 'revert-buffer-no-confirm)
 
-;; (require 'save-visited-files)
-;; (setq save-visited-files-ignore-tramp-files t)
-;; (turn-on-save-visited-files-mode)
-
 ;; for tmux integration
 (defun open-current-file-in-tmux ()
   (interactive)
@@ -1560,5 +1546,28 @@ With prefix ARG non-nil, insert the result at the end of region."
     )))
 
 (global-set-key "\M-t" 'open-current-file-in-tmux)
+
+(require 'backup-each-save)
+;;; バックアップ先
+(setq backup-each-save-mirror-location "~/.emacs.d/backups")
+;;; バックアップファイルにつけるsuffix
+(setq backup-each-save-time-format "%y%m%d_%H%M%S")
+;;; バックアップするファイルサイズの上限
+(setq backup-each-save-size-limit 5000000)
+;;; バックアップ作成するファイルを判定
+;; (defun backup-each-save-backup-p (filename)
+;;   (string-match
+;;    ;; ファイル名に/sync/が含まれるときのみバックアップする
+;;    (rx (or "/sync/"))
+;;    (file-truename filename)))
+;; (setq backup-each-save-filter-function 'backup-each-save-backup-p)
+;;; すべてのファイルをバックアップする
+(setq backup-each-save-filter-function 'identity)
+;;; 有効化！
+(add-hook 'after-save-hook 'backup-each-save)
+
+(require 'auto-save-buffers-enhanced)
+(auto-save-buffers-enhanced-include-only-checkout-path t)
+(auto-save-buffers-enhanced t)
 
 (provide 'garaemon-dot-emacs)

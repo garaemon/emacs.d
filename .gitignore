@@ -12,3 +12,4 @@ el-get-user/
 
 dot.emacs.local.el
 *~
+backups/*

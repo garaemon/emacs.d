@@ -1,4 +1,5 @@
 ;; -*- mode: emacs-lisp; -*-
+;; written by R.Ueda, a.k.a. garaemon
 
 ;; Load path from shellenv.el
 (let ((shellenv-file (expand-file-name "~/.emacs.d/shellenv.el")))
@@ -58,8 +59,9 @@
 (el-get-bundle anzu)
 (el-get-bundle async)
 (el-get-bundle auto-highlight-symbol)
+(el-get-bundle auto-save-buffers-enhanced)
+(el-get-bundle backup-each-save)
 (el-get-bundle bm)
-(el-get-bundle c-eldoc)
 (el-get-bundle clang-format-diff)
 (el-get-bundle coffee-mode)
 (el-get-bundle column-marker)
@@ -133,7 +135,7 @@
 (el-get-bundle yaml-mode)
 (el-get-bundle yascroll)
 (el-get-bundle yasnippet)
-;; written by R.Ueda, a.k.a. garaemon
+
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp"))
 
 (require 'garaemon-dot-emacs)
