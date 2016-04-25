@@ -81,7 +81,7 @@
 (el-get-bundle flycheck-pos-tip)
 (el-get-bundle gh)
 (el-get-bundle gist)
-(el-get-bundle git-gutter)
+(el-get-bundle git-gutter+)
 (el-get-bundle google-c-style)
 (el-get-bundle graphviz-dot-mode)
 (el-get-bundle gtags)

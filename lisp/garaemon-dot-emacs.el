@@ -665,8 +665,8 @@
 (global-auto-highlight-symbol-mode t)
 ;; (require 'auto-highlight-symbol-config)
 
-(require 'git-gutter)
-(global-git-gutter-mode +1)
+(require 'git-gutter+)
+(global-git-gutter+-mode +1)
 ;;(git-gutter:linum-setup)
 
 
