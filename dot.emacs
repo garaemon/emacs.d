@@ -98,7 +98,7 @@
 (el-get-bundle judge-indent)
 (el-get-bundle less-css-mode)
 (el-get-bundle let-alist)
-(el-get-bundle linkd-mode)
+(el-get-bundle linkd)
 (el-get-bundle logito)
 (el-get-bundle lua-mode)
 (el-get-bundle magit)

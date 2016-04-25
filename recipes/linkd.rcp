@@ -1,3 +1,3 @@
-(:name linkd-mode
+(:name linkd
        :description "linkd mode"
        :type emacswiki)
