@@ -1,5 +1,8 @@
 ;; -*- mode: emacs-lisp -*-
 
+;; shell env hook for mac os x
+
+
 (require 'garaemon-util)
 (setq gc-cons-threshold 134217728)
 
@@ -1541,5 +1544,21 @@ With prefix ARG non-nil, insert the result at the end of region."
 ;; (setq save-visited-files-ignore-tramp-files t)
 ;; (turn-on-save-visited-files-mode)
 
+;; for tmux integration
+(defun open-current-file-in-tmux ()
+  (interactive)
+  (let ((file-path (buffer-file-name)))
+    (let ((target-dir (if (file-directory-p file-path)
+                          file-path
+                          (file-name-directory file-path))))
+      (message (format "Opening directory %s in tmux" target-dir))
+      (call-process-shell-command
+       "tmux" nil "*tmux-output*"
+       nil
+       (format "new-window -a -t $(tmux ls -F \"#S\") -c %s"
+               target-dir))
+    )))
+
+(global-set-key "\M-t" 'open-current-file-in-tmux)
 
 (provide 'garaemon-dot-emacs)

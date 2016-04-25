@@ -1,11 +1,11 @@
 ;; -*- mode: emacs-lisp; -*-
 
 ;; Load path from shellenv.el
-;; (let ((shellenv-file (expand-file-name "~/.emacs.d/shellenv.el")))
-;;   (if (file-exists-p shellenv-file)
-;;       (load-file shellenv-file)))
-;; (dolist (path (reverse (split-string (getenv "PATH") ":")))
-;;   (add-to-list 'exec-path path))
+(let ((shellenv-file (expand-file-name "~/.emacs.d/shellenv.el")))
+  (if (file-exists-p shellenv-file)
+      (load-file shellenv-file)))
+(dolist (path (reverse (split-string (getenv "PATH") ":")))
+  (add-to-list 'exec-path path))
 ;; minimum settings
 (setq-default tab-width 4)
 (setq-default indent-tabs-mode nil)
