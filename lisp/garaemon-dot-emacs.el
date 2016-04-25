@@ -1005,7 +1005,7 @@ static char * arrow_right[] = {
 (setq display-buffer-function 'popwin:display-buffer)
 
 (require 'popwin)
-(push '(direx:direx-mode :position left :width 25 :dedicated t)
+(push '(direx:direx-mode :position left :width 50 :dedicated t)
       popwin:special-display-config)
 
 ;; re-redifine function in order to support .repo
@@ -1542,5 +1542,10 @@ With prefix ARG non-nil, insert the result at the end of region."
       (revert-buffer :ignore-auto :noconfirm)
     (error "The buffer has been modified")))
 (global-set-key "\M-r" 'revert-buffer-no-confirm)
+
+;; (require 'save-visited-files)
+;; (setq save-visited-files-ignore-tramp-files t)
+;; (turn-on-save-visited-files-mode)
+
 
 (provide 'garaemon-dot-emacs)

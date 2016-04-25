@@ -116,6 +116,7 @@
 (el-get-bundle puppet-mode)
 (el-get-bundle rainbow-delimiters)
 (el-get-bundle s)
+(el-get-bundle save-visited-files)
 (el-get-bundle scss-mode)
 (el-get-bundle smart-cursor-color)
 (el-get-bundle smartrep)

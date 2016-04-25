@@ -1,0 +1,4 @@
+(:name save-visited-files
+       :type github
+       :description "save visited files"
+       :pkgname "nflath/save-visited-files")
