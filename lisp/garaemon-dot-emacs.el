@@ -3,6 +3,18 @@
 (require 'garaemon-util)
 (setq gc-cons-threshold 134217728)
 
+;; Load elscreen first.
+;; Because elscreen collides with color theme
+;; setgins.
+(require 'elscreen)
+(setq elscreen-prefix-key (kbd "C-t"))
+(elscreen-start)
+;;; タブの先頭に[X]を表示しない
+(setq elscreen-tab-display-kill-screen nil)
+;;; header-lineの先頭に[<->]を表示しない
+(setq elscreen-tab-display-control nil)
+
+
 (defvar my/color-theme nil
   "color theme to use")
 
@@ -64,19 +76,21 @@
 
 
 
-;; (require 'column-marker)
+(require 'column-marker)
 ;; fci mode conflicts against company mode
 ;; (require 'fill-column-indicator)
 ;; (setq-default fci-rule-column 100)
-;; (dolist (mode '(c-mode-hook
-;;                 c++-mode-hook
-;;                 sh-mode-hook
-;;                 markdown-mode-hook
-;;                 python-mode-hook
-;;                 lisp-mode-hook euslisp-mode-hook
-;;                 cmake-mode-hook
-;;                 javascript-mode-hook js-mode-hook
-;;                 emacs-lisp-mode-hook))
+(dolist (mode '(c-mode-hook
+                c++-mode-hook
+                sh-mode-hook
+                markdown-mode-hook
+                python-mode-hook
+                lisp-mode-hook euslisp-mode-hook
+                cmake-mode-hook
+                javascript-mode-hook js-mode-hook
+                emacs-lisp-mode-hook))
+  (add-hook mode (lambda ()
+                   (column-marker-1 100))))
 ;;   (add-hook mode (lambda () (interactive)
 ;;                    (fci-mode))))
 
@@ -413,6 +427,7 @@
  (scroll-bar-mode -1))
 (menu-bar-mode -1)
 (tool-bar-mode -1)
+(setq scroll-conservatively 1)
 
 (setq auto-mode-alist
       (cons '("\\.\\(xml\\|xsl\\|rng\\|xhtml\\|kml\\|gpx\\)\\'" . html-mode)
@@ -532,7 +547,6 @@
 (show-paren-mode t)
 (setq show-paren-style 'mixed)
 
-
 (setq-default indent-tabs-mode nil)
 (setq inhibit-startup-message t)
 
@@ -547,69 +561,6 @@
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
 
 (fset 'yes-or-no-p 'y-or-n-p)
-
-;; Yatex
-(when nil
-  (require 'yatex)
-  (setq auto-mode-alist
-        (append '(("\\.tex$" . yatex-mode)
-                  ("\\.ltx$" . yatex-mode)
-                  ("\\.cls$" . yatex-mode)
-                  ("\\.sty$" . yatex-mode)
-                  ("\\.clo$" . yatex-mode)
-                  ("\\.bbl$" . yatex-mode)) auto-mode-alist))
-  (setq YaTeX-kanji-code 4)
-  (setq YaTeX-latex-message-code 'utf-8)
-  (setq YaTeX-no-begend-shortcut t))
-
-
-(defun shell-command-sequence (cmd &rest others)
-  (mapc 'shell-command `(,cmd ,@others)))
-
-(defun yatex-typeset-and-preview ()
-  (interactive)
-  (let* ((f (buffer-file-name))
-         (dir (file-name-directory f))
-         (stem (file-name-sans-extension f)))
-    (save-excursion
-      (basic-save-buffer)
-      (shell-command-sequence (concat "cd " dir)
-                              (concat "platex --kanji=utf8 " f)
-                              (concat "dvipdfmx " stem ".dvi")
-                              (concat "rm " stem ".dvi")
-                              (concat "rm " stem ".aux") ;; ここはコメントアウトすべきかも
-                              (concat "rm " stem ".log"))
-      (pop-to-buffer (find-file-noselect (concat stem ".pdf"))))))
-
-(defun yatex-typeset-and-preview-region (beg end)
-  (interactive "r")
-  (let* ((f (file-name-nondirectory (buffer-file-name)))
-         (tmpfile (concat "/tmp/" f))
-         (stem (file-name-sans-extension tmpfile))
-         (contents (buffer-substring-no-properties beg end))
-         header)
-    (save-excursion
-      (goto-char (point-min))
-      (re-search-forward "\\\\begin{document}")
-      (setq header (buffer-substring-no-properties (point-min) (1+ (match-end 0))))
-      (set-buffer (find-file-noselect tmpfile))
-      (insert header)
-      (insert contents)
-      (insert "\\end{document}")
-      (unwind-protect
-          (yatex-typeset-and-preview)
-        ;;(shell-command (concat "rm " tmpfile))
-        (kill-buffer (current-buffer))))))
-
-(add-hook 'yatex-mode-hook
-          '(lambda ()
-             (auto-fill-mode nil)
-             (local-set-key (kbd "C-c C-c") 'yatex-typeset-and-preview)
-             (local-set-key "\C-cl" 'magit-status)
-             (local-set-key "\C-cL" 'magit-status)
-             (local-set-key (kbd "C-c C-r") 'yatex-typeset-and-preview-region)))
-(setq dvi2-command "xdvi")
-(setq YaTeX-inhibit-prefix-letter t)
 
 ;; for emacs24 x mac
 (setq mac-command-modifier 'meta)
@@ -643,9 +594,6 @@
 (setq locale-coding-system 'utf-8-hfs)
 (setq system-uses-terminfo nil)
 
-;;(require 'python-mode)
-
-(load-library "php-mode")
 (require 'php-mode)
 
 ;; mark zenkaku-whitespaces and tabs
@@ -708,13 +656,14 @@
 (global-set-key (kbd "<C-M-return>") 'mc/edit-lines)
 (global-set-key (kbd "C-M-j") 'mc/edit-lines)
 
-(require 'highlight-symbol)
-(setq highlight-symbol-colors '("DarkOrange" "DodgerBlue1" "DeepPink1"))
+;; (require 'highlight-symbol)
+;; (setq highlight-symbol-colors '("DarkOrange" "DodgerBlue1" "DeepPink1"))
 
-(global-set-key (kbd "<f3>") 'highlight-symbol-at-point)
-(global-set-key (kbd "<f4>") 'highlight-symbol-remove-all)
-
-(require 'auto-highlight-symbol-config nil t)
+;; (global-set-key (kbd "<f3>") 'highlight-symbol-at-point)
+;; (global-set-key (kbd "<f4>") 'highlight-symbol-remove-all)
+(require 'auto-highlight-symbol)
+(global-auto-highlight-symbol-mode t)
+;; (require 'auto-highlight-symbol-config)
 
 (require 'git-gutter)
 (global-git-gutter-mode +1)
@@ -970,8 +919,6 @@ static char * arrow_right[] = {
   (set-face-attribute 'mode-line-inactive nil
                       :foreground "#fff"
                       :background color4))
-;; ignore case when find-file completion
-(setq completion-ignore-case t)
 
 (require 'trr)
 
@@ -991,7 +938,7 @@ static char * arrow_right[] = {
 
 ;; 除外したい拡張子
 (setq delete-trailing-whitespace-exclude-patterns
-      (list "\\.cpp$" "\\.h$" "\\.l" "\\.py" "\\.launch" "\\.test"
+      (list "\\.cpp$" "\\.h$" "\\.hpp$" "\\.l" "\\.py" "\\.launch" "\\.test"
             "\\.cmake" "\\.xml"))
 
 (require 'cl)
@@ -1014,7 +961,7 @@ static char * arrow_right[] = {
 (setq yas-snippet-dirs
       '("~/.emacs.d/snippets"
         "~/.emacs.d/el-get/yasnippet/snippets"))
-(yas-global-mode 1)
+(yas-global-mode)
 ;;(custom-set-variables '(yas-trigger-key "TAB"))
 
 ;; insert new snippet
@@ -1252,30 +1199,46 @@ downcased, no preceding underscore.
 (setq flycheck-check-syntax-automatically '(mode-enabled save))
 
 (defconst flycheck-hooks-alist
-  '(
-    ;; Handle events that may start automatic syntax checks
-    (after-save-hook                  . flycheck-handle-save)
-    ;;(after-change-functions           . flycheck-handle-change)
+  '(;; Handle events that may start automatic syntax checks
+    (after-save-hook        . flycheck-handle-save)
+    ;; (after-change-functions . flycheck-handle-change)
     ;; Handle events that may triggered pending deferred checks
     ;; (window-configuration-change-hook . flycheck-perform-deferred-syntax-check)
     ;; (post-command-hook                . flycheck-perform-deferred-syntax-check)
     ;; Teardown Flycheck whenever the buffer state is about to get lost, to
     ;; clean up temporary files and directories.
-    ;; (kill-buffer-hook                 . flycheck-teardown)
-    ;; (change-major-mode-hook           . flycheck-teardown)
-    ;; (before-revert-hook               . flycheck-teardown)
+    ;; (kill-buffer-hook       . flycheck-teardown)
+    ;; (change-major-mode-hook . flycheck-teardown)
+    ;; (before-revert-hook     . flycheck-teardown)
     ;; Update the error list if necessary
-    ;; (post-command-hook                . flycheck-error-list-update-source)
-    ;; (post-command-hook                . flycheck-error-list-highlight-errors)
-    ;; Show or hide error popups after commands
-    (post-command-hook                . flycheck-display-error-at-point-soon)
-    (post-command-hook                . flycheck-hide-error-buffer)
+    ;; (post-command-hook . flycheck-error-list-update-source)
+    ;; (post-command-hook . flycheck-error-list-highlight-errors)
+    ;; Display errors.  Show errors at point after commands (like movements) and
+    ;; when Emacs gets focus.  Cancel the display timer when Emacs looses focus
+    ;; (as there's no need to display errors if the user can't see them), and
+    ;; hide the error buffer (for large error messages) if necessary.  Note that
+    ;; the focus hooks only work on Emacs 24.4 and upwards, but since undefined
+    ;; hooks are perfectly ok we don't need a version guard here.  They'll just
+    ;; not work silently.
+    (post-command-hook . flycheck-display-error-at-point-soon)
+    (focus-in-hook     . flycheck-display-error-at-point-soon)
+    (focus-out-hook    . flycheck-cancel-error-display-error-at-point-timer)
+    (post-command-hook . flycheck-hide-error-buffer)
     ;; Immediately show error popups when navigating to an error
-    (next-error-hook                  . flycheck-display-error-at-point))
+    (next-error-hook . flycheck-display-error-at-point))
   "Hooks which Flycheck needs to hook in.
 The `car' of each pair is a hook variable, the `cdr' a function
 to be added or removed from the hook variable if Flycheck mode is
 enabled and disabled respectively.")
+
+;; redefine with idle-timer
+(defun flycheck-display-error-at-point-soon ()
+  "Display the first error message at point in minibuffer delayed."
+  (flycheck-cancel-error-display-error-at-point-timer)
+  (when (flycheck-overlays-at (point))
+    (setq flycheck-display-error-at-point-timer
+          (run-with-idle-timer flycheck-display-errors-delay nil 'flycheck-display-error-at-point))))
+
 (global-flycheck-mode t)
 
 (require 'typescript)
@@ -1338,19 +1301,6 @@ With prefix ARG non-nil, insert the result at the end of region."
 
 ;;保存前フックに追加
 (add-hook 'before-save-hook 'replace-commaperiod-before-save-if-needed)
-
-(defun revert-buffer-no-confirm (&optional force-reverting)
-  "Interactive call to revert-buffer. Ignoring the auto-save
- file and not requesting for confirmation. When the current buffer
- is modified, the command refuses to revert it, unless you specify
- the optional argument: force-reverting to true."
-  (interactive "P")
-  ;;(message "force-reverting value is %s" force-reverting)
-  (if (or force-reverting (not (buffer-modified-p)))
-      (revert-buffer :ignore-auto :noconfirm)
-    (error "The buffer has been modified")))
-(global-set-key "\M-r" 'revert-buffer-no-confirm)
-
 ;; (require 'google-this)
 ;; (global-set-key (kbd "C-x g") 'google-this-mode-submap)
 ;; (require 'speed-type)
@@ -1468,7 +1418,7 @@ With prefix ARG non-nil, insert the result at the end of region."
 ;;(add-hook 'after-save-hook 'update-gtags)
 
 ;;(define-key helm-gtags-mode-map (kbd "M-.") 'helm-gtags-find-pattern)
-(global-set-key (kbd "M-.") 'helm-gtags-find-pattern)
+(global-set-key (kbd "M-,") 'helm-gtags-find-pattern)
 (global-set-key (kbd "M-.") 'helm-gtags-find-tag-other-window)
 ;; (define-key helm-gtags-mode-map (kbd "M-t") 'helm-gtags-find-tag)
 ;; (define-key helm-gtags-mode-map (kbd "M-r") 'helm-gtags-find-rtag)
@@ -1504,7 +1454,6 @@ With prefix ARG non-nil, insert the result at the end of region."
 (custom-set-variables '(ediff-split-window-function 'split-window-horizontally))
 
 (require 'win-switch)
-(require 'color-theme-buffer-local)
 ;; simple functions to change background color of selected buffer
 
 (custom-set-variables
@@ -1548,5 +1497,50 @@ With prefix ARG non-nil, insert the result at the end of region."
 (define-key company-search-map (kbd "C-p") 'company-select-previous)
 (define-key company-search-map (kbd "C-h") 'backward-delete-char)
 (define-key company-active-map (kbd "C-h") 'backward-delete-char)
+
+(require 'irony)
+(add-hook 'c-mode-hook 'irony-mode)
+(add-hook 'c++-mode-hook 'irony-mode)
+(add-hook 'objc-mode-hook 'irony-mode)
+(add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
+(add-to-list 'company-backends 'company-irony)
+
+(defun split-window-vertically-n (num_wins)
+  (interactive "p")
+  (if (= num_wins 2)
+      (split-window-vertically)
+    (progn
+      (split-window-vertically
+       (- (window-height) (/ (window-height) num_wins)))
+      (split-window-vertically-n (- num_wins 1)))))
+(defun split-window-horizontally-n (num_wins)
+  (interactive "p")
+  (if (= num_wins 2)
+      (split-window-horizontally)
+    (progn
+      (split-window-horizontally
+       (- (window-width) (/ (window-width) num_wins)))
+      (split-window-horizontally-n (- num_wins 1)))))
+
+(defun other-window-or-split ()
+  (interactive)
+  (when (one-window-p)
+    (if (>= (window-body-width) 270)
+        (split-window-horizontally-n 3)
+      (split-window-horizontally)))
+  (win-switch-dispatch))
+(global-set-key "\M-o" 'other-window-or-split)
+
+(defun revert-buffer-no-confirm (&optional force-reverting)
+  "Interactive call to revert-buffer. Ignoring the auto-save
+ file and not requesting for confirmation. When the current buffer
+ is modified, the command refuses to revert it, unless you specify
+ the optional argument: force-reverting to true."
+  (interactive "P")
+  ;;(message "force-reverting value is %s" force-reverting)
+  (if (or force-reverting (not (buffer-modified-p)))
+      (revert-buffer :ignore-auto :noconfirm)
+    (error "The buffer has been modified")))
+(global-set-key "\M-r" 'revert-buffer-no-confirm)
 
 (provide 'garaemon-dot-emacs)
