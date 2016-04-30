@@ -1,0 +1,4 @@
+(:name color-theme-buffer-local
+       :description "Change buffer local color theme"
+       :type github
+       :pkgname "vic/color-theme-buffer-local")

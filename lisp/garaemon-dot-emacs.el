@@ -618,8 +618,8 @@
 
 
 ;; nyan-mode
-(require 'nyan-mode)
-(nyan-mode)
+;; (require 'nyan-mode)
+;; (nyan-mode -1)
 ;; nyan mode animation is heavy
 ;; (nyan-start-animation)
 
@@ -662,7 +662,7 @@
 ;; (require 'auto-highlight-symbol-config)
 
 (require 'git-gutter+)
-(global-git-gutter+-mode +1)
+(global-git-gutter+-mode -1)
 ;;(git-gutter:linum-setup)
 
 
@@ -1231,7 +1231,7 @@ downcased, no preceding underscore.
     (setq flycheck-display-error-at-point-timer
           (run-with-idle-timer flycheck-display-errors-delay nil 'flycheck-display-error-at-point))))
 
-(global-flycheck-mode t)
+;; (global-flycheck-mode t)
 
 (require 'typescript)
 (setq auto-mode-alist (cons (cons "\\.ts?$" 'typescript-mode) auto-mode-alist))
@@ -1568,6 +1568,6 @@ With prefix ARG non-nil, insert the result at the end of region."
 
 (require 'auto-save-buffers-enhanced)
 (auto-save-buffers-enhanced-include-only-checkout-path t)
-(auto-save-buffers-enhanced t)
+(auto-save-buffers-enhanced nil)
 
 (provide 'garaemon-dot-emacs)
