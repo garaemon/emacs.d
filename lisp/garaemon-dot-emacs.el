@@ -662,7 +662,7 @@
 ;; (require 'auto-highlight-symbol-config)
 
 (require 'git-gutter+)
-(global-git-gutter+-mode -1)
+(global-git-gutter+-mode 1)
 ;;(git-gutter:linum-setup)
 
 
@@ -810,6 +810,36 @@
 (global-undo-tree-mode)
 (define-key undo-tree-visualizer-mode-map
   "\C-m" 'undo-tree-visualizer-quit)
+
+(require 'undohist)
+(undohist-initialize)
+;;; 永続化を無視するファイル名の正規表現
+(setq undohist-ignored-files
+      '("/tmp/"))
+;;; NTEmacsだと動かないらしいので再定義
+;;; http://d.hatena.ne.jp/Lian/20120420/1334856445
+(when (eq system-type 'windows-nt)
+  (defun make-undohist-file-name (file)
+    (setq file (convert-standard-filename (expand-file-name file)))
+    (if (eq (aref file 1) ?:)
+        (setq file (concat "/"
+                           "drive_"
+                           (char-to-string (downcase (aref file 0)))
+                           (if (eq (aref file 2) ?/)
+                               ""
+                             (if (eq (aref file 2) ?\\)
+                                 ""
+                               "/"))
+                           (substring file 2))))
+    (setq file (expand-file-name
+                (subst-char-in-string
+                 ?/ ?!
+                 (subst-char-in-string
+                  ?\\ ?!
+                  (replace-regexp-in-string "!" "!!"  file)))
+                undohist-directory))))
+
+
 (require 'yaml-mode)
 (add-to-list 'auto-mode-alist '("\\.\\(yml\\|yaml\\|rosinstall\\)$" . yaml-mode))
 
@@ -930,8 +960,8 @@ static char * arrow_right[] = {
 ;; (global-set-key (kbd "M-%") 'anzu-query-replace)
 ;; (global-set-key (kbd "M-&") 'anzu-query-replace) ;for mistype
 
-;; (require 'yascroll)
-;; (global-yascroll-bar-mode 0)
+(require 'yascroll)
+(global-yascroll-bar-mode 1)
 
 ;; 除外したい拡張子
 (setq delete-trailing-whitespace-exclude-patterns
@@ -1231,7 +1261,7 @@ downcased, no preceding underscore.
     (setq flycheck-display-error-at-point-timer
           (run-with-idle-timer flycheck-display-errors-delay nil 'flycheck-display-error-at-point))))
 
-;; (global-flycheck-mode t)
+(global-flycheck-mode t)
 
 (require 'typescript)
 (setq auto-mode-alist (cons (cons "\\.ts?$" 'typescript-mode) auto-mode-alist))

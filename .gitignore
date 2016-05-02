@@ -16,3 +16,4 @@ backups/*
 recentf
 network-security.data
 emacs-visited-files
+undohist/

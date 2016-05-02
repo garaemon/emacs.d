@@ -131,6 +131,7 @@
 (el-get-bundle trr)
 (el-get-bundle twittering-mode)
 (el-get-bundle undo-tree)
+(el-get-bundle undohist)
 (el-get-bundle volatile-highlights)
 (el-get-bundle win-switch-git)
 (el-get-bundle yaml-mode)
@@ -168,7 +169,7 @@
  '(helm-mini-default-sources
    (quote
     (helm-source-buffers-list helm-source-ls-git helm-source-files-in-current-dir helm-source-recentf helm-source-rospack-list helm-source-buffer-not-found)))
- '(nyan-mode t)
+ ;; '(nyan-mode t)
  '(package-selected-packages (quote (company nil lua-mode el-get)))
  '(win-switch-feedback-background-color "blue")
  '(win-switch-feedback-foreground-color "white")
