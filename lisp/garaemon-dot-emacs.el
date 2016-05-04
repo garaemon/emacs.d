@@ -961,7 +961,7 @@ static char * arrow_right[] = {
 ;; (global-set-key (kbd "M-&") 'anzu-query-replace) ;for mistype
 
 (require 'yascroll)
-(global-yascroll-bar-mode 1)
+(global-yascroll-bar-mode -1)
 
 ;; 除外したい拡張子
 (setq delete-trailing-whitespace-exclude-patterns
@@ -1261,7 +1261,7 @@ downcased, no preceding underscore.
     (setq flycheck-display-error-at-point-timer
           (run-with-idle-timer flycheck-display-errors-delay nil 'flycheck-display-error-at-point))))
 
-(global-flycheck-mode t)
+(global-flycheck-mode nil)
 
 (require 'typescript)
 (setq auto-mode-alist (cons (cons "\\.ts?$" 'typescript-mode) auto-mode-alist))
@@ -1460,11 +1460,11 @@ With prefix ARG non-nil, insert the result at the end of region."
 
 ;; (my-ac-config)
 
-(require 'gtags)
-(global-set-key "\M-." 'gtags-find-tag)
-(global-set-key "\M-r" 'gtags-find-rtag)
-(global-set-key "\M-s" 'gtags-find-symbol)
-(global-set-key "\M-," 'gtags-pop-stack)
+;; (require 'gtags)
+;; (global-set-key "\M-." 'gtags-find-tag)
+;; (global-set-key "\M-r" 'gtags-find-rtag)
+;; (global-set-key "\M-s" 'gtags-find-symbol)
+;; (global-set-key "\M-," 'gtags-pop-stack)
 
 (require 'clang-format-diff)
 (global-set-key "\M-[" 'clang-format-diff-view)
@@ -1542,8 +1542,9 @@ With prefix ARG non-nil, insert the result at the end of region."
 (defun other-window-or-split ()
   (interactive)
   (when (one-window-p)
-    (if (>= (window-body-width) 270)
-        (split-window-horizontally-n 3)
+    (if (>= (window-body-width) 300)
+        (let ((split-num (/ (window-body-width) 100)))
+          (split-window-horizontally-n split-num))
       (split-window-horizontally)))
   (win-switch-dispatch))
 (global-set-key "\M-o" 'other-window-or-split)
@@ -1599,5 +1600,15 @@ With prefix ARG non-nil, insert the result at the end of region."
 (require 'auto-save-buffers-enhanced)
 (auto-save-buffers-enhanced-include-only-checkout-path t)
 (auto-save-buffers-enhanced nil)
+
+
+;; (require 'rtags)
+;; (setq rtags-autostart-diagnostics t)
+;; (rtags-diagnostics nil)
+;; (setq rtags-completions-enabled t)
+;; (push 'company-rtags company-backends)
+
+(global-set-key "\M-," 'rtags-find-symbol)
+;;(global-set-key "\M-," 'rtags-find-symbol-at-point)
 
 (provide 'garaemon-dot-emacs)
