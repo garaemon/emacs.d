@@ -1602,13 +1602,8 @@ With prefix ARG non-nil, insert the result at the end of region."
 (auto-save-buffers-enhanced nil)
 
 
-;; (require 'rtags)
-;; (setq rtags-autostart-diagnostics t)
-;; (rtags-diagnostics nil)
-;; (setq rtags-completions-enabled t)
-;; (push 'company-rtags company-backends)
+(require 'helm-etags+)
+(global-set-key "\M-." 'helm-etags+-select)
 
-(global-set-key "\M-," 'rtags-find-symbol)
-;;(global-set-key "\M-," 'rtags-find-symbol-at-point)
 
 (provide 'garaemon-dot-emacs)

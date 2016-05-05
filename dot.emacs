@@ -138,6 +138,7 @@
 (el-get-bundle yaml-mode)
 (el-get-bundle yascroll)
 (el-get-bundle yasnippet)
+(el-get-bundle helm-etags-plus)
 
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp"))
 
