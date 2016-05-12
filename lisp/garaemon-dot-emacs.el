@@ -1605,5 +1605,6 @@ With prefix ARG non-nil, insert the result at the end of region."
 (require 'helm-etags+)
 (global-set-key "\M-." 'helm-etags+-select)
 
+(require 'rust-mode)
 
 (provide 'garaemon-dot-emacs)
