@@ -119,6 +119,7 @@
 (el-get-bundle puppet-mode)
 (el-get-bundle rainbow-delimiters)
 (el-get-bundle recentf-ext)
+(el-get-bundle rust-mode)
 ;; (el-get-bundle rtags)
 (el-get-bundle s)
 (el-get-bundle save-visited-files)

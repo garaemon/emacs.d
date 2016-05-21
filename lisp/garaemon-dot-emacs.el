@@ -1631,4 +1631,6 @@ With prefix ARG non-nil, insert the result at the end of region."
 (global-set-key (kbd "C-c C-;") 'increment-number-at-point)
 (global-set-key (kbd "C-c C--") 'decrement-number-at-point)
 
+(require 'rust-mode)
+
 (provide 'garaemon-dot-emacs)
