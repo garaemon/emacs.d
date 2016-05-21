@@ -1197,71 +1197,74 @@ downcased, no preceding underscore.
 (add-hook 'coffee-mode-hook
           '(lambda() (set (make-local-variable 'tab-width) 2)
              (setq coffee-tab-width 2)))
-(require 'flycheck)
-(require 'flycheck-pos-tip)
-(eval-after-load 'flycheck
-  '(custom-set-variables
-   '(flycheck-display-errors-function #'flycheck-pos-tip-error-messages)))
-(setq-default flycheck-disabled-checkers '(c/c++-clang c/c++-gcc))
-(setq
- flycheck-googlelint-filter "-runtime/references,-readability/braces"
- flycheck-googlelint-verbose "3"
- )
+
+(when nil                               ;disable flycheck
+  (require 'flycheck)
+  (require 'flycheck-pos-tip)
+  (eval-after-load 'flycheck
+    '(custom-set-variables
+      '(flycheck-display-errors-function #'flycheck-pos-tip-error-messages)))
+  (setq-default flycheck-disabled-checkers '(c/c++-clang c/c++-gcc))
+  (setq
+   flycheck-googlelint-filter "-runtime/references,-readability/braces"
+   flycheck-googlelint-verbose "3"
+   )
 
 
-;;(add-hook 'after-init-hook 'global-flycheck-mode)
-(eval-after-load 'flycheck
-'(progn
-(require 'flycheck-google-cpplint)
-(flycheck-add-next-checker 'c/c++-cppcheck '(warning . c/c++-googlelint))))
+  ;;(add-hook 'after-init-hook 'global-flycheck-mode)
+  (eval-after-load 'flycheck
+    '(progn
+       (require 'flycheck-google-cpplint)
+       (flycheck-add-next-checker 'c/c++-cppcheck '(warning . c/c++-googlelint))))
 
 
-;; Enable flycheck-googlelint in C++-mode only.
-;; (add-hook 'c++-mode-hook (lambda() (flycheck-select-checker 'c/c++-cppcheck)))
-(setq flycheck-check-syntax-automatically '(mode-enabled save))
+  ;; Enable flycheck-googlelint in C++-mode only.
+  ;; (add-hook 'c++-mode-hook (lambda() (flycheck-select-checker 'c/c++-cppcheck)))
+  (setq flycheck-check-syntax-automatically '(mode-enabled save))
 
-;; (defconst flycheck-hooks-alist
-;;   '(;; Handle events that may start automatic syntax checks
-;;     (after-save-hook        . flycheck-handle-save)
-;;     ;; (after-change-functions . flycheck-handle-change)
-;;     ;; Handle events that may triggered pending deferred checks
-;;     ;; (window-configuration-change-hook . flycheck-perform-deferred-syntax-check)
-;;     (post-command-hook                . flycheck-perform-deferred-syntax-check)
-;;     ;; Teardown Flycheck whenever the buffer state is about to get lost, to
-;;     ;; clean up temporary files and directories.
-;;     (kill-buffer-hook       . flycheck-teardown)
-;;     (change-major-mode-hook . flycheck-teardown)
-;;     (before-revert-hook     . flycheck-teardown)
-;;     ;; Update the error list if necessary
-;;     (post-command-hook . flycheck-error-list-update-source)
-;;     (post-command-hook . flycheck-error-list-highlight-errors)
-;;     ;; Display errors.  Show errors at point after commands (like movements) and
-;;     ;; when Emacs gets focus.  Cancel the display timer when Emacs looses focus
-;;     ;; (as there's no need to display errors if the user can't see them), and
-;;     ;; hide the error buffer (for large error messages) if necessary.  Note that
-;;     ;; the focus hooks only work on Emacs 24.4 and upwards, but since undefined
-;;     ;; hooks are perfectly ok we don't need a version guard here.  They'll just
-;;     ;; not work silently.
-;;     (post-command-hook . flycheck-display-error-at-point-soon)
-;;     (focus-in-hook     . flycheck-display-error-at-point-soon)
-;;     (focus-out-hook    . flycheck-cancel-error-display-error-at-point-timer)
-;;     (post-command-hook . flycheck-hide-error-buffer)
-;;     ;; Immediately show error popups when navigating to an error
-;;     (next-error-hook . flycheck-display-error-at-point))
-;;   "Hooks which Flycheck needs to hook in.
-;; The `car' of each pair is a hook variable, the `cdr' a function
-;; to be added or removed from the hook variable if Flycheck mode is
-;; enabled and disabled respectively.")
+  ;; (defconst flycheck-hooks-alist
+  ;;   '(;; Handle events that may start automatic syntax checks
+  ;;     (after-save-hook        . flycheck-handle-save)
+  ;;     ;; (after-change-functions . flycheck-handle-change)
+  ;;     ;; Handle events that may triggered pending deferred checks
+  ;;     ;; (window-configuration-change-hook . flycheck-perform-deferred-syntax-check)
+  ;;     (post-command-hook                . flycheck-perform-deferred-syntax-check)
+  ;;     ;; Teardown Flycheck whenever the buffer state is about to get lost, to
+  ;;     ;; clean up temporary files and directories.
+  ;;     (kill-buffer-hook       . flycheck-teardown)
+  ;;     (change-major-mode-hook . flycheck-teardown)
+  ;;     (before-revert-hook     . flycheck-teardown)
+  ;;     ;; Update the error list if necessary
+  ;;     (post-command-hook . flycheck-error-list-update-source)
+  ;;     (post-command-hook . flycheck-error-list-highlight-errors)
+  ;;     ;; Display errors.  Show errors at point after commands (like movements) and
+  ;;     ;; when Emacs gets focus.  Cancel the display timer when Emacs looses focus
+  ;;     ;; (as there's no need to display errors if the user can't see them), and
+  ;;     ;; hide the error buffer (for large error messages) if necessary.  Note that
+  ;;     ;; the focus hooks only work on Emacs 24.4 and upwards, but since undefined
+  ;;     ;; hooks are perfectly ok we don't need a version guard here.  They'll just
+  ;;     ;; not work silently.
+  ;;     (post-command-hook . flycheck-display-error-at-point-soon)
+  ;;     (focus-in-hook     . flycheck-display-error-at-point-soon)
+  ;;     (focus-out-hook    . flycheck-cancel-error-display-error-at-point-timer)
+  ;;     (post-command-hook . flycheck-hide-error-buffer)
+  ;;     ;; Immediately show error popups when navigating to an error
+  ;;     (next-error-hook . flycheck-display-error-at-point))
+  ;;   "Hooks which Flycheck needs to hook in.
+  ;; The `car' of each pair is a hook variable, the `cdr' a function
+  ;; to be added or removed from the hook variable if Flycheck mode is
+  ;; enabled and disabled respectively.")
 
-;; redefine with idle-timer
-(defun flycheck-display-error-at-point-soon ()
-  "Display the first error message at point in minibuffer delayed."
-  (flycheck-cancel-error-display-error-at-point-timer)
-  (when (flycheck-overlays-at (point))
-    (setq flycheck-display-error-at-point-timer
-          (run-with-idle-timer flycheck-display-errors-delay nil 'flycheck-display-error-at-point))))
+  ;; redefine with idle-timer
+  (defun flycheck-display-error-at-point-soon ()
+    "Display the first error message at point in minibuffer delayed."
+    (flycheck-cancel-error-display-error-at-point-timer)
+    (when (flycheck-overlays-at (point))
+      (setq flycheck-display-error-at-point-timer
+            (run-with-idle-timer flycheck-display-errors-delay nil 'flycheck-display-error-at-point))))
 
-(global-flycheck-mode nil)
+  (global-flycheck-mode nil)
+  )
 
 (require 'typescript)
 (setq auto-mode-alist (cons (cons "\\.ts?$" 'typescript-mode) auto-mode-alist))
@@ -1514,6 +1517,13 @@ With prefix ARG non-nil, insert the result at the end of region."
 (define-key company-search-map (kbd "C-p") 'company-select-previous)
 (define-key company-search-map (kbd "C-h") 'backward-delete-char)
 (define-key company-active-map (kbd "C-h") 'backward-delete-char)
+(push (apply-partially #'cl-remove-if
+                      (lambda (c)
+                        (or (string-match-p "[^\x00-\x7F]+" c)
+                            (string-match-p "[0-9]+" c)
+                            (if (equal major-mode "org")
+                                (>= (length c) 15)))))
+             company-transformers)
 
 (require 'irony)
 (add-hook 'c-mode-hook 'irony-mode)
@@ -1605,5 +1615,20 @@ With prefix ARG non-nil, insert the result at the end of region."
 (require 'helm-etags+)
 (global-set-key "\M-." 'helm-etags+-select)
 
+(defun increment-number-at-point ()
+      (interactive)
+      (skip-chars-backward "0123456789")
+      (or (looking-at "[0123456789]+")
+          (error "No number at point"))
+      (replace-match (number-to-string (1+ (string-to-number (match-string 0))))))
+(defun decrement-number-at-point ()
+      (interactive)
+      (skip-chars-backward "0123456789")
+      (or (looking-at "[0123456789]+")
+          (error "No number at point"))
+      (replace-match (number-to-string (1- (string-to-number (match-string 0))))))
+(global-set-key (kbd "C-c C-+") 'increment-number-at-point)
+(global-set-key (kbd "C-c C-;") 'increment-number-at-point)
+(global-set-key (kbd "C-c C--") 'decrement-number-at-point)
 
 (provide 'garaemon-dot-emacs)
