@@ -546,8 +546,8 @@
 (setq-default indent-tabs-mode nil)
 (setq inhibit-startup-message t)
 
-;; (require 'tramp)
-;; (setq tramp-default-method "sshx")
+(require 'tramp)
+(setq tramp-default-method "ssh")
 
 ;; (setq truncate-lines nil)
 ;; (setq truncate-partial-width-windows nil)
