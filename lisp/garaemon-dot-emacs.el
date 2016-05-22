@@ -547,7 +547,8 @@
 (setq inhibit-startup-message t)
 
 (require 'tramp)
-(setq tramp-default-method "ssh")
+(setq tramp-verbose 10)
+(setq tramp-default-method "sshx")
 
 ;; (setq truncate-lines nil)
 ;; (setq truncate-partial-width-windows nil)
@@ -918,7 +919,6 @@ static char * arrow_right[] = {
                                        (propertize " " 'display arrow-right-1)))
                        '(:eval (concat (propertize " %m " 'face 'mode-line-color-2)
                                        (propertize " " 'display arrow-right-2)))
-                       '(:eval (list (nyan-create)))
                        ;; Justify right by filling with spaces to right fringe - 16
                        ;; (16 should be computed rahter than hardcoded)
                        '(:eval (propertize " " 'display '((space :align-to (- right-fringe 17)))))
