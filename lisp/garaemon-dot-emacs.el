@@ -1502,10 +1502,18 @@ With prefix ARG non-nil, insert the result at the end of region."
              company-transformers)
 
 (require 'irony)
+;; run "M-x irony-install-server" the first time
 (add-hook 'c-mode-hook 'irony-mode)
 (add-hook 'c++-mode-hook 'irony-mode)
 (add-hook 'objc-mode-hook 'irony-mode)
 (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
+(setq irony-lang-compile-option-alist
+      '((c++-mode . ("c++" "-std=c++11" "-lstdc++" "-lm"))
+        (c-mode . ("c"))
+        (objc-mode . '("objective-c"))))
+(defun irony--lang-compile-option ()
+  (irony--awhen (cdr-safe (assq major-mode irony-lang-compile-option-alist))
+    (append '("-x") it)))
 (add-to-list 'company-backends 'company-irony)
 
 (defun split-window-vertically-n (num_wins)
