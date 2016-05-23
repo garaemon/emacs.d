@@ -85,6 +85,7 @@
 (el-get-bundle gh)
 (el-get-bundle gist)
 (el-get-bundle git-gutter+)
+(el-get-bundle git-gutter-fringe+)
 (el-get-bundle google-c-style)
 (el-get-bundle graphviz-dot-mode)
 (el-get-bundle gtags)

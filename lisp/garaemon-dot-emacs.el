@@ -638,8 +638,9 @@
 (global-auto-highlight-symbol-mode t)
 ;; (require 'auto-highlight-symbol-config)
 
-(require 'git-gutter+)
-(global-git-gutter+-mode 1)
+(require 'git-gutter-fringe+)
+(global-git-gutter+-mode)
+;; (global-linum-mode)
 ;;(git-gutter:linum-setup)
 
 
@@ -696,6 +697,12 @@
 
   (helm-autoresize-mode 1)
   (helm-mode t)
+  (require 'helm-ag)
+  (setq helm-ag-base-command "ag --nocolor --nogroup --ignore-case")
+  (setq helm-ag-command-option "--all-text")
+  (setq helm-ag-thing-at-point 'symbol)
+  (define-key global-map (kbd "C-x g")   'helm-ag)
+
   ;; does not activate helm for find-file
   ;; For find-file etc.
   ;;(define-key helm-read-file-map (kbd "TAB") 'helm-execute-persistent-action)
@@ -708,6 +715,7 @@
                                  ;; helm-c-source-replace-string
                                  helm-source-files-in-current-dir
                                  helm-source-recentf
+                                 helm-source-grep-ag
                                  helm-source-rospack-list
                                  helm-source-buffer-not-found)))
   (add-to-list 'helm-completing-read-handlers-alist '(find-file . nil))
@@ -719,11 +727,6 @@
   (define-key global-map (kbd "C-c i")   'helm-imenu)
   (define-key global-map (kbd "C-x b")   'helm-mini)
 
-  (require 'helm-ag)
-  (setq helm-ag-base-command "ag --nocolor --nogroup --ignore-case")
-  (setq helm-ag-command-option "--all-text")
-  (setq helm-ag-thing-at-point 'symbol)
-  (define-key global-map (kbd "C-x g")   'helm-ag)
   ;; fix ctrl-h in helm
   (define-key helm-map (kbd "C-h") 'delete-backward-char)
   ;;(define-key helm-find-files-map (kbd "C-h") 'delete-backward-char)
