@@ -986,7 +986,7 @@ static char * arrow_right[] = {
 
 (require 'multi-term)
 
-(defun insert-date()
+(defun insert-date ()
   (interactive)
   (insert (format-time-string "%Y-%m-%dT%H:%M:%SZ\n" nil t)))
 
