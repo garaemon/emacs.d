@@ -903,6 +903,23 @@ static char * arrow_right[] = {
                        '(:eval (concat (propertize " " 'display arrow-left-1)
                                        (propertize "%4l:%2c  " 'face 'mode-line-color-1)))
                        ))
+  (make-face 'mode-line-color-1)
+  (set-face-attribute 'mode-line-color-1 nil
+                      :foreground "#fff"
+                      :background color1)
+
+  ;; (make-face 'mode-line-color-2)
+  ;; (set-face-attribute 'mode-line-color-2 nil
+  ;;                     :foreground "#fff"
+  ;;                     :background color2)
+
+  (set-face-attribute 'mode-line nil
+                      :foreground "#fff"
+                      :background color3
+                      :box nil)
+  ;; (set-face-attribute 'mode-line-inactive nil
+  ;;                     :foreground "#fff"
+  ;;                     :background color4)
 
   (set-face-attribute 'mode-line nil
                     :foreground "#fff"
@@ -925,9 +942,9 @@ static char * arrow_right[] = {
 (require 'volatile-highlights)
 (volatile-highlights-mode)
 
-;; (require 'anzu)
-;; (global-anzu-mode +1)
-;; (setq anzu-search-threshold 1000)
+(require 'anzu)
+(global-anzu-mode +1)
+(setq anzu-search-threshold 1000)
 ;; (setq anzu-minimum-input-length 3)
 
 ;; (global-set-key (kbd "M-%") 'anzu-query-replace)
@@ -1604,7 +1621,6 @@ With prefix ARG non-nil, insert the result at the end of region."
 (require 'auto-save-buffers-enhanced)
 (auto-save-buffers-enhanced-include-only-checkout-path t)
 (auto-save-buffers-enhanced nil)
-
 
 (require 'helm-etags+)
 (global-set-key "\M-." 'helm-etags+-select)
