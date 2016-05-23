@@ -134,7 +134,6 @@
 (el-get-bundle volatile-highlights)
 (el-get-bundle win-switch-git)
 (el-get-bundle yaml-mode)
-(el-get-bundle yascroll)
 (el-get-bundle yasnippet)
 ;; (el-get-bundle flycheck)
 ;; (el-get-bundle flycheck-google-cpplint)

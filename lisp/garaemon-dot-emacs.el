@@ -950,9 +950,6 @@ static char * arrow_right[] = {
 ;; (global-set-key (kbd "M-%") 'anzu-query-replace)
 ;; (global-set-key (kbd "M-&") 'anzu-query-replace) ;for mistype
 
-(require 'yascroll)
-(global-yascroll-bar-mode -1)
-
 ;; 除外したい拡張子
 (setq delete-trailing-whitespace-exclude-patterns
       (list "\\.cpp$" "\\.h$" "\\.hpp$" "\\.l" "\\.py" "\\.launch" "\\.test"
