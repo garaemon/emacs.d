@@ -1105,6 +1105,19 @@ downcased, no preceding underscore.
 (global-set-key [?\C-\M-\ ] 'bm-toggle)
 (global-set-key [?\C-\M-n] 'bm-next)
 (global-set-key [?\C-\M-p] 'bm-previous)
+;; (setq-default bm-buffer-persistence nil)
+;; (setq bm-restore-repository-on-load t)
+;; (add-hook 'find-file-hook 'bm-buffer-restore)
+;; (add-hook 'kill-buffer-hook 'bm-buffer-save)
+;; (add-hook 'after-save-hook 'bm-buffer-save)
+;; (add-hook 'after-revert-hook 'bm-buffer-restore)
+;; (add-hook 'vc-before-checkin-hook 'bm-buffer-save)
+;; (add-hook 'kill-emacs-hook '(lambda nil
+;;                               (bm-buffer-save-all)
+;;                               (bm-repository-save)))
+(set-face-background bm-face "orange")
+(set-face-foreground bm-face "black")
+
 
 (require 'scss-mode)
 (add-to-list 'auto-mode-alist '("\\.scss$" . scss-mode))
