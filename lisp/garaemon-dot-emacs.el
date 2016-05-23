@@ -822,7 +822,7 @@
 ;; powerline
 (when (>= emacs-major-version 24)
   (require 'powerline)
-  ;;(powerline-default-theme)
+  (powerline-default-theme)
   (defun arrow-right-xpm (color1 color2)
     "Return an XPM right arrow string representing."
     (format "/* XPM */
@@ -904,23 +904,21 @@ static char * arrow_right[] = {
                                        (propertize "%4l:%2c  " 'face 'mode-line-color-1)))
                        ))
 
-  (make-face 'mode-line-color-1)
-  (set-face-attribute 'mode-line-color-1 nil
-                      :foreground "#fff"
-                      :background color1)
-
-  (make-face 'mode-line-color-2)
-  (set-face-attribute 'mode-line-color-2 nil
-                      :foreground "#fff"
-                      :background color2)
-
   (set-face-attribute 'mode-line nil
+                    :foreground "#fff"
+                    :background "#FF0066"
+                    :box nil)
+
+  (set-face-attribute 'powerline-active1 nil
                       :foreground "#fff"
-                      :background color3
-                      :box nil)
-  (set-face-attribute 'mode-line-inactive nil
-                      :foreground "#fff"
-                      :background color4))
+                      :background "#FF6699"
+                      :inherit 'mode-line)
+
+  (set-face-attribute 'powerline-active2 nil
+                      :foreground "#000"
+                      :background "#ffaeb9"
+                      :inherit 'mode-line)
+  )
 
 (require 'trr)
 
