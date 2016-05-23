@@ -89,10 +89,6 @@
 ;;   (add-hook mode (lambda () (interactive)
 ;;                    (fci-mode))))
 
-(global-set-key "\C-x;" 'comment-region)
-;;(fset 'uncomment-region "\C-u\C-[xcomment-region\C-m")
-(global-set-key "\C-x:" 'uncomment-region)
-
 (when-meadow
  (setq inhibit-default-init t))
 
