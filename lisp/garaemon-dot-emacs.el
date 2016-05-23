@@ -2,7 +2,6 @@
 
 ;; shell env hook for mac os x
 
-
 (require 'garaemon-util)
 (setq gc-cons-threshold 134217728)
 
@@ -22,8 +21,8 @@
   "color theme to use")
 
 
-(setq file-name-coding-system 'utf-8)
-(setq locale-coding-system 'utf-8)
+;; (setq file-name-coding-system 'utf-8)
+;; (setq locale-coding-system 'utf-8)
 
 ;; anthy
 (when (or (eq system-type 'cygwin)
@@ -517,28 +516,6 @@
   "sdic" "カーソルの位置の英単語の意味を調べる" t nil)
 (global-set-key "\C-cW" 'sdic-describe-word-at-point)
 
-;; (cond
-;;  ((meadowp)
-;;   (setq shell-file-name "c:/cygwin/bin/zsh.exe")
-;;   (modify-coding-system-alist 'process ".*sh\\.exe" 'undecided-unix))
-;;  ((cygwinp)
-;;   (setq shell-file-name "/bin/zsh"))
-;;  (t
-;;   (setq shell-file-name "zsh")))
-(setq explicit-shell-file-name shell-file-name)
-(setq shell-command-option "-c")
-(setq system-uses-terminfo nil)
-(setq shell-file-name-chars "~/A-Za-z0-9_^$!#%&{}@`'.,:()-")
-;; C-lでシェルをクリアするようにする
-(defun shell-clear()
-  "In shell-mode,clear all display and move cursor top of the buffer."
-  (interactive)
-  (recenter 0))
-(eval-after-load "shell"
-  '(define-key shell-mode-map "\C-l" 'shell-clear))
-
-;;shell-modeでlsしたとき色を表示
-(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 
 (show-paren-mode t)
 (setq show-paren-style 'mixed)
@@ -549,6 +526,8 @@
 (require 'tramp)
 (setq tramp-verbose 10)
 (setq tramp-default-method "sshx")
+;;(setq tramp-default-method "scpx")
+;;(setq tramp-shell-prompt-pattern "^.*[#$%>] *")
 
 ;; (setq truncate-lines nil)
 ;; (setq truncate-partial-width-windows nil)
@@ -563,7 +542,6 @@
 (setq mac-command-modifier 'meta)
 
 (require 'magit)
-(prefer-coding-system 'utf-8)
 
 ;;(add-to-list 'auto-mode-alist '("\\.json$" . javascript-mode))
 (add-to-list 'auto-mode-alist '("\\.json$" . js2-mode))
@@ -587,8 +565,6 @@
 
 
 (require 'ucs-normalize)
-(setq file-name-coding-system 'utf-8-hfs)
-(setq locale-coding-system 'utf-8-hfs)
 (setq system-uses-terminfo nil)
 
 (require 'php-mode)
