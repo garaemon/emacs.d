@@ -108,6 +108,7 @@
 (el-get-bundle migemo)
 (el-get-bundle milkode)
 (el-get-bundle multiple-cursors)
+(el-get-bundle nlinum)
 (el-get-bundle pcache)
 (el-get-bundle php-mode)
 (el-get-bundle popup)
@@ -173,11 +174,11 @@
  '(helm-mini-default-sources
    (quote
     (helm-source-buffers-list helm-source-ls-git helm-source-files-in-current-dir helm-source-recentf helm-source-rospack-list helm-source-buffer-not-found)))
- ;; '(nyan-mode t)
- '(package-selected-packages (quote (company nil lua-mode el-get)))
+ '(package-selected-packages (quote (nlinum company nil lua-mode el-get)))
  '(win-switch-feedback-background-color "blue")
  '(win-switch-feedback-foreground-color "white")
  '(win-switch-idle-time 1.5)
+ '(win-switch-window-threshold 1)
  '(yas-trigger-key "Enter" t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
