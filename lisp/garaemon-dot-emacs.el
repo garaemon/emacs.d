@@ -638,7 +638,8 @@
 (global-git-gutter+-mode)
 ;; (global-linum-mode)
 ;;(git-gutter:linum-setup)
-
+(require 'nlinum)
+(global-nlinum-mode)
 
 ;; defining keymap with C-q prefix
 (declare-function smartrep-define-key "smartrep")
@@ -1096,8 +1097,6 @@ downcased, no preceding underscore.
    '(symon-delay 5))
   (symon-mode)
   )
-
-;; (global-linum-mode -1)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -1639,5 +1638,9 @@ With prefix ARG non-nil, insert the result at the end of region."
 (global-set-key (kbd "C-c C--") 'decrement-number-at-point)
 
 (require 'rust-mode)
+
+(setq linum-delay t)
+(defadvice linum-schedule (around my-linum-schedule () activate)
+  (run-with-idle-timer 0.2 nil #'linum-update-current))
 
 (provide 'garaemon-dot-emacs)
