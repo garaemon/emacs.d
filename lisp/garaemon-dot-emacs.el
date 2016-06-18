@@ -1679,4 +1679,7 @@ With prefix ARG non-nil, insert the result at the end of region."
 
 (require 'calfw)
 
+(require 'org)
+(add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
+
 (provide 'garaemon-dot-emacs)
