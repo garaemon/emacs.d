@@ -114,6 +114,7 @@
 (el-get-bundle nlinum)
 (el-get-bundle pcache)
 (el-get-bundle php-mode)
+(el-get-bundle pomodoro)
 (el-get-bundle popup)
 (el-get-bundle popwin)
 (el-get-bundle powerline)
