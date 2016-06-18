@@ -1677,5 +1677,6 @@ With prefix ARG non-nil, insert the result at the end of region."
           (lambda ()
             (my/pomodoro-notification :body "Long Break time now")))
 
+(require 'calfw)
 
 (provide 'garaemon-dot-emacs)

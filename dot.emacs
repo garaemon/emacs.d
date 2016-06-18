@@ -63,6 +63,7 @@
 (el-get-bundle auto-save-buffers-enhanced)
 (el-get-bundle backup-each-save)
 (el-get-bundle bm)
+(el-get-bundle calfw)
 (el-get-bundle clang-format-diff)
 (el-get-bundle coffee-mode)
 (el-get-bundle column-marker)
