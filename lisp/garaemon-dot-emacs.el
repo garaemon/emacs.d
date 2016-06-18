@@ -89,10 +89,6 @@
 ;;   (add-hook mode (lambda () (interactive)
 ;;                    (fci-mode))))
 
-(global-set-key "\C-x;" 'comment-region)
-;;(fset 'uncomment-region "\C-u\C-[xcomment-region\C-m")
-(global-set-key "\C-x:" 'uncomment-region)
-
 (when-meadow
  (setq inhibit-default-init t))
 
@@ -827,7 +823,7 @@
 ;; powerline
 (when (>= emacs-major-version 24)
   (require 'powerline)
-  ;;(powerline-default-theme)
+  (powerline-default-theme)
   (defun arrow-right-xpm (color1 color2)
     "Return an XPM right arrow string representing."
     (format "/* XPM */
@@ -908,40 +904,52 @@ static char * arrow_right[] = {
                        '(:eval (concat (propertize " " 'display arrow-left-1)
                                        (propertize "%4l:%2c  " 'face 'mode-line-color-1)))
                        ))
-
   (make-face 'mode-line-color-1)
   (set-face-attribute 'mode-line-color-1 nil
                       :foreground "#fff"
                       :background color1)
 
-  (make-face 'mode-line-color-2)
-  (set-face-attribute 'mode-line-color-2 nil
-                      :foreground "#fff"
-                      :background color2)
+  ;; (make-face 'mode-line-color-2)
+  ;; (set-face-attribute 'mode-line-color-2 nil
+  ;;                     :foreground "#fff"
+  ;;                     :background color2)
 
   (set-face-attribute 'mode-line nil
                       :foreground "#fff"
                       :background color3
                       :box nil)
-  (set-face-attribute 'mode-line-inactive nil
+  ;; (set-face-attribute 'mode-line-inactive nil
+  ;;                     :foreground "#fff"
+  ;;                     :background color4)
+
+  (set-face-attribute 'mode-line nil
+                    :foreground "#fff"
+                    :background "#FF0066"
+                    :box nil)
+
+  (set-face-attribute 'powerline-active1 nil
                       :foreground "#fff"
-                      :background color4))
+                      :background "#FF6699"
+                      :inherit 'mode-line)
+
+  (set-face-attribute 'powerline-active2 nil
+                      :foreground "#000"
+                      :background "#ffaeb9"
+                      :inherit 'mode-line)
+  )
 
 (require 'trr)
 
 (require 'volatile-highlights)
 (volatile-highlights-mode)
 
-;; (require 'anzu)
-;; (global-anzu-mode +1)
-;; (setq anzu-search-threshold 1000)
+(require 'anzu)
+(global-anzu-mode +1)
+(setq anzu-search-threshold 1000)
 ;; (setq anzu-minimum-input-length 3)
 
 ;; (global-set-key (kbd "M-%") 'anzu-query-replace)
 ;; (global-set-key (kbd "M-&") 'anzu-query-replace) ;for mistype
-
-(require 'yascroll)
-(global-yascroll-bar-mode -1)
 
 ;; 除外したい拡張子
 (setq delete-trailing-whitespace-exclude-patterns
@@ -993,7 +1001,7 @@ static char * arrow_right[] = {
 
 (require 'multi-term)
 
-(defun insert-date()
+(defun insert-date ()
   (interactive)
   (insert (format-time-string "%Y-%m-%dT%H:%M:%SZ\n" nil t)))
 
@@ -1110,6 +1118,19 @@ downcased, no preceding underscore.
 (global-set-key [?\C-\M-\ ] 'bm-toggle)
 (global-set-key [?\C-\M-n] 'bm-next)
 (global-set-key [?\C-\M-p] 'bm-previous)
+;; (setq-default bm-buffer-persistence nil)
+;; (setq bm-restore-repository-on-load t)
+;; (add-hook 'find-file-hook 'bm-buffer-restore)
+;; (add-hook 'kill-buffer-hook 'bm-buffer-save)
+;; (add-hook 'after-save-hook 'bm-buffer-save)
+;; (add-hook 'after-revert-hook 'bm-buffer-restore)
+;; (add-hook 'vc-before-checkin-hook 'bm-buffer-save)
+;; (add-hook 'kill-emacs-hook '(lambda nil
+;;                               (bm-buffer-save-all)
+;;                               (bm-repository-save)))
+(set-face-background bm-face "orange")
+(set-face-foreground bm-face "black")
+
 
 (require 'scss-mode)
 (add-to-list 'auto-mode-alist '("\\.scss$" . scss-mode))
@@ -1596,7 +1617,6 @@ With prefix ARG non-nil, insert the result at the end of region."
 (require 'auto-save-buffers-enhanced)
 (auto-save-buffers-enhanced-include-only-checkout-path t)
 (auto-save-buffers-enhanced nil)
-
 
 (require 'helm-etags+)
 (global-set-key "\M-." 'helm-etags+-select)

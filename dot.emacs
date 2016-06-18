@@ -139,7 +139,6 @@
 (el-get-bundle volatile-highlights)
 (el-get-bundle win-switch-git)
 (el-get-bundle yaml-mode)
-(el-get-bundle yascroll)
 (el-get-bundle yasnippet)
 ;; (el-get-bundle nyan-mode)
 ;; (el-get-bundle rtags)
