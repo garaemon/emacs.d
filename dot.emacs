@@ -79,6 +79,9 @@
 (el-get-bundle expand-region)
 (el-get-bundle f)
 (el-get-bundle fill-column-indicator)
+(el-get-bundle flycheck)
+(el-get-bundle flycheck-google-cpplint)
+(el-get-bundle flycheck-pos-tip)
 (el-get-bundle gh)
 (el-get-bundle gist)
 (el-get-bundle git-gutter+)
@@ -137,9 +140,6 @@
 (el-get-bundle yaml-mode)
 (el-get-bundle yascroll)
 (el-get-bundle yasnippet)
-;; (el-get-bundle flycheck)
-;; (el-get-bundle flycheck-google-cpplint)
-;; (el-get-bundle flycheck-pos-tip)
 ;; (el-get-bundle nyan-mode)
 ;; (el-get-bundle rtags)
 
@@ -186,3 +186,4 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(rainbow-delimiters-depth-1-face ((t (:foreground "#7f8c8d")))))
+(put 'downcase-region 'disabled nil)
