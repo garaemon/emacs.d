@@ -702,8 +702,8 @@
   (setq helm-ag-base-command "ag --nocolor --nogroup --ignore-case")
   (setq helm-ag-command-option "--all-text")
   (setq helm-ag-thing-at-point 'symbol)
-  (define-key global-map (kbd "C-x g")   'helm-ag)
-
+  (define-key global-map (kbd "C-x g") 'helm-ag)
+  (define-key global-map (kbd "C-]") 'helm-ag)
   ;; does not activate helm for find-file
   ;; For find-file etc.
   ;;(define-key helm-read-file-map (kbd "TAB") 'helm-execute-persistent-action)
@@ -1175,8 +1175,8 @@ downcased, no preceding underscore.
 (add-hook 'coffee-mode-hook
           '(lambda() (set (make-local-variable 'tab-width) 2)
              (setq coffee-tab-width 2)))
-
-(when nil                               ;disable flycheck
+(setq enable-flycheck t)
+(when enable-flycheck
   (require 'flycheck)
   (require 'flycheck-pos-tip)
   (eval-after-load 'flycheck
@@ -1200,38 +1200,38 @@ downcased, no preceding underscore.
   ;; (add-hook 'c++-mode-hook (lambda() (flycheck-select-checker 'c/c++-cppcheck)))
   (setq flycheck-check-syntax-automatically '(mode-enabled save))
 
-  ;; (defconst flycheck-hooks-alist
-  ;;   '(;; Handle events that may start automatic syntax checks
-  ;;     (after-save-hook        . flycheck-handle-save)
-  ;;     ;; (after-change-functions . flycheck-handle-change)
-  ;;     ;; Handle events that may triggered pending deferred checks
-  ;;     ;; (window-configuration-change-hook . flycheck-perform-deferred-syntax-check)
-  ;;     (post-command-hook                . flycheck-perform-deferred-syntax-check)
-  ;;     ;; Teardown Flycheck whenever the buffer state is about to get lost, to
-  ;;     ;; clean up temporary files and directories.
-  ;;     (kill-buffer-hook       . flycheck-teardown)
-  ;;     (change-major-mode-hook . flycheck-teardown)
-  ;;     (before-revert-hook     . flycheck-teardown)
-  ;;     ;; Update the error list if necessary
-  ;;     (post-command-hook . flycheck-error-list-update-source)
-  ;;     (post-command-hook . flycheck-error-list-highlight-errors)
-  ;;     ;; Display errors.  Show errors at point after commands (like movements) and
-  ;;     ;; when Emacs gets focus.  Cancel the display timer when Emacs looses focus
-  ;;     ;; (as there's no need to display errors if the user can't see them), and
-  ;;     ;; hide the error buffer (for large error messages) if necessary.  Note that
-  ;;     ;; the focus hooks only work on Emacs 24.4 and upwards, but since undefined
-  ;;     ;; hooks are perfectly ok we don't need a version guard here.  They'll just
-  ;;     ;; not work silently.
-  ;;     (post-command-hook . flycheck-display-error-at-point-soon)
-  ;;     (focus-in-hook     . flycheck-display-error-at-point-soon)
-  ;;     (focus-out-hook    . flycheck-cancel-error-display-error-at-point-timer)
-  ;;     (post-command-hook . flycheck-hide-error-buffer)
-  ;;     ;; Immediately show error popups when navigating to an error
-  ;;     (next-error-hook . flycheck-display-error-at-point))
-  ;;   "Hooks which Flycheck needs to hook in.
-  ;; The `car' of each pair is a hook variable, the `cdr' a function
-  ;; to be added or removed from the hook variable if Flycheck mode is
-  ;; enabled and disabled respectively.")
+  (defconst flycheck-hooks-alist
+    '(;; Handle events that may start automatic syntax checks
+      (after-save-hook        . flycheck-handle-save)
+      ;; (after-change-functions . flycheck-handle-change)
+      ;; Handle events that may triggered pending deferred checks
+      ;; (window-configuration-change-hook . flycheck-perform-deferred-syntax-check)
+      (post-command-hook                . flycheck-perform-deferred-syntax-check)
+      ;; Teardown Flycheck whenever the buffer state is about to get lost, to
+      ;; clean up temporary files and directories.
+      (kill-buffer-hook       . flycheck-teardown)
+      (change-major-mode-hook . flycheck-teardown)
+      (before-revert-hook     . flycheck-teardown)
+      ;; Update the error list if necessary
+      (post-command-hook . flycheck-error-list-update-source)
+      (post-command-hook . flycheck-error-list-highlight-errors)
+      ;; Display errors.  Show errors at point after commands (like movements) and
+      ;; when Emacs gets focus.  Cancel the display timer when Emacs looses focus
+      ;; (as there's no need to display errors if the user can't see them), and
+      ;; hide the error buffer (for large error messages) if necessary.  Note that
+      ;; the focus hooks only work on Emacs 24.4 and upwards, but since undefined
+      ;; hooks are perfectly ok we don't need a version guard here.  They'll just
+      ;; not work silently.
+      (post-command-hook . flycheck-display-error-at-point-soon)
+      (focus-in-hook     . flycheck-display-error-at-point-soon)
+      (focus-out-hook    . flycheck-cancel-error-display-error-at-point-timer)
+      (post-command-hook . flycheck-hide-error-buffer)
+      ;; Immediately show error popups when navigating to an error
+      (next-error-hook . flycheck-display-error-at-point))
+    "Hooks which Flycheck needs to hook in.
+  The `car' of each pair is a hook variable, the `cdr' a function
+  to be added or removed from the hook variable if Flycheck mode is
+  enabled and disabled respectively.")
 
   ;; redefine with idle-timer
   (defun flycheck-display-error-at-point-soon ()
@@ -1241,7 +1241,7 @@ downcased, no preceding underscore.
       (setq flycheck-display-error-at-point-timer
             (run-with-idle-timer flycheck-display-errors-delay nil 'flycheck-display-error-at-point))))
 
-  (global-flycheck-mode nil)
+  (global-flycheck-mode t)
   )
 
 (require 'typescript)
@@ -1622,5 +1622,10 @@ With prefix ARG non-nil, insert the result at the end of region."
 (setq linum-delay t)
 (defadvice linum-schedule (around my-linum-schedule () activate)
   (run-with-idle-timer 0.2 nil #'linum-update-current))
+
+(custom-set-variables
+ '(sort-fold-case t t)
+)
+
 
 (provide 'garaemon-dot-emacs)
