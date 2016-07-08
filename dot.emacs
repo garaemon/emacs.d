@@ -113,6 +113,7 @@
 (el-get-bundle milkode)
 (el-get-bundle multiple-cursors)
 (el-get-bundle nlinum)
+(el-get-bundle ob-ipython)
 (el-get-bundle org-mode)
 (el-get-bundle pcache)
 (el-get-bundle php-mode)
