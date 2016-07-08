@@ -1,4 +1,5 @@
 (:name ob-ipython
        :description "ipython plugin for org mode"
        :type github
+       :depends (dash s f)
        :pkgname "gregsexton/ob-ipython")
