@@ -116,6 +116,7 @@
 (el-get-bundle ob-ipython)
 (el-get-bundle org-mode)
 (el-get-bundle pcache)
+(el-get-bundle per-buffer-theme)
 (el-get-bundle php-mode)
 (el-get-bundle pomodoro)
 (el-get-bundle popup)

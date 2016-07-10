@@ -1,0 +1,5 @@
+(:name per-buffer-theme
+       :description "Change color theme per major mode"
+       :type hg
+       :url "https://bitbucket.org/inigoserna/per-buffer-theme.el"
+       )
