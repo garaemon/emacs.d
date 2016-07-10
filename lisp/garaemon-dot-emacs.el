@@ -1694,4 +1694,23 @@ With prefix ARG non-nil, insert the result at the end of region."
 
 (require 'ob-ipython)
 
+;; コードを評価するとき尋ねない
+(setq org-confirm-babel-evaluate nil)
+;; ソースコードを書き出すコマンド
+(defun org-babel-tangle-and-execute ()
+  (interactive)
+  (org-babel-tangle)
+  (org-babel-execute-buffer)
+  (org-display-inline-images))
+(define-key org-mode-map (kbd "C-c C-v C-m") 'org-babel-tangle-and-execute)
+
+;; sample to insert figure
+;; #+BEGIN_SRC ipython :session :file /tmp/image.png :exports both
+;; %matplotlib inline
+;; import matplotlib.pyplot as plt
+;; import numpy as np
+;; fig, ax = plt.subplots(facecolor='white')
+;; ax.hist(np.random.randn(20000), bins=200)
+;; #+END_SRC
+
 (provide 'garaemon-dot-emacs)
