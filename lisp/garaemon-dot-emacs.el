@@ -1697,12 +1697,42 @@ With prefix ARG non-nil, insert the result at the end of region."
 ;; コードを評価するとき尋ねない
 (setq org-confirm-babel-evaluate nil)
 ;; ソースコードを書き出すコマンド
+
+(defun random-alnum ()
+  (let* ((alnum "abcdefghijklmnopqrstuvwxyz0123456789")
+         (i (% (abs (random)) (length alnum))))
+    (substring alnum i (1+ i))))
+
 (defun org-babel-tangle-and-execute ()
   (interactive)
   (org-babel-tangle)
   (org-babel-execute-buffer)
   (org-display-inline-images))
-(define-key org-mode-map (kbd "C-c C-v C-m") 'org-babel-tangle-and-execute)
+
+(defun org-ipython-insert-initial-setting ()
+  (interactive)
+  (insert "#+BEGIN_SRC ipython :session\n")
+  (insert "%matplotlib inline\n")
+  (insert "#+END_SRC\n")
+  )
+
+(defun org-ipython-insert-matplotlib-block ()
+  (interactive)
+  (let ((random-png-file (format "/tmp/%s%s%s%s%s.png"
+                                 (random-alnum)
+                                 (random-alnum)
+                                 (random-alnum)
+                                 (random-alnum)
+                                 (random-alnum))))
+    (if (not (file-exists-p random-png-file))
+        (progn
+          (insert (format "#+BEGIN_SRC ipython :session :file %s :exports both\n"
+                          random-png-file))
+          (insert "#+END_SRC\n")))
+    ))
+
+(define-key org-mode-map (kbd "C-c C-i") 'org-ipython-insert-matplotlib-block)
+(define-key org-mode-map (kbd "C-x C-e") 'org-babel-tangle-and-execute)
 
 ;; sample to insert figure
 ;; #+BEGIN_SRC ipython :session :file /tmp/image.png :exports both
