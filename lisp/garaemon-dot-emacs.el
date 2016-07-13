@@ -1681,4 +1681,68 @@ With prefix ARG non-nil, insert the result at the end of region."
 
 (add-to-list 'auto-mode-alist '("\\.subr$" . shell-script-mode))
 
+(require 'org)
+(add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
+(global-set-key "\C-cl" 'org-store-link)
+(global-set-key "\C-cc" 'org-capture)
+(global-set-key "\C-ca" 'org-agenda)
+(global-set-key "\C-cb" 'org-iswitchb)
+
+(setq org-capture-templates
+      '(("t" "Todo" entry (file+headline "~/org/gtd.org" "Tasks")
+     "* TODO %?\n  %i\n  %a")
+        ("j" "Journal" entry (file+datetree "~/org/journal.org")
+     "* %?\nEntered on %U\n  %i\n  %a")))
+
+(require 'ob-ipython)
+
+;; コードを評価するとき尋ねない
+(setq org-confirm-babel-evaluate nil)
+;; ソースコードを書き出すコマンド
+
+(defun random-alnum ()
+  (let* ((alnum "abcdefghijklmnopqrstuvwxyz0123456789")
+         (i (% (abs (random)) (length alnum))))
+    (substring alnum i (1+ i))))
+
+(defun org-babel-tangle-and-execute ()
+  (interactive)
+  (org-babel-tangle)
+  (org-babel-execute-buffer)
+  (org-display-inline-images))
+
+(defun org-ipython-insert-initial-setting ()
+  (interactive)
+  (insert "#+BEGIN_SRC ipython :session\n")
+  (insert "%matplotlib inline\n")
+  (insert "#+END_SRC\n")
+  )
+
+(defun org-ipython-insert-matplotlib-block ()
+  (interactive)
+  (let ((random-png-file (format "/tmp/%s%s%s%s%s.png"
+                                 (random-alnum)
+                                 (random-alnum)
+                                 (random-alnum)
+                                 (random-alnum)
+                                 (random-alnum))))
+    (if (not (file-exists-p random-png-file))
+        (progn
+          (insert (format "#+BEGIN_SRC ipython :session :file %s :exports both\n"
+                          random-png-file))
+          (insert "#+END_SRC\n")))
+    ))
+
+(define-key org-mode-map (kbd "C-c C-i") 'org-ipython-insert-matplotlib-block)
+(define-key org-mode-map (kbd "C-x C-e") 'org-babel-tangle-and-execute)
+
+;; sample to insert figure
+;; #+BEGIN_SRC ipython :session :file /tmp/image.png :exports both
+;; %matplotlib inline
+;; import matplotlib.pyplot as plt
+;; import numpy as np
+;; fig, ax = plt.subplots(facecolor='white')
+;; ax.hist(np.random.randn(20000), bins=200)
+;; #+END_SRC
+
 (provide 'garaemon-dot-emacs)
