@@ -1720,7 +1720,10 @@ With prefix ARG non-nil, insert the result at the end of region."
 
 (defun org-ipython-insert-matplotlib-block ()
   (interactive)
-  (let ((random-png-file (format "/tmp/%s%s%s%s%s.png"
+  ;; create .image directory under current directory
+  (if (not (file-exists-p ".images"))
+      (make-directory ".images"))
+  (let ((random-png-file (format ".images/%s%s%s%s%s.png"
                                  (random-alnum)
                                  (random-alnum)
                                  (random-alnum)
