@@ -952,9 +952,10 @@ static char * arrow_right[] = {
 ;; (global-set-key (kbd "M-&") 'anzu-query-replace) ;for mistype
 
 ;; 除外したい拡張子
-(setq delete-trailing-whitespace-exclude-patterns
-      (list "\\.cpp$" "\\.h$" "\\.hpp$" "\\.l" "\\.py" "\\.launch" "\\.test"
-            "\\.cmake" "\\.xml"))
+(setq delete-trailing-whitespace-exclude-patterns nil)
+;; (setq delete-trailing-whitespace-exclude-patterns
+;;       (list "\\.cpp$" "\\.h$" "\\.hpp$" "\\.l" "\\.py" "\\.launch" "\\.test"
+;;             "\\.cmake" "\\.xml"))
 
 (require 'cl)
 
