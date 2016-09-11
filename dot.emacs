@@ -52,7 +52,6 @@
 (add-to-list 'el-get-recipe-path "~/.emacs.d/recipes/")
 
 ;; (el-get 'sync)
-
 (when (executable-find "pdftex")
   (el-get-bundle auctex)) ;; it depends on tex
 (el-get-bundle ace-isearch)
@@ -68,6 +67,7 @@
 (el-get-bundle coffee-mode)
 (el-get-bundle column-marker)
 (el-get-bundle company)
+(el-get-bundle company-jedi)
 (el-get-bundle company-irony)
 (el-get-bundle dash)
 (el-get-bundle deferred)
@@ -100,6 +100,7 @@
 (el-get-bundle helm-ls-git)
 (el-get-bundle helm-swoop)
 (el-get-bundle highlight-symbol)
+(el-get-bundle jedi-core-git)
 (el-get-bundle js2-mode)
 (el-get-bundle judge-indent)
 (el-get-bundle less-css-mode)
