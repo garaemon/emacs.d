@@ -1,0 +1,5 @@
+(:name jedi-core-git
+       :description "jedi core from github repository"
+       :type github
+       :pkgname "tkf/emacs-jedi"
+       :depends (epc auto-complete python-environment))
