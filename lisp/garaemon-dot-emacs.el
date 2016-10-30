@@ -1716,4 +1716,11 @@ With prefix ARG non-nil, insert the result at the end of region."
 ;; ax.hist(np.random.randn(20000), bins=200)
 ;; #+END_SRC
 
+(require 'hyde)
+(setq-default jekyll-root (expand-file-name "~/gprog/garaemon.github.io"))
+(setq-default hyde-home (expand-file-name "~/gprog/garaemon.github.io"))
+(defun ghyde ()
+  (interactive)
+  (hyde hyde-home))
+
 (provide 'garaemon-dot-emacs)

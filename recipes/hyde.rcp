@@ -1,0 +1,5 @@
+(:name hyde
+       :description "An Emacs mode to manage Jekyll blogs"
+       :type github
+       :pkgname "nibrahim/Hyde")
+

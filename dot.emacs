@@ -100,6 +100,7 @@
 (el-get-bundle helm-ls-git)
 (el-get-bundle helm-swoop)
 (el-get-bundle highlight-symbol)
+(el-get-bundle hyde)
 (el-get-bundle jedi-core-git)
 (el-get-bundle js2-mode)
 (el-get-bundle judge-indent)
