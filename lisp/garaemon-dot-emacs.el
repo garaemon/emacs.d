@@ -1723,4 +1723,26 @@ With prefix ARG non-nil, insert the result at the end of region."
   (interactive)
   (hyde hyde-home))
 
+(defun jekyll-new-post (title)
+  "Create a new post for jekyll with filling date."
+  (interactive "MEnter post title: ")
+  (let* ((YYYY-MM-DD
+          (format-time-string "%Y-%m-%d" nil t))
+         (file-name (format "%s/_posts/%s-%s.md" jekyll-root YYYY-MM-DD title))
+         )
+    ;; template header
+    (save-excursion
+      (find-file file-name)
+      (insert "---\n")
+      (insert "layout: post\n")
+      (insert (format "title: %s\n" title))
+      (insert (format "date: %s\n" (format-time-string "%Y-%m-%dT%H:%M:%SJST")))
+      (insert "descriptions:\n")
+      (insert "categories:\n")
+      (insert "- [blog]\n")
+      (insert "---\n")
+      (insert "\n"))
+    (find-file file-name)
+    ))
+
 (provide 'garaemon-dot-emacs)
