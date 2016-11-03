@@ -1745,4 +1745,7 @@ With prefix ARG non-nil, insert the result at the end of region."
     (find-file file-name)
     ))
 
+(require 'web-mode)
+(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+
 (provide 'garaemon-dot-emacs)

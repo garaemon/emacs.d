@@ -143,6 +143,7 @@
 (el-get-bundle undo-tree)
 (el-get-bundle undohist)
 (el-get-bundle volatile-highlights)
+(el-get-bundle web-mode)
 (el-get-bundle win-switch-git)
 (el-get-bundle yaml-mode)
 (el-get-bundle yasnippet)
