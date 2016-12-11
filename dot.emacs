@@ -110,6 +110,7 @@
 (el-get-bundle logito)
 (el-get-bundle lua-mode)
 (el-get-bundle magit)
+(el-get-bundle magit-gh-pulls)
 (el-get-bundle markdown-mode)
 (el-get-bundle migemo)
 (el-get-bundle milkode)

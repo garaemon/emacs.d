@@ -315,6 +315,12 @@
 ;; magit!
 (add-to-list 'exec-path "/opt/local/bin")
 (require 'magit)
+(require 'magit-gh-pulls)
+(add-hook 'magit-mode-hook 'turn-on-magit-gh-pulls)
+;; Usage of gh-pulls
+;;   - refresh list of pr: '# g'
+;;   - creat a new pr:     '# b'
+;;   - merge a pr:         '# m'
 (global-set-key "\C-cl" 'magit-status)
 (global-set-key "\C-cL" 'magit-status)
 
@@ -1224,6 +1230,52 @@ downcased, no preceding underscore.
   (setq flycheck-check-syntax-automatically '(mode-enabled save))
 
   (global-flycheck-mode t)
+
+  ;; check flake8 version.
+  ;; If flake8 is newer than 2.0, it does not have --stdin-display-name.
+  (if (executable-find "flake8")
+      (progn
+        (let* ((version-command-output
+                (with-temp-buffer
+                  (shell-command "flake8 --version" (current-buffer))
+                  (buffer-substring-no-properties (point-min) (point-max))))
+               (version-string (car (split-string version-command-output " ")))
+               (major-version (read (car (split-string version-string "\\."))))
+               (error-filter-func #'(lambda (errors)
+                                      (let ((errors (flycheck-sanitize-errors errors)))
+                                        (seq-do #'flycheck-flake8-fix-error-level errors)
+                                        errors))))
+          (if (>= major-version 2)
+              (progn
+                (message "flake8 vresion is larger than 2.0 %s" major-version)
+                ;; Use eval ` to evaluate error-filter before quoting.
+                (eval `(flycheck-define-checker python-flake8
+                  "A Python syntax and style checker using Flake8.
+This patch is depending on https://github.com/flycheck/flycheck/issues/1078.
+
+Requires Flake8 3.0 or newer. See URL
+`https://flake8.readthedocs.io/'."
+                  :command ("flake8"
+;;                            "--format=default"
+;;                            (config-file "--config" flycheck-flake8rc)
+                            (option "--max-complexity" flycheck-flake8-maximum-complexity nil
+                                    flycheck-option-int)
+                            (option "--max-line-length" flycheck-flake8-maximum-line-length nil
+                                    flycheck-option-int)
+                            "-")
+                            ;psource)
+                  :standard-input t
+                  :error-filter ,error-filter-func
+                  :error-patterns
+                  ((warning line-start
+                            "stdin:" line ":" (optional column ":") " "
+                            (id (one-or-more (any alpha)) (one-or-more digit)) " "
+                            (message (one-or-more not-newline))
+                            line-end))
+                  :modes python-mode))
+                )
+            (message "flake8 vresion is smaller than 2.0"))
+          )))
   )
 
 (require 'typescript)
