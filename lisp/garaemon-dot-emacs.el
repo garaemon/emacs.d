@@ -1262,6 +1262,7 @@ Requires Flake8 3.0 or newer. See URL
                                     flycheck-option-int)
                             (option "--max-line-length" flycheck-flake8-maximum-line-length nil
                                     flycheck-option-int)
+                            "--ignore=E901"
                             "-")
                             ;psource)
                   :standard-input t
