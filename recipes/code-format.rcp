@@ -1,0 +1,4 @@
+(:name code-format
+       :description "emacs-code-format -- format code by smart formatters"
+       :type github
+       :pkgname "garaemon/emacs-code-format")
