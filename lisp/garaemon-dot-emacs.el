@@ -904,10 +904,10 @@ static char * arrow_right[] = {
                       :foreground "#fff"
                       :background color1)
 
-  ;; (make-face 'mode-line-color-2)
-  ;; (set-face-attribute 'mode-line-color-2 nil
-  ;;                     :foreground "#fff"
-  ;;                     :background color2)
+  (make-face 'mode-line-color-2)
+  (set-face-attribute 'mode-line-color-2 nil
+                      :foreground "#fff"
+                      :background nil)
 
   (set-face-attribute 'mode-line nil
                       :foreground "#fff"
