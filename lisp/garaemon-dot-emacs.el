@@ -6,18 +6,6 @@
 (require 'garaemon-util)
 (setq gc-cons-threshold 134217728)
 
-;; Load elscreen first.
-;; Because elscreen collides with color theme
-;; setgins.
-(require 'elscreen)
-(setq elscreen-prefix-key (kbd "C-t"))
-(elscreen-start)
-;;; タブの先頭に[X]を表示しない
-(setq elscreen-tab-display-kill-screen nil)
-;;; header-lineの先頭に[<->]を表示しない
-(setq elscreen-tab-display-control nil)
-
-
 (defvar my/color-theme nil
   "color theme to use")
 
@@ -1207,10 +1195,14 @@ downcased, no preceding underscore.
 (setq enable-flycheck t)
 (when enable-flycheck
   (require 'flycheck)
-  (require 'flycheck-pos-tip)
-  (eval-after-load 'flycheck
-    '(custom-set-variables
-      '(flycheck-display-errors-function #'flycheck-pos-tip-error-messages)))
+
+  ;; Do not use flycheck-pos-tip on cocoa emacs
+  (if (not (eq system-type 'darwin))
+      (progn
+        (require 'flycheck-pos-tip)
+        (eval-after-load 'flycheck
+          '(custom-set-variables
+            '(flycheck-display-errors-function #'flycheck-pos-tip-error-messages)))))
   (setq-default flycheck-disabled-checkers '(c/c++-clang c/c++-gcc))
   (setq
    flycheck-googlelint-filter "-runtime/references,-readability/braces"
