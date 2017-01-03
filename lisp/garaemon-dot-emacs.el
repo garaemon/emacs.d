@@ -1785,7 +1785,7 @@ With prefix ARG non-nil, insert the result at the end of region."
       (insert (format "date: %s\n" (format-time-string "%Y-%m-%dT%H:%M:%SJST")))
       (insert "descriptions:\n")
       (insert "categories:\n")
-      (insert "- [blog]\n")
+      (insert "- blog\n")
       (insert "---\n")
       (insert "\n"))
     (find-file file-name)
