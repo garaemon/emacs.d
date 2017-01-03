@@ -268,9 +268,8 @@
 (when (carbon-emacs-p)
  (mac-input-method-mode 1))
 
-
-(prefer-coding-system 'utf-8)
 (set-language-environment "Japanese")
+(prefer-coding-system 'utf-8)
 
 (font-lock-add-keywords 'lisp-mode
             (list
