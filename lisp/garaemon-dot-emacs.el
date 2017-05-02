@@ -1479,9 +1479,6 @@ With prefix ARG non-nil, insert the result at the end of region."
 ;; (global-set-key "\M-s" 'gtags-find-symbol)
 ;; (global-set-key "\M-," 'gtags-pop-stack)
 
-;; (require 'clang-format-diff)
-;; (global-set-key "\M-[" 'clang-format-diff-view)
-;; (custom-set-variables '(ediff-split-window-function 'split-window-horizontally))
 (global-set-key "\M-[" 'code-format-view)
 (custom-set-variables '(ediff-split-window-function 'split-window-horizontally))
 
