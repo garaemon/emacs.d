@@ -1206,8 +1206,9 @@ downcased, no preceding underscore.
         (require 'flycheck-pos-tip)
         (eval-after-load 'flycheck
           '(custom-set-variables
-            '(flycheck-display-errors-function #'flycheck-pos-tip-error-messages)))))
-  (setq-default flycheck-disabled-checkers '(c/c++-clang c/c++-gcc))
+            '(flycheck-display-errors-function #'flycheck-pos-tip-error-messages)
+            '(flycheck-disable-checkers '(c/c++-clang c/c++-gcc javascript-jshint))
+            ))))
   (setq
    flycheck-googlelint-filter "-runtime/references,-readability/braces"
    flycheck-googlelint-verbose "3"
