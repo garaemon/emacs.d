@@ -1803,5 +1803,7 @@ With prefix ARG non-nil, insert the result at the end of region."
   (setq web-mode-code-indent-offset 2))
 (add-hook 'web-mode-hook 'web-mode-hook)
 
+(require 'string-inflection)
+(global-set-key (kbd "C-c i") 'string-inflection-cycle)
 
 (provide 'garaemon-dot-emacs)
