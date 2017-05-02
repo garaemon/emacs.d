@@ -598,8 +598,6 @@
 ;; (nyan-start-animation)
 
 ;; objective-c
-;; Path to iOS SDK
-(defvar xcode:sdk "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk")
 (add-to-list 'magic-mode-alist
              `(,(lambda ()
                   (and (string= (file-name-extension buffer-file-name) "h")
