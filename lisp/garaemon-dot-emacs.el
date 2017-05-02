@@ -172,6 +172,13 @@
   (setq js-indent-level 2
         indent-tabs-mode nil
         c-basic-offset 2)
+  ;; Disable some js2 features for eslint integration by flycheck
+  (setq js2-include-browser-externs nil)
+  (setq js2-mode-show-parse-errors nil)
+  (setq js2-mode-show-strict-warnings nil)
+  (setq js2-highlight-external-variables nil)
+  (setq js2-include-jslint-globals nil)
+
   (c-toggle-auto-state 0)
   (c-toggle-hungry-state 1)
   (set (make-local-variable 'indent-line-function) 'my-js2-indent-function)
