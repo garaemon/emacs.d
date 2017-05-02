@@ -137,6 +137,7 @@
 (el-get-bundle smart-cursor-color)
 (el-get-bundle smartrep)
 (el-get-bundle solarized-emacs)
+(el-get-bundle string-inflection)
 (el-get-bundle symon)
 (el-get-bundle tabbar)
 (el-get-bundle thingopt)

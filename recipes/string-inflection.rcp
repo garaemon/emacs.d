@@ -1,0 +1,4 @@
+(:name string-inflection
+       :description "string inflection"
+       :type github
+       :pkgname "akicho8/string-inflection")
