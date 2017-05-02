@@ -69,6 +69,7 @@
 (el-get-bundle company)
 (el-get-bundle company-jedi)
 (el-get-bundle company-irony)
+(el-get-bundle company-tern)
 (el-get-bundle dash)
 (el-get-bundle deferred)
 (el-get-bundle dired-hacks)
