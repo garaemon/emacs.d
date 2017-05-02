@@ -103,6 +103,7 @@
 (el-get-bundle hyde)
 (el-get-bundle jedi-core-git)
 (el-get-bundle js2-mode)
+(el-get-bundle json-mode)
 (el-get-bundle judge-indent)
 (el-get-bundle less-css-mode)
 (el-get-bundle let-alist)
