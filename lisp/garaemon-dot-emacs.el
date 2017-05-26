@@ -522,7 +522,7 @@
 
 (require 'tramp)
 (setq tramp-verbose 10)
-(setq tramp-default-method "sshx")
+(setq tramp-default-method "ssh")
 ;;(setq tramp-default-method "scpx")
 ;;(setq tramp-shell-prompt-pattern "^.*[#$%>] *")
 
@@ -1213,7 +1213,6 @@ downcased, no preceding underscore.
    flycheck-googlelint-filter "-runtime/references,-readability/braces"
    flycheck-googlelint-verbose "3"
    )
-
 
   ;;(add-hook 'after-init-hook 'global-flycheck-mode)
   (eval-after-load 'flycheck
