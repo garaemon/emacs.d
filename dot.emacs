@@ -31,7 +31,7 @@
 
 - N the number of the lines to scroll up"
   (interactive "p")
-  (forward-line n)
+  (forward-line (- n))
   (scroll-down n))
 
 (defun scroll-down-in-place (n)
