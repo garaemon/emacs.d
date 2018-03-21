@@ -53,8 +53,9 @@
 (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
 (unless
     (require 'el-get nil 'noerror)
-  (with-current-buffer (url-retrieve-synchronously
-                        "https://raw.githubusercontent.com/dimitri/el-get/master/el-get-install.el")
+  (with-current-buffer
+      (url-retrieve-synchronously
+       "https://raw.githubusercontent.com/dimitri/el-get/master/el-get-install.el")
     (goto-char (point-max))
     (eval-print-last-sexp)))
 
@@ -64,7 +65,8 @@
 
 (defvar el-get-recipe-path)
 (add-to-list 'el-get-recipe-path "~/.emacs.d/recipes/")
-(el-get-bundle sync)
+
+(require 'el-get)
 (when (executable-find "pdftex")
   (el-get-bundle auctex)) ;; it depends on tex
 (el-get-bundle ace-isearch)
@@ -117,6 +119,8 @@
 (el-get-bundle helm-swoop)
 (el-get-bundle highlight-symbol)
 (el-get-bundle hyde)
+(el-get-bundle imenu-list)
+(el-get-bundle imenus)
 (el-get-bundle jedi-core-git)
 (el-get-bundle js2-mode)
 (el-get-bundle json-mode)
@@ -131,10 +135,12 @@
 (el-get-bundle markdown-mode)
 (el-get-bundle migemo)
 (el-get-bundle milkode)
+(el-get-bundle minimap)
 (el-get-bundle multiple-cursors)
 (el-get-bundle nlinum)
 (el-get-bundle ob-ipython)
 (el-get-bundle org-mode)
+(el-get-bundle outshine)
 (el-get-bundle pcache)
 (el-get-bundle per-buffer-theme)
 (el-get-bundle php-mode)
@@ -153,6 +159,7 @@
 (el-get-bundle smart-cursor-color)
 (el-get-bundle smartrep)
 (el-get-bundle solarized-emacs)
+(el-get-bundle sr-speedbar)
 (el-get-bundle string-inflection)
 (el-get-bundle symon)
 (el-get-bundle tabbar)
@@ -170,6 +177,7 @@
 
 (require 'garaemon-dot-emacs)
 
+;; Run emacsserver if not started.
 (unless (server-running-p)
   (server-start))
 
@@ -184,21 +192,26 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-safe-themes (quote ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4"
-                              "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879"
-                              default)))
+ '(custom-safe-themes
+   (quote
+    ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" default)))
  '(ediff-split-window-function (quote split-window-horizontally))
+ '(gosh-program-name "/usr/bin/env gosh -i")
  '(helm-gtags-auto-update nil)
  '(helm-gtags-ignore-case t)
  '(helm-gtags-prefix-key "C-t")
  '(helm-gtags-suggested-key-mapping t)
- '(helm-mini-default-sources (quote (helm-source-buffers-list helm-source-ls-git
-                                                              helm-source-files-in-current-dir
-                                                              helm-source-recentf
-                                                              helm-source-rospack-list
-                                                              helm-source-buffer-not-found)))
- '(package-selected-packages (quote ("paradox" paradox nlinum company nil lua-mode el-get)))
+ '(helm-mini-default-sources
+   (quote
+    (helm-source-buffers-list helm-source-ls-git helm-source-files-in-current-dir helm-source-recentf helm-source-grep-ag helm-source-rospack-list helm-source-buffer-not-found)))
+ '(mumamo-background-colors nil)
+ '(package-selected-packages
+   (quote
+    (minimap imenu-list imenus "paradox" paradox nlinum company nil lua-mode el-get)))
+ '(scheme-program-name "gosh -i")
  '(sort-fold-case t t)
+ '(tramp-default-method "ssh")
+ '(tramp-verbose 10)
  '(win-switch-feedback-background-color "blue")
  '(win-switch-feedback-foreground-color "white")
  '(win-switch-idle-time 1.5)
@@ -209,5 +222,4 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(rainbow-delimiters-depth-1-face ((t
-                                     (:foreground "#7f8c8d")))))
+ '(rainbow-delimiters-depth-1-face ((t (:foreground "#7f8c8d")))))
