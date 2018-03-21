@@ -1,4 +1,4 @@
 (:name judge-indent
        :description "judge-indent-el -- smart indent"
        :type github
-       :pkgname "yascentur/judge-indent-el")
+       :pkgname "yibe/judge-indent-el")
