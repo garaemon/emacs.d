@@ -15,15 +15,16 @@
 
 ;; anthy
 (when (or (eq system-type 'cygwin)
-      (eq system-type 'gnu/linux))
-  (setq load-path (append '("/usr/share/emacs/site-lisp/anthy/")
-              load-path))
+          (eq system-type 'gnu/linux))
+  (setq load-path (append '("/usr/share/emacs/site-lisp/anthy/") load-path))
   (load-library "anthy")
   (global-unset-key "\C-\\")
   (setq default-input-method "japanese-anthy")
   (global-set-key "\C-\\" 'anthy-mode))
 
-(global-set-key "\C-xp" (lambda () (interactive) (other-window -1)))
+(global-set-key "\C-xp" (lambda ()
+                          (interactive)
+                          (other-window -1)))
 
 (global-set-key "\C-h" 'backward-delete-char)
 (global-set-key "\M-h" 'help-for-help)
@@ -39,13 +40,12 @@
  ;; フォントフェースの設定
  ;; see http://d.hatena.ne.jp/kazu-yamamoto/20090122/1232589385
  (set-face-attribute 'default nil
-             :family "monaco"
-             :height 120)
+                     :family "monaco"
+                     :height 120)
  ;; 日本語フォント: ヒラギノ丸ゴシック
- (set-fontset-font
-  nil 'japanese-jisx0208
-  ;; (font-spec :family "Hiragino Mincho Pro")) ;; font
-  (font-spec :family "Hiragino Kaku Gothic ProN")) ;; font
+ (set-fontset-font nil 'japanese-jisx0208
+                   ;; (font-spec :family "Hiragino Mincho Pro")) ;; font
+                   (font-spec :family "Hiragino Kaku Gothic ProN")) ;; font
  )
 
 (when-darwin
@@ -53,7 +53,8 @@
  (setq ns-alternate-modifier (quote super)))
 
 (when (eq system-type 'gnu/linux)
-  (set-face-attribute 'default nil :height 120) ;font size
+  (set-face-attribute 'default nil
+                      :height 120)      ;font size
   (set-frame-font "Ricty Diminished-12")
   ;;(set-frame-font "Ricty Diminished Discord-12")
   )
@@ -64,15 +65,9 @@
 ;; fci mode conflicts against company mode
 ;; (require 'fill-column-indicator)
 ;; (setq-default fci-rule-column 100)
-(dolist (mode '(c-mode-hook
-                c++-mode-hook
-                sh-mode-hook
-                markdown-mode-hook
-                python-mode-hook
-                lisp-mode-hook euslisp-mode-hook
-                cmake-mode-hook
-                javascript-mode-hook js-mode-hook
-                emacs-lisp-mode-hook))
+(dolist (mode '(c-mode-hook c++-mode-hook sh-mode-hook markdown-mode-hook python-mode-hook
+                            lisp-mode-hook euslisp-mode-hook cmake-mode-hook javascript-mode-hook
+                            js-mode-hook emacs-lisp-mode-hook))
   (add-hook mode (lambda ()
                    (column-marker-1 100))))
 ;;   (add-hook mode (lambda () (interactive)
@@ -108,8 +103,7 @@
   "Run lisp on other window"
   (interactive)
   (if (not (string= (buffer-name) "*inferior-lisp*"))
-      (switch-to-buffer-other-window
-       (get-buffer-create "*inferior-lisp*")))
+      (switch-to-buffer-other-window (get-buffer-create "*inferior-lisp*")))
   (run-lisp inferior-euslisp-program))
 
 ;; (shell-quote-argument "rosrun roseus roseus")
@@ -120,81 +114,78 @@
 ;;(autoload 'js-mode "js")
 (defun my-js2-indent-function ()
   (interactive)
-  (save-restriction
-    (widen)
-    (let* ((inhibit-point-motion-hooks t)
-           (parse-status (save-excursion (syntax-ppss (point-at-bol))))
-           (offset (- (current-column) (current-indentation)))
-           (indentation (js--proper-indentation parse-status))
-           node)
-      (save-excursion
-        ;; I like to indent case and labels to half of the tab width
-        (back-to-indentation)
-        (if (looking-at "case\\s-")
-            (setq indentation (+ indentation (/ js-indent-level 2))))
-        ;; consecutive declarations in a var statement are nice if
-        ;; properly aligned, i.e:
-        ;; var foo = "bar",
-        ;;     bar = "foo";
-        (setq node (js2-node-at-point))
-        (when (and node
-                   (= js2-NAME (js2-node-type node))
-                   (= js2-VAR (js2-node-type (js2-node-parent node))))
-          (setq indentation (+ 4 indentation))))
-      (indent-line-to indentation)
-      (when (> offset 0) (forward-char offset)))))
+  (save-restriction (widen)
+                    (let* ((inhibit-point-motion-hooks t)
+                           (parse-status (save-excursion (syntax-ppss (point-at-bol))))
+                           (offset (- (current-column)
+                                      (current-indentation)))
+                           (indentation (js--proper-indentation parse-status)) node)
+                      (save-excursion
+                        ;; I like to indent case and labels to half of the tab width
+                        (back-to-indentation)
+                        (if (looking-at "case\\s-")
+                            (setq indentation (+ indentation (/ js-indent-level 2))))
+                        ;; consecutive declarations in a var statement are nice if
+                        ;; properly aligned, i.e:
+                        ;; var foo = "bar",
+                        ;;     bar = "foo";
+                        (setq node (js2-node-at-point))
+                        (when (and node
+                                   (= js2-NAME (js2-node-type node))
+                                   (= js2-VAR (js2-node-type (js2-node-parent node))))
+                          (setq indentation (+ 4 indentation))))
+                      (indent-line-to indentation)
+                      (when (> offset 0)
+                        (forward-char offset)))))
 
 (defun my-indent-sexp ()
   (interactive)
-  (save-restriction
-    (save-excursion
-      (widen)
-      (let* ((inhibit-point-motion-hooks t)
-             (parse-status (syntax-ppss (point)))
-             (beg (nth 1 parse-status))
-             (end-marker (make-marker))
-             (end (progn (goto-char beg) (forward-list) (point)))
-             (ovl (make-overlay beg end)))
-        (set-marker end-marker end)
-        (overlay-put ovl 'face 'highlight)
-        (goto-char beg)
-        (while (< (point) (marker-position end-marker))
-          ;; don't reindent blank lines so we don't set the "buffer
-          ;; modified" property for nothing
-          (beginning-of-line)
-          (unless (looking-at "\\s-*$")
-            (indent-according-to-mode))
-          (forward-line))
-        (run-with-timer 0.5 nil '(lambda(ovl)
-                                   (delete-overlay ovl)) ovl)))))
+  (save-restriction (save-excursion (widen)
+                                    (let* ((inhibit-point-motion-hooks t)
+                                           (parse-status (syntax-ppss (point)))
+                                           (beg (nth 1 parse-status))
+                                           (end-marker (make-marker))
+                                           (end (progn (goto-char beg)
+                                                       (forward-list)
+                                                       (point)))
+                                           (ovl (make-overlay beg end)))
+                                      (set-marker end-marker end)
+                                      (overlay-put ovl 'face 'highlight)
+                                      (goto-char beg)
+                                      (while (< (point)
+                                                (marker-position end-marker))
+                                        ;; don't reindent blank lines so we don't set the "buffer
+                                        ;; modified" property for nothing
+                                        (beginning-of-line)
+                                        (unless (looking-at "\\s-*$")
+                                          (indent-according-to-mode))
+                                        (forward-line))
+                                      (run-with-timer 0.5 nil '(lambda(ovl)
+                                                                 (delete-overlay ovl)) ovl)))))
 (defun my-js2-mode-hook ()
   (require 'js)
-  (setq js-indent-level 2
-        indent-tabs-mode nil
-        c-basic-offset 2)
+  (setq js-indent-level 2 indent-tabs-mode nil c-basic-offset 2)
   ;; Disable some js2 features for eslint integration by flycheck
   (setq js2-include-browser-externs nil)
   (setq js2-mode-show-parse-errors nil)
   (setq js2-mode-show-strict-warnings nil)
   (setq js2-highlight-external-variables nil)
   (setq js2-include-jslint-globals nil)
-
   (c-toggle-auto-state 0)
   (c-toggle-hungry-state 1)
   (set (make-local-variable 'indent-line-function) 'my-js2-indent-function)
-;  (define-key js2-mode-map [(meta control |)] 'cperl-lineup)
+                                        ;  (define-key js2-mode-map [(meta control |)] 'cperl-lineup)
   (define-key js2-mode-map [(meta control \;)]
     '(lambda()
        (interactive)
        (insert "/* -----[ ")
-       (save-excursion
-         (insert " ]----- */"))
-       ))
+       (save-excursion (insert " ]----- */"))))
   (define-key js2-mode-map [(return)] 'newline-and-indent)
   (define-key js2-mode-map [(backspace)] 'c-electric-backspace)
   (define-key js2-mode-map [(control d)] 'c-electric-delete-forward)
   (define-key js2-mode-map [(control meta q)] 'my-indent-sexp)
-  (if (featurep 'js2-highlight-vars)
+  (if
+      (featurep 'js2-highlight-vars)
       (js2-highlight-vars-mode))
   (rainbow-delimiters-mode)
   (message "My JS2 hook"))
@@ -207,32 +198,30 @@
 (define-key global-map [67109029] nil)
 (define-key global-map [134217893] nil)
 (define-key global-map [201326757] nil)
-(define-key function-key-map [165] [?\\])
-(define-key function-key-map [67109029] [?\C-\\])
-(define-key function-key-map [134217893] [?\M-\\])
-(define-key function-key-map [201326757] [?\C-\M-\\])
+(define-key function-key-map [165]
+  [?\\])
+(define-key function-key-map [67109029]
+  [?\C-\\])
+(define-key function-key-map [134217893]
+  [?\M-\\])
+(define-key function-key-map [201326757]
+  [?\C-\M-\\])
 
 (autoload 'goby "goby" nil t)
 
 (global-set-key "\M-g" 'goto-line)
 
 (cond ((carbon-emacs-p)
-       (setq default-frame-alist
-         (append (list '(alpha . (90 90))) default-frame-alist)))
+       (setq default-frame-alist (append (list '(alpha . (90 90))) default-frame-alist)))
       ((meadowp)
-       (modify-all-frames-parameters
-        (list (cons 'alpha  '(nil nil nil nil)))))
-      )
+       (modify-all-frames-parameters (list (cons 'alpha  '(nil nil nil nil))))))
 
-(setq auto-mode-alist
-      (append auto-mode-alist
-          '(("\\.[hg]s$"  . haskell-mode)
-        ("\\.hi$"     . haskell-mode)
-        ("\\.l[hg]s$" . literate-haskell-mode))))
-(autoload 'haskell-mode "haskell-mode"
-  "Major mode for editing Haskell scripts." t)
-(autoload 'literate-haskell-mode "haskell-mode"
-  "Major mode for editing literate Haskell scripts." t)
+(setq auto-mode-alist (append auto-mode-alist '(("\\.[hg]s$"  . haskell-mode)
+                                                ("\\.hi$"     . haskell-mode)
+                                                ("\\.l[hg]s$" . literate-haskell-mode))))
+(autoload 'haskell-mode "haskell-mode" "Major mode for editing Haskell scripts." t)
+(autoload 'literate-haskell-mode "haskell-mode" "Major mode for editing literate Haskell scripts."
+  t)
 (add-hook 'haskell-mode-hook 'turn-on-haskell-decl-scan)
 (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
 (add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
@@ -245,8 +234,7 @@
 (global-set-key "\C-c{" 'hs-hide-all)
 (global-set-key "\C-c}" 'hs-show-all)
 
-(setq auto-mode-alist (cons (cons "\\.html$" 'html-mode)
-                            auto-mode-alist))
+(setq auto-mode-alist (cons (cons "\\.html$" 'html-mode) auto-mode-alist))
 
 (global-set-key "\C-x\C-b" 'ibuffer)
 
@@ -273,32 +261,26 @@
 
 (global-unset-key "\C-\\")
 (when (carbon-emacs-p)
- (mac-input-method-mode 1))
+  (mac-input-method-mode 1))
 
 (set-language-environment "Japanese")
 (prefer-coding-system 'utf-8)
 
-(font-lock-add-keywords 'lisp-mode
-            (list
-             ;; *hoge*に色を付ける
-             (list "\\(\\*\\w\+\\*\\)\\>"
-                   '(1 font-lock-constant-face nil t))
-             ;; +hoge+に色を付ける
-             (list "\\(\\+\\w\+\\+\\)\\>"
-                   '(1 font-lock-constant-face nil t))
-             ;; <hoge>に色を付ける
-             (list "\\(<\\w\+>\\)\\>"
-                   '(1 font-lock-constant-face nil t))
-             ;; defclass*に色を付ける
-             (list "\\(defclass\\*\\)"
-                   '(1 font-lock-keyword-face nil t))
-            ))
+(font-lock-add-keywords
+ 'lisp-mode
+ (list
+  ;; *hoge*に色を付ける
+  (list "\\(\\*\\w\+\\*\\)\\>" '(1 font-lock-constant-face nil t))
+  ;; +hoge+に色を付ける
+  (list "\\(\\+\\w\+\\+\\)\\>" '(1 font-lock-constant-face nil t))
+  ;; <hoge>に色を付ける
+  (list "\\(<\\w\+>\\)\\>" '(1 font-lock-constant-face nil t))
+  ;; defclass*に色を付ける
+  (list "\\(defclass\\*\\)" '(1 font-lock-keyword-face nil t))))
 
 (defun cl-indent (sym indent)
-  (put sym 'common-lisp-indent-function
-       (if (symbolp indent)
-       (get indent 'common-lisp-indent-function)
-     indent)))
+  (put sym 'common-lisp-indent-function (if (symbolp indent)
+                                            (get indent 'common-lisp-indent-function) indent)))
 
 (cl-indent 'iterate 'let)
 (cl-indent 'collect 'progn)
@@ -321,78 +303,75 @@
 
 (require 'markdown-mode)
 
-(setq auto-mode-alist
-   (cons '("\\.md" . markdown-mode) auto-mode-alist))
+(setq auto-mode-alist (cons '("\\.md" . markdown-mode) auto-mode-alist))
 (define-key markdown-mode-map (kbd "M-p") nil)
 (define-key markdown-mode-map (kbd "M-n") nil)
 
-(when-meadow
- (let ((make-spec
-    (function
-     (lambda (size charset fontname &optional windows-charset)
-       (setq size (- size))
-       (if (not windows-charset)
-           (setq windows-charset
-             (cadr (assq charset
-                 mw32-charset-windows-font-info-alist))))
-       `(((:char-spec ,charset :height any)
-          strict
-          (w32-logfont ,fontname 0 ,size 400 0
-               nil nil nil ,windows-charset 1 3 0))
-         ((:char-spec ,charset :height any :weight bold)
-          strict
-          (w32-logfont ,fontname 0 ,size 700 0
-               nil nil nil ,windows-charset 1 3 0)
-          ((spacing . -1)))
-         ((:char-spec ,charset :height any :slant italic)
-          strict
-          (w32-logfont ,fontname 0 ,size 400 0
-               t nil nil ,windows-charset 1 3 0))
-         ((:char-spec ,charset :height any :weight bold :slant italic)
-          strict
-          (w32-logfont ,fontname 0 ,size 700 0
-               t nil nil ,windows-charset 1 3 0)
-          ((spacing . -1)))))))
-       (make-spec-list
-    (function
-     (lambda (size params-list)
-           (list
-        (cons 'spec
-          (apply 'append
-             (mapcar (lambda (params)
-                   (apply make-spec (cons size params)))
-                 params-list)))))))
-       (define-fontset
-     (function
-      (lambda (fontname size fontset-list)
-        (let ((spec (funcall make-spec-list size fontset-list)))
-          (if (w32-list-fonts fontname)
-          (w32-change-font fontname spec)
-        (w32-add-font fontname spec))))))
-       (arisaka-fontset-list
-    '((ascii "monaco")
-      (katakana-jisx0201 "ARISAKA-等幅")
-      (japanese-jisx0208 "ARISAKA-等幅")))
-       )
-   (funcall define-fontset "Arisaka 10" 10 arisaka-fontset-list)
-   (funcall define-fontset "Arisaka 12" 12 arisaka-fontset-list)
-   (funcall define-fontset "Arisaka 14" 14 arisaka-fontset-list)
-   (funcall define-fontset "Arisaka 16" 16 arisaka-fontset-list)
-   (funcall define-fontset "Arisaka 18" 18 arisaka-fontset-list)
-   (funcall define-fontset "Arisaka 20" 20 arisaka-fontset-list)
-   (funcall define-fontset "Arisaka 22" 22 arisaka-fontset-list)
-   (funcall define-fontset "Arisaka 24" 24 arisaka-fontset-list)
-   (funcall define-fontset "Arisaka 36" 36 arisaka-fontset-list)
-   (funcall define-fontset "Arisaka 48" 48 arisaka-fontset-list)
-   )
- ;; 初期フレームの設定
- (setq default-frame-alist
-       (append (list '(font . "Arisaka 12")
-             '(ime-font . (w32-logfont "Arisaka"
-                           0 16 400 0 nil nil nil
-                           128 1 3 49))) ; TrueType のみ
-           default-frame-alist))
- )
+(when-meadow (let ((make-spec (function (lambda (size charset fontname &optional windows-charset)
+                                          (setq size (- size))
+                                          (if (not windows-charset)
+                                              (setq windows-charset (cadr (assq charset
+                                                                                mw32-charset-windows-font-info-alist))))
+                                          `(((:char-spec ,charset
+                                                         :height any) strict (w32-logfont ,fontname 0 ,size 400
+                                                                               0 nil nil nil
+                                                                               ,windows-charset 1 3
+                                                                               0))
+                                            ((:char-spec ,charset
+                                                         :height any
+                                                         :weight bold) strict (w32-logfont ,fontname 0 ,size 700
+                                                                               0 nil nil nil
+                                                                               ,windows-charset 1 3
+                                                                               0)
+                                                           ((spacing . -1)))
+                                            ((:char-spec ,charset
+                                                         :height any
+                                                         :slant italic) strict (w32-logfont ,fontname 0 ,size 400
+                                                                               0 t nil nil
+                                                                               ,windows-charset 1 3
+                                                                               0))
+                                            ((:char-spec ,charset
+                                                         :height any
+                                                         :weight bold
+                                                         :slant italic) strict (w32-logfont ,fontname 0 ,size 700
+                                                                               0 t nil nil
+                                                                               ,windows-charset 1 3
+                                                                               0)
+                                                           ((spacing . -1)))))))
+                   (make-spec-list (function (lambda (size params-list)
+                                               (list (cons 'spec (apply 'append (mapcar (lambda
+                                                                                          (params)
+                                                                                          (apply
+                                                                                           make-spec
+                                                                                           (cons
+                                                                                            size
+                                                                                            params)))
+                                                                                        params-list)))))))
+                   (define-fontset (function (lambda (fontname size fontset-list)
+                                               (let ((spec (funcall make-spec-list size
+                                                                    fontset-list)))
+                                                 (if (w32-list-fonts fontname)
+                                                     (w32-change-font fontname spec)
+                                                   (w32-add-font fontname spec))))))
+                   (arisaka-fontset-list '((ascii "monaco")
+                                           (katakana-jisx0201 "ARISAKA-等幅")
+                                           (japanese-jisx0208 "ARISAKA-等幅"))))
+               (funcall define-fontset "Arisaka 10" 10 arisaka-fontset-list)
+               (funcall define-fontset "Arisaka 12" 12 arisaka-fontset-list)
+               (funcall define-fontset "Arisaka 14" 14 arisaka-fontset-list)
+               (funcall define-fontset "Arisaka 16" 16 arisaka-fontset-list)
+               (funcall define-fontset "Arisaka 18" 18 arisaka-fontset-list)
+               (funcall define-fontset "Arisaka 20" 20 arisaka-fontset-list)
+               (funcall define-fontset "Arisaka 22" 22 arisaka-fontset-list)
+               (funcall define-fontset "Arisaka 24" 24 arisaka-fontset-list)
+               (funcall define-fontset "Arisaka 36" 36 arisaka-fontset-list)
+               (funcall define-fontset "Arisaka 48" 48 arisaka-fontset-list))
+             ;; 初期フレームの設定
+             (setq default-frame-alist (append (list '(font . "Arisaka 12")
+                                                     '(ime-font . (w32-logfont "Arisaka" 0 16 400 0
+                                                                               nil nil nil 128 1 3
+                                                                               49))) ; TrueType のみ
+                                               default-frame-alist)))
 
 (when-meadow
  (setq w32-hide-mouse-on-key t))
@@ -407,23 +386,20 @@
   (setq migemo-regex-dictionary nil)
   (setq migemo-coding-system 'utf-8-unix)
   (load-library "migemo")
-  (migemo-init)
-  )
+  (migemo-init))
 
 (setq visible-bell nil)
- (setq ring-bell-function 'ignore)
+(setq ring-bell-function 'ignore)
 
 (setq make-backup-files nil)
 
-(unless-cygwin
- (scroll-bar-mode -1))
+(unless-cygwin (scroll-bar-mode -1))
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (setq scroll-conservatively 1)
 
-(setq auto-mode-alist
-      (cons '("\\.\\(xml\\|xsl\\|rng\\|xhtml\\|kml\\|gpx\\)\\'" . html-mode)
-            auto-mode-alist))
+(setq auto-mode-alist (cons '("\\.\\(xml\\|xsl\\|rng\\|xhtml\\|kml\\|gpx\\)\\'" . html-mode)
+                            auto-mode-alist))
 (global-unset-key "\M-p")
 (global-unset-key "\M-n")
 
@@ -440,7 +416,7 @@
 (global-set-key "\M-p" 'scroll-up-in-place)
 (global-set-key [M-up] 'scroll-up-in-place)
 (global-set-key "\M-n" 'scroll-down-in-place)
-(global-set-key [M-down] 'scroll-down-in-place);
+(global-set-key [M-down] 'scroll-down-in-place) ;
 
 ;; python-mode, pycomplete
 ;; (setq auto-mode-alist (cons '("\\.py$" . python-mode) auto-mode-alist))
@@ -448,19 +424,16 @@
 
 ;;(require 'ipython)
 
-(setq process-coding-system-alist
-      (cons '("gosh" utf-8 . utf-8) process-coding-system-alist))
+(setq process-coding-system-alist (cons '("gosh" utf-8 . utf-8) process-coding-system-alist))
 (setq scheme-program-name "gosh")
 (require 'cmuscheme)
 (defun scheme-other-window ()
   "Run scheme on other window"
   (interactive)
-  (switch-to-buffer-other-window
-   (get-buffer-create "*scheme*"))
+  (switch-to-buffer-other-window (get-buffer-create "*scheme*"))
   (run-scheme scheme-program-name))
 
-(define-key global-map
-  "\C-cS" 'scheme-other-window)
+(define-key global-map "\C-cS" 'scheme-other-window)
 (setq gosh-program-name "/usr/bin/env gosh -i")
 (setq scheme-program-name "gosh -i")
 
@@ -491,26 +464,25 @@
 (put 'defmethod 'scheme-indent-function 1)
 
 ;;font-lock
-(font-lock-add-keywords 'scheme-mode
-                        (list
-                         (list (concat
-                                "(" (regexp-opt '("use") t) "\\>") '(1 font-lock-keyword-face nil t))
-                         (list "\\(self\\)\\>" '(1 font-lock-constant-face nil t))
-                         (list "\\(\\*\\w\+\\*\\)\\>" '(1 font-lock-constant-face nil t))
-                         (list "\\(#\\(\\+\\|\\-\\)\.\*\\)" '(1 font-lock-variable-name-face))
-                         (cons "\\(dotimes\\|unless\\|when\\|dolist\\|while\\)\\>" 1)
-                         (cons "\\(let-\\(keywords\\|optionals\\|values\\|keywords\\*\\|optionals\\*\\|values\\*\\)\\)\\>" 1)
-                         (list "\\(warn\\)\\>" '(1 font-lock-warning-face))
-                         (list "\\(#t\\|#f\\)\\>" '(1 font-lock-constant-face))
-                         (cons "\\(defclass\\|defmethod\\)\\>" 1)
-             (cons "\\(define-\\(function\\*\\|class\\*\\|method\\*\\)\\)\\>" 1)
-                         )
-                        )
+(font-lock-add-keywords
+ 'scheme-mode
+ (list (list (concat "(" (regexp-opt '("use") t) "\\>")
+             '(1 font-lock-keyword-face nil t))
+       (list "\\(self\\)\\>" '(1 font-lock-constant-face nil t))
+       (list "\\(\\*\\w\+\\*\\)\\>" '(1 font-lock-constant-face nil t))
+       (list "\\(#\\(\\+\\|\\-\\)\.\*\\)" '(1 font-lock-variable-name-face))
+       (cons "\\(dotimes\\|unless\\|when\\|dolist\\|while\\)\\>" 1)
+       (cons
+        "\\(let-\\(keywords\\|optionals\\|values\\|keywords\\*\\|optionals\\*\\|values\\*\\)\\)\\>"
+        1)
+       (list "\\(warn\\)\\>" '(1 font-lock-warning-face))
+       (list "\\(#t\\|#f\\)\\>" '(1 font-lock-constant-face))
+       (cons "\\(defclass\\|defmethod\\)\\>" 1)
+       (cons "\\(define-\\(function\\*\\|class\\*\\|method\\*\\)\\)\\>" 1)))
 
 (autoload 'sdic-describe-word "sdic" "英単語の意味を調べる" t nil)
 (global-set-key "\C-cw" 'sdic-describe-word)
-(autoload 'sdic-describe-word-at-point
-  "sdic" "カーソルの位置の英単語の意味を調べる" t nil)
+(autoload 'sdic-describe-word-at-point "sdic" "カーソルの位置の英単語の意味を調べる" t nil)
 (global-set-key "\C-cW" 'sdic-describe-word-at-point)
 
 
@@ -598,12 +570,10 @@
 ;; (nyan-start-animation)
 
 ;; objective-c
-(add-to-list 'magic-mode-alist
-             `(,(lambda ()
-                  (and (string= (file-name-extension buffer-file-name) "h")
-                       (re-search-forward "@\\<interface\\>"
-                                          magic-mode-regexp-match-limit t)))
-               . objc-mode))
+(add-to-list 'magic-mode-alist `(,(lambda ()
+                                    (and (string= (file-name-extension buffer-file-name) "h")
+                                         (re-search-forward "@\\<interface\\>"
+                                                            magic-mode-regexp-match-limit t))) . objc-mode))
 (add-to-list 'auto-mode-alist '("\\.mm$" . objc-mode))
 (add-to-list 'auto-mode-alist '("\\.m$" . objc-mode))
 
@@ -612,7 +582,9 @@
 
 (require 'expand-region)
 (when (<= emacs-major-version 24)
-  (defmacro save-mark-and-excursion (&rest body)
+  (defmacro save-mark-and-excursion
+      (&rest
+       body)
     `(save-excursion ,@body)))
 
 (require 'multiple-cursors)
@@ -643,20 +615,19 @@
 ;; defining keymap with C-q prefix
 (declare-function smartrep-define-key "smartrep")
 (global-unset-key "\C-q")
-(smartrep-define-key global-map "C-q"
-  '(("C-t"      . 'mc/mark-next-like-this)
-    ("n"        . 'mc/mark-next-like-this)
-    ("p"        . 'mc/mark-previous-like-this)
-    ("m"        . 'mc/mark-more-like-this-extended)
-    ("u"        . 'mc/unmark-next-like-this)
-    ("U"        . 'mc/unmark-previous-like-this)
-    ("s"        . 'mc/skip-to-next-like-this)
-    ("S"        . 'mc/skip-to-previous-like-this)
-    ("*"        . 'mc/mark-all-like-this)
-    ("d"        . 'mc/mark-all-like-this-dwim)
-    ("i"        . 'mc/insert-numbers)
-    ("o"        . 'mc/sort-regions)
-    ("O"        . 'mc/reverse-regions)))
+(smartrep-define-key global-map "C-q" '(("C-t"      . 'mc/mark-next-like-this)
+                                        ("n"        . 'mc/mark-next-like-this)
+                                        ("p"        . 'mc/mark-previous-like-this)
+                                        ("m"        . 'mc/mark-more-like-this-extended)
+                                        ("u"        . 'mc/unmark-next-like-this)
+                                        ("U"        . 'mc/unmark-previous-like-this)
+                                        ("s"        . 'mc/skip-to-next-like-this)
+                                        ("S"        . 'mc/skip-to-previous-like-this)
+                                        ("*"        . 'mc/mark-all-like-this)
+                                        ("d"        . 'mc/mark-all-like-this-dwim)
+                                        ("i"        . 'mc/insert-numbers)
+                                        ("o"        . 'mc/sort-regions)
+                                        ("O"        . 'mc/reverse-regions)))
 
 (setq compilation-scroll-output t)
 
@@ -669,28 +640,23 @@
   (require 'helm-swoop)
   (require 'helm-gtags)
   (setq helm-gtags-auto-update t)
-
   (add-hook 'c-mode-hook 'helm-gtags-mode)
   (add-hook 'c++-mode-hook 'helm-gtags-mode)
   (add-hook 'asm-mode-hook 'helm-gtags-mode)
-  (custom-set-variables
-   '(helm-gtags-prefix-key "C-t")
-   '(helm-gtags-suggested-key-mapping t)
-   '(helm-gtags-ignore-case t)
-   '(helm-gtags-auto-update nil)
-   )
-  (eval-after-load "helm-gtags"
-    '(progn
-       (define-key helm-gtags-mode-map (kbd "C-:") 'helm-gtags-find-pattern)
-       ;; (define-key helm-gtags-mode-map (kbd "M-t") 'helm-gtags-find-tag)
-       ;; (define-key helm-gtags-mode-map (kbd "M-r") 'helm-gtags-find-rtag)
-       ;; (define-key helm-gtags-mode-map (kbd "M-s") 'helm-gtags-find-symbol)
-       ;; (define-key helm-gtags-mode-map (kbd "M-g M-p") 'helm-gtags-parse-file)
-       ;; (define-key helm-gtags-mode-map (kbd "C-c <") 'helm-gtags-previous-history)
-       ;; (define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history)
-       ;; (define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-pop-stack))
-       ))
-
+  (custom-set-variables '(helm-gtags-prefix-key "C-t")
+                        '(helm-gtags-suggested-key-mapping t)
+                        '(helm-gtags-ignore-case t)
+                        '(helm-gtags-auto-update nil))
+  (eval-after-load "helm-gtags" '(progn (define-key helm-gtags-mode-map (kbd "C-:")
+                                          'helm-gtags-find-pattern)
+                                        ;; (define-key helm-gtags-mode-map (kbd "M-t") 'helm-gtags-find-tag)
+                                        ;; (define-key helm-gtags-mode-map (kbd "M-r") 'helm-gtags-find-rtag)
+                                        ;; (define-key helm-gtags-mode-map (kbd "M-s") 'helm-gtags-find-symbol)
+                                        ;; (define-key helm-gtags-mode-map (kbd "M-g M-p") 'helm-gtags-parse-file)
+                                        ;; (define-key helm-gtags-mode-map (kbd "C-c <") 'helm-gtags-previous-history)
+                                        ;; (define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history)
+                                        ;; (define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-pop-stack))
+                                        ))
   (helm-autoresize-mode 1)
   (helm-mode t)
   (require 'helm-ag)
@@ -705,15 +671,13 @@
   ;; For helm-find-files etc.
   ;;(define-key helm-find-files-map (kbd "TAB") 'helm-execute-persistent-action)
   ;; (require 'helm-regexp)
-  (custom-set-variables
-   '(helm-mini-default-sources '(helm-source-buffers-list
-                                 helm-source-ls-git
-                                 ;; helm-c-source-replace-string
-                                 helm-source-files-in-current-dir
-                                 helm-source-recentf
-                                 helm-source-grep-ag
-                                 helm-source-rospack-list
-                                 helm-source-buffer-not-found)))
+  (custom-set-variables '(helm-mini-default-sources '(helm-source-buffers-list helm-source-ls-git
+                                                                               ;; helm-c-source-replace-string
+                                                                               helm-source-files-in-current-dir
+                                                                               helm-source-recentf
+                                                                               helm-source-grep-ag
+                                                                               helm-source-rospack-list
+                                                                               helm-source-buffer-not-found)))
   (add-to-list 'helm-completing-read-handlers-alist '(find-file . nil))
   (add-to-list 'helm-completing-read-handlers-alist '(find-ros-file . nil))
   (define-key global-map (kbd "M-x")     'helm-M-x)
@@ -728,17 +692,15 @@
   ;;(define-key helm-find-files-map (kbd "C-h") 'delete-backward-char)
   ;; Emulate `kill-line' in helm minibuffer
   (setq helm-delete-minibuffer-contents-from-point t)
-  (defadvice helm-delete-minibuffer-contents
-    (before helm-emulate-kill-line activate)
+  (defadvice helm-delete-minibuffer-contents (before helm-emulate-kill-line activate)
     "Emulate `kill-line' in helm minibuffer"
-    (kill-new (buffer-substring (point) (field-end))))
-
+    (kill-new
+     (buffer-substring
+      (point)
+      (field-end))))
   (require 'helm-ls-git)
-
   (require 'helm-ros)
-
   (setq helm-source-catkin-root "~/ros_catkin_ws/hydro/src")
-
   (global-set-key (kbd "M-i") 'helm-swoop)
 
   ;; (require 'swoop)
@@ -752,30 +714,29 @@
 ;; defining keymap with C-q prefix
 (declare-function smartrep-define-key "smartrep")
 (global-unset-key "\C-q")
-(smartrep-define-key global-map "C-q"
-  '(("C-t"      . 'mc/mark-next-like-this)
-    ("n"        . 'mc/mark-next-like-this)
-    ("p"        . 'mc/mark-previous-like-this)
-    ("m"        . 'mc/mark-more-like-this-extended)
-    ("u"        . 'mc/unmark-next-like-this)
-    ("U"        . 'mc/unmark-previous-like-this)
-    ("s"        . 'mc/skip-to-next-like-this)
-    ("S"        . 'mc/skip-to-previous-like-this)
-    ("*"        . 'mc/mark-all-like-this)
-    ("d"        . 'mc/mark-all-like-this-dwim)
-    ("i"        . 'mc/insert-numbers)
-    ("o"        . 'mc/sort-regions)
-    ("O"        . 'mc/reverse-regions)))
+(smartrep-define-key global-map "C-q" '(("C-t"      . 'mc/mark-next-like-this)
+                                        ("n"        . 'mc/mark-next-like-this)
+                                        ("p"        . 'mc/mark-previous-like-this)
+                                        ("m"        . 'mc/mark-more-like-this-extended)
+                                        ("u"        . 'mc/unmark-next-like-this)
+                                        ("U"        . 'mc/unmark-previous-like-this)
+                                        ("s"        . 'mc/skip-to-next-like-this)
+                                        ("S"        . 'mc/skip-to-previous-like-this)
+                                        ("*"        . 'mc/mark-all-like-this)
+                                        ("d"        . 'mc/mark-all-like-this-dwim)
+                                        ("i"        . 'mc/insert-numbers)
+                                        ("o"        . 'mc/sort-regions)
+                                        ("O"        . 'mc/reverse-regions)))
 
 (setq my/color-theme 'solarized-dark)
 
 (when (>= emacs-major-version 24)
-  (load-theme my/color-theme t)
-  )
+  (load-theme my/color-theme t))
 
 
 (require 'rainbow-delimiters)
-(custom-set-faces '(rainbow-delimiters-depth-1-face ((t (:foreground "#7f8c8d")))))
+(custom-set-faces '(rainbow-delimiters-depth-1-face ((t
+                                                      (:foreground "#7f8c8d")))))
 (add-hook 'c-mode-common-hook #'rainbow-delimiters-mode)
 (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
 (add-hook 'js2-mode-hook #'rainbow-delimiters-mode)
@@ -784,36 +745,26 @@
 ;; C-x u
 (require 'undo-tree)
 (global-undo-tree-mode)
-(define-key undo-tree-visualizer-mode-map
-  "\C-m" 'undo-tree-visualizer-quit)
+(define-key undo-tree-visualizer-mode-map "\C-m" 'undo-tree-visualizer-quit)
 
 (require 'undohist)
 (undohist-initialize)
 ;;; 永続化を無視するファイル名の正規表現
-(setq undohist-ignored-files
-      '("/tmp/"))
+(setq undohist-ignored-files '("/tmp/"))
 ;;; NTEmacsだと動かないらしいので再定義
 ;;; http://d.hatena.ne.jp/Lian/20120420/1334856445
 (when (eq system-type 'windows-nt)
   (defun make-undohist-file-name (file)
     (setq file (convert-standard-filename (expand-file-name file)))
     (if (eq (aref file 1) ?:)
-        (setq file (concat "/"
-                           "drive_"
-                           (char-to-string (downcase (aref file 0)))
-                           (if (eq (aref file 2) ?/)
-                               ""
-                             (if (eq (aref file 2) ?\\)
-                                 ""
-                               "/"))
+        (setq file (concat "/" "drive_" (char-to-string (downcase (aref file 0)))
+                           (if (eq (aref file 2) ?/) "" (if (eq (aref file 2) ?\\) "" "/"))
                            (substring file 2))))
-    (setq file (expand-file-name
-                (subst-char-in-string
-                 ?/ ?!
-                 (subst-char-in-string
-                  ?\\ ?!
-                  (replace-regexp-in-string "!" "!!"  file)))
-                undohist-directory))))
+    (setq file (expand-file-name (subst-char-in-string ?/ ?! (subst-char-in-string ?\\ ?!
+                                                                                   (replace-regexp-in-string
+                                                                                    "!" "!!"
+                                                                                    file)))
+                                 undohist-directory))))
 
 
 (require 'yaml-mode)
@@ -848,7 +799,6 @@ static char * arrow_right[] = {
 \"...         \",
 \"..          \",
 \".           \"};"  color1 color2))
-
   (defun arrow-left-xpm (color1 color2)
     "Return an XPM right arrow string representing."
     (format "/* XPM */
@@ -874,45 +824,40 @@ static char * arrow_right[] = {
 \"         ...\",
 \"          ..\",
 \"           .\"};"  color2 color1))
-
   (defconst color1 "#FF6699")
   (defconst color3 "#CDC0B0")
   (defconst color2 "#FF0066")
   (defconst color4 "#CDC0B0")
-
-  (defvar arrow-right-1
-    (create-image (arrow-right-xpm color1 color2) 'xpm t :ascent 'center))
-  (defvar arrow-right-2
-    (create-image (arrow-right-xpm color2 "None") 'xpm t :ascent 'center))
-  (defvar arrow-left-1
-    (create-image (arrow-left-xpm color2 color1) 'xpm t :ascent 'center))
-  (defvar arrow-left-2
-    (create-image (arrow-left-xpm "None" color2) 'xpm t :ascent 'center))
-
-  (setq-default mode-line-format
-                (list  '(:eval (concat (propertize " %b " 'face 'mode-line-color-1)
-                                       (propertize " " 'display arrow-right-1)))
-                       '(:eval (concat (propertize " %m " 'face 'mode-line-color-2)
-                                       (propertize " " 'display arrow-right-2)))
-                       ;; Justify right by filling with spaces to right fringe - 16
-                       ;; (16 should be computed rahter than hardcoded)
-                       '(:eval (propertize " " 'display '((space :align-to (- right-fringe 17)))))
-
-                       '(:eval (concat (propertize " " 'display arrow-left-2)
-                                       (propertize " %p " 'face 'mode-line-color-2)))
-                       '(:eval (concat (propertize " " 'display arrow-left-1)
-                                       (propertize "%4l:%2c  " 'face 'mode-line-color-1)))
-                       ))
+  (defvar arrow-right-1 (create-image (arrow-right-xpm color1 color2) 'xpm t
+                                      :ascent 'center))
+  (defvar arrow-right-2 (create-image (arrow-right-xpm color2 "None") 'xpm t
+                                      :ascent 'center))
+  (defvar arrow-left-1 (create-image (arrow-left-xpm color2 color1) 'xpm t
+                                     :ascent 'center))
+  (defvar arrow-left-2 (create-image (arrow-left-xpm "None" color2) 'xpm t
+                                     :ascent 'center))
+  (setq-default mode-line-format (list
+                                  '(:eval (concat (propertize " %b " 'face 'mode-line-color-1)
+                                                  (propertize " " 'display arrow-right-1)))
+                                  '(:eval (concat (propertize " %m " 'face 'mode-line-color-2)
+                                                  (propertize " " 'display arrow-right-2)))
+                                  ;; Justify right by filling with spaces to right fringe - 16
+                                  ;; (16 should be computed rahter than hardcoded)
+                                  '(:eval (propertize " " 'display '((space :align-to (-
+                                                                                       right-fringe
+                                                                                       17)))))
+                                  '(:eval (concat (propertize " " 'display arrow-left-2)
+                                                  (propertize " %p " 'face 'mode-line-color-2)))
+                                  '(:eval (concat (propertize " " 'display arrow-left-1)
+                                                  (propertize "%4l:%2c  " 'face 'mode-line-color-1)))))
   (make-face 'mode-line-color-1)
   (set-face-attribute 'mode-line-color-1 nil
                       :foreground "#fff"
                       :background color1)
-
   (make-face 'mode-line-color-2)
   (set-face-attribute 'mode-line-color-2 nil
                       :foreground "#fff"
                       :background nil)
-
   (set-face-attribute 'mode-line nil
                       :foreground "#fff"
                       :background color3
@@ -920,22 +865,18 @@ static char * arrow_right[] = {
   ;; (set-face-attribute 'mode-line-inactive nil
   ;;                     :foreground "#fff"
   ;;                     :background color4)
-
   (set-face-attribute 'mode-line nil
-                    :foreground "#fff"
-                    :background "#FF0066"
-                    :box nil)
-
+                      :foreground "#fff"
+                      :background "#FF0066"
+                      :box nil)
   (set-face-attribute 'powerline-active1 nil
                       :foreground "#fff"
                       :background "#FF6699"
                       :inherit 'mode-line)
-
   (set-face-attribute 'powerline-active2 nil
                       :foreground "#000"
                       :background "#ffaeb9"
-                      :inherit 'mode-line)
-  )
+                      :inherit 'mode-line))
 
 (require 'trr)
 
@@ -960,8 +901,8 @@ static char * arrow_right[] = {
 
 (defun delete-trailing-whitespace-with-exclude-pattern ()
   (interactive)
-  (cond ((equal nil (loop for pattern in delete-trailing-whitespace-exclude-patterns
-                          thereis (string-match pattern buffer-file-name)))
+  (cond ((equal nil (loop for pattern in delete-trailing-whitespace-exclude-patterns thereis
+                          (string-match pattern buffer-file-name)))
          (delete-trailing-whitespace))))
 
 ;; (defun delete-trailing-whitespace-with-exclude-pattern () (interactive))
@@ -973,9 +914,7 @@ static char * arrow_right[] = {
 ;; Force to load yasnippet/yasnippet.el in order to avoid
 ;; to use yasnippet.el under elpa packages.
 (require 'yasnippet)
-(setq yas-snippet-dirs
-      '("~/.emacs.d/snippets"
-        "~/.emacs.d/el-get/yasnippet/snippets"))
+(setq yas-snippet-dirs '("~/.emacs.d/snippets" "~/.emacs.d/el-get/yasnippet/snippets"))
 (yas-global-mode)
 ;;(custom-set-variables '(yas-trigger-key "TAB"))
 
@@ -992,10 +931,10 @@ static char * arrow_right[] = {
 ;;                              (get-char-property (point) 'face))))
 ;;            '(require-snippet-condition . force-in-comment)))
 ;; bind M-- to list snippets
-(when (require 'helm-c-yasnippet nil t)
+(when
+    (require 'helm-c-yasnippet nil t)
   (setq helm-c-yas-space-match-any-greedy t) ;[default: nil]
-  (global-set-key (kbd "M--") 'helm-c-yas-complete)
-  )
+  (global-set-key (kbd "M--") 'helm-c-yas-complete))
 
 (windmove-default-keybindings 'meta)
 
@@ -1020,40 +959,39 @@ static char * arrow_right[] = {
 (setq display-buffer-function 'popwin:display-buffer)
 
 (require 'popwin)
-(push '(direx:direx-mode :position left :width 50 :dedicated t)
-      popwin:special-display-config)
+(push '(direx:direx-mode :position left
+                         :width 50
+                         :dedicated t) popwin:special-display-config)
 
 ;; re-redifine function in order to support .repo
 (defun direx-project:vc-repo-p (dirname)
-  (cl-loop for vc-dir in '(".repo")
-           thereis (file-exists-p (expand-file-name vc-dir dirname))))
+  (cl-loop for vc-dir in '(".repo") thereis (file-exists-p (expand-file-name vc-dir dirname))))
 
 (defun direx-project:vc-root-p (dirname)
-   (cl-loop for vc-dir in '(".git" ".hg" ".bzr")
-            thereis (file-exists-p (expand-file-name vc-dir dirname))))
+  (cl-loop for vc-dir in '(".git" ".hg" ".bzr") thereis (file-exists-p (expand-file-name vc-dir
+                                                                                         dirname))))
 
 (defun direx-project:project-root-p (dirname)
-  (cl-some (lambda (fun) (funcall fun dirname))
-           direx-project:project-root-predicate-functions))
+  (cl-some (lambda (fun)
+             (funcall fun dirname)) direx-project:project-root-predicate-functions))
 
 (defun direx-project:project-repo-root-p (dirname)
-  (cl-some (lambda (fun) (funcall fun dirname))
+  (cl-some (lambda (fun)
+             (funcall fun dirname))
            '(direx-project:vc-repo-p)))
 
 (defun direx-project:find-project-root-noselect (filename)
   (interactive)
   (or (cl-loop for parent-dirname in (if (file-directory-p filename)
-                                     (cons filename
-                                           (direx:directory-parents filename))
-                                   (direx:directory-parents filename))
-           if (direx-project:project-repo-root-p parent-dirname)
-           return (direx:find-directory-noselect parent-dirname))
+                                         (cons filename (direx:directory-parents filename))
+                                       (direx:directory-parents filename)) if
+                                       (direx-project:project-repo-root-p parent-dirname) return
+                                       (direx:find-directory-noselect parent-dirname))
       (cl-loop for parent-dirname in (if (file-directory-p filename)
-                                         (cons filename
-                                               (direx:directory-parents filename))
-                                       (direx:directory-parents filename))
-               if (direx-project:project-root-p parent-dirname)
-               return (direx:find-directory-noselect parent-dirname))))
+                                         (cons filename (direx:directory-parents filename))
+                                       (direx:directory-parents filename)) if
+                                       (direx-project:project-root-p parent-dirname) return
+                                       (direx:find-directory-noselect parent-dirname))))
 
 (global-set-key (kbd "C-x C-j") 'direx-project:jump-to-project-root-other-window)
 
@@ -1072,8 +1010,7 @@ static char * arrow_right[] = {
   (global-hl-line-unhighlight-all)
   (let ((global-hl-line-mode t))
     (global-hl-line-highlight)))
-(setq global-hl-line-timer
-      (run-with-idle-timer 0.03 t 'global-hl-line-timer-function))
+(setq global-hl-line-timer (run-with-idle-timer 0.03 t 'global-hl-line-timer-function))
 
 ;;(global-hl-line-mode -1)
 
@@ -1085,18 +1022,18 @@ The first char, if capitalized (eg, PascalCase) is just
 downcased, no preceding underscore.
 "
   (interactive)
-  (progn (replace-regexp "\\([A-Z]\\)" "_\\1" nil (region-beginning)(region-end))
-       (downcase-region (region-beginning)(region-end))))
+  (progn (replace-regexp "\\([A-Z]\\)" "_\\1" nil (region-beginning)
+                         (region-end))
+         (downcase-region (region-beginning)
+                          (region-end))))
 (global-set-key "\M-\C-C"  'un-camelcase-word-at-point)
 
 (defalias 'qrr 'query-replace-regexp)
 (when nil
   (require 'symon)
-  (custom-set-variables
-   '(symon-sparkline-type symon-sparkline-type-gridded)
-   '(symon-delay 5))
-  (symon-mode)
-  )
+  (custom-set-variables '(symon-sparkline-type symon-sparkline-type-gridded)
+                        '(symon-delay 5))
+  (symon-mode))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -1109,7 +1046,8 @@ downcased, no preceding underscore.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(rainbow-delimiters-depth-1-face ((t (:foreground "#7f8c8d")))))
+ '(rainbow-delimiters-depth-1-face ((t
+                                     (:foreground "#7f8c8d")))))
 
 ;; for mistype :)
 (global-set-key "\M-%" 'query-replace)
@@ -1135,10 +1073,10 @@ downcased, no preceding underscore.
 (require 'scss-mode)
 (add-to-list 'auto-mode-alist '("\\.scss$" . scss-mode))
 
-(when (require 'rosemacs nil t)
+(when
+    (require 'rosemacs nil t)
   (invoke-rosemacs)
-  (global-set-key "\C-x\C-r" ros-keymap)
-  )
+  (global-set-key "\C-x\C-r" ros-keymap))
 
 (require 'gist)
 ;; gist-buffer to save buffer to gist
@@ -1146,9 +1084,12 @@ downcased, no preceding underscore.
 (defun klf-region-run ()
   "Run KLatexFormula"
   (interactive)
-  (start-process "klatexformula" "*KLatexFormula*" "klatexformula" "--daemonize" "-I" "--latexinput" (buffer-substring (region-beginning) (region-end)))
-)
-(global-set-key [(control c) (control k)] 'klf-region-run)
+  (start-process "klatexformula" "*KLatexFormula*" "klatexformula" "--daemonize" "-I" "--latexinput"
+                 (buffer-substring
+                  (region-beginning)
+                  (region-end))))
+(global-set-key [(control c)
+                 (control k)] 'klf-region-run)
 
 (defun open-with-shiba ()
   "open a current markdown file with shiba"
@@ -1157,9 +1098,8 @@ downcased, no preceding underscore.
 (define-key markdown-mode-map (kbd "C-c C-c") 'open-with-shiba)
 (define-key markdown-mode-map (kbd "C-c m") 'newline)
 ;; For emacs 24
-(add-hook 'markdown-mode-hook
-          '(lambda ()
-             (electric-indent-local-mode -1)))
+(add-hook 'markdown-mode-hook '(lambda ()
+                                 (electric-indent-local-mode -1)))
 
 (require 'milkode)
 ;; Path-to-gmilk
@@ -1171,18 +1111,16 @@ downcased, no preceding underscore.
   (interactive "p")
   (if (= num_wins 2)
       (split-window-vertically)
-    (progn
-      (split-window-vertically
-       (- (window-height) (/ (window-height) num_wins)))
-      (split-window-vertically-n (- num_wins 1)))))
+    (progn (split-window-vertically (- (window-height)
+                                       (/ (window-height) num_wins)))
+           (split-window-vertically-n (- num_wins 1)))))
 (defun split-window-horizontally-n (num_wins)
   (interactive "p")
   (if (= num_wins 2)
       (split-window-horizontally)
-    (progn
-      (split-window-horizontally
-       (- (window-width) (/ (window-width) num_wins)))
-      (split-window-horizontally-n (- num_wins 1)))))
+    (progn (split-window-horizontally (- (window-width)
+                                         (/ (window-width) num_wins)))
+           (split-window-horizontally-n (- num_wins 1)))))
 (global-set-key "\C-x@" '(lambda ()
                            (interactive)
                            (split-window-vertically-n 3)))
@@ -1192,88 +1130,99 @@ downcased, no preceding underscore.
 (require 'thingopt)
 (define-thing-commands)
 (global-set-key "\M-@" 'mark-word*)
+
 (require 'coffee-mode)
-(add-hook 'coffee-mode-hook
-          '(lambda() (set (make-local-variable 'tab-width) 2)
-             (setq coffee-tab-width 2)))
+(add-hook 'coffee-mode-hook '(lambda()
+                               (set (make-local-variable 'tab-width) 2)
+                               (setq coffee-tab-width 2)))
+
 (setq enable-flycheck t)
+
 (when enable-flycheck
   (require 'flycheck)
+
+  ;; http://fukuyama.co/tramp-flycheck
+  (defun flycheck-exclude-tramp ()
+    (unless (or (and (fboundp 'tramp-tramp-file-p)
+                     (tramp-tramp-file-p buffer-file-name))
+                (string-match "sudo:.*:" (buffer-file-name)))
+      (flycheck-mode t)))
 
   ;; Do not use flycheck-pos-tip on cocoa emacs
   (if (not (eq system-type 'darwin))
       (progn
         (require 'flycheck-pos-tip)
-        (eval-after-load 'flycheck
-          '(custom-set-variables
-            '(flycheck-display-errors-function #'flycheck-pos-tip-error-messages)
-            '(flycheck-disable-checkers '(c/c++-clang c/c++-gcc javascript-jshint))
-            ))))
-  (setq
-   flycheck-googlelint-filter "-runtime/references,-readability/braces"
-   flycheck-googlelint-verbose "3"
-   )
+        (eval-after-load 'flycheck '(custom-set-variables '(flycheck-display-errors-function
+                                                            #'flycheck-pos-tip-error-messages)
+                                                          '(flycheck-disable-checkers '(c/c++-clang
+                                                                                        c/c++-gcc
+                                                                                        javascript-jshint))))))
+  (setq flycheck-googlelint-filter "-runtime/references,-readability/braces"
+        flycheck-googlelint-verbose "3")
 
   ;;(add-hook 'after-init-hook 'global-flycheck-mode)
-  (eval-after-load 'flycheck
-    '(progn
-       (require 'flycheck-google-cpplint)
-       (flycheck-add-next-checker 'c/c++-cppcheck '(warning . c/c++-googlelint))))
+  (eval-after-load 'flycheck '(progn
+                                (require 'flycheck-google-cpplint)
+                                (flycheck-add-next-checker 'c/c++-cppcheck '(warning .
+                                                                                     c/c++-googlelint))))
 
 
   ;; Enable flycheck-googlelint in C++-mode only.
   ;; (add-hook 'c++-mode-hook (lambda() (flycheck-select-checker 'c/c++-cppcheck)))
   (setq flycheck-check-syntax-automatically '(mode-enabled save))
-
   (global-flycheck-mode t)
 
   ;; check flake8 version.
   ;; If flake8 is newer than 2.0, it does not have --stdin-display-name.
   (if (executable-find "flake8")
-      (progn
-        (let* ((version-command-output
-                (with-temp-buffer
-                  (shell-command "flake8 --version" (current-buffer))
-                  (buffer-substring-no-properties (point-min) (point-max))))
-               (version-string (car (split-string version-command-output " ")))
-               (major-version (read (car (split-string version-string "\\."))))
-               (error-filter-func #'(lambda (errors)
-                                      (let ((errors (flycheck-sanitize-errors errors)))
-                                        (seq-do #'flycheck-flake8-fix-error-level errors)
-                                        errors))))
-          (if (>= major-version 2)
-              (progn
-                (message "flake8 vresion is larger than 2.0 %s" major-version)
-                ;; Use eval ` to evaluate error-filter before quoting.
-                (eval `(flycheck-define-checker python-flake8
-                  "A Python syntax and style checker using Flake8.
+      (progn (let* ((version-command-output (with-temp-buffer (shell-command "flake8 --version"
+                                                                             (current-buffer))
+                                                              (buffer-substring-no-properties
+                                                               (point-min)
+                                                               (point-max))))
+                    (version-string (car (split-string version-command-output " ")))
+                    (major-version (read (car (split-string version-string "\\."))))
+                    (error-filter-func #'(lambda (errors)
+                                           (let ((errors (flycheck-sanitize-errors errors)))
+                                             (seq-do #'flycheck-flake8-fix-error-level errors)
+                                             errors))))
+               (if (>= major-version 2)
+                   (progn (message "flake8 vresion is larger than 2.0 %s" major-version)
+                          ;; Use eval ` to evaluate error-filter before quoting.
+                          (eval `(flycheck-define-checker python-flake8
+                                   "A Python syntax and style checker using Flake8.
 This patch is depending on https://github.com/flycheck/flycheck/issues/1078.
 
 Requires Flake8 3.0 or newer. See URL
 `https://flake8.readthedocs.io/'."
-                  :command ("flake8"
-;;                            "--format=default"
-;;                            (config-file "--config" flycheck-flake8rc)
-                            (option "--max-complexity" flycheck-flake8-maximum-complexity nil
-                                    flycheck-option-int)
-                            (option "--max-line-length" flycheck-flake8-maximum-line-length nil
-                                    flycheck-option-int)
-                            "--ignore=E901"
-                            "-")
-                            ;psource)
-                  :standard-input t
-                  :error-filter ,error-filter-func
-                  :error-patterns
-                  ((warning line-start
-                            "stdin:" line ":" (optional column ":") " "
-                            (id (one-or-more (any alpha)) (one-or-more digit)) " "
-                            (message (one-or-more not-newline))
-                            line-end))
-                  :modes python-mode))
-                )
-            (message "flake8 vresion is smaller than 2.0"))
-          )))
-  )
+                                   :command ("flake8"
+                                             ;;                            "--format=default"
+                                             ;;                            (config-file "--config" flycheck-flake8rc)
+                                             (option "--max-complexity"
+                                                     flycheck-flake8-maximum-complexity nil
+                                                     flycheck-option-int)
+                                             (option "--max-line-length"
+                                                     flycheck-flake8-maximum-line-length nil
+                                                     flycheck-option-int) "--ignore=E901" "-")
+                                        ;psource)
+                                   :standard-input t
+                                   :error-filter ,error-filter-func
+                                   :error-patterns ((warning line-start "stdin:" line ":" (optional
+                                                                                           column
+                                                                                           ":") " "
+                                                                                           (id
+                                                                                            (one-or-more
+                                                                                             (any
+                                                                                              alpha))
+                                                                                            (one-or-more
+                                                                                             digit))
+                                                                                           " "
+                                                                                           (message
+                                                                                            (one-or-more
+                                                                                             not-newline))
+                                                                                           line-end))
+                                   :modes python-mode)))
+                 (message "flake8 vresion is smaller than 2.0"))))))
 
 (require 'typescript)
 (setq auto-mode-alist (cons (cons "\\.ts?$" 'typescript-mode) auto-mode-alist))
@@ -1282,7 +1231,10 @@ Requires Flake8 3.0 or newer. See URL
   "Calculate the region and display the result in the echo area.
 With prefix ARG non-nil, insert the result at the end of region."
   (interactive "P\nr")
-  (let* ((expr (buffer-substring-no-properties beg end))
+  (let* ((expr
+          (buffer-substring-no-properties
+           beg
+           end))
          (result (calc-eval expr)))
     (insert (format "\n%s" result))))
 (global-set-key "\C-cc" 'calc-eval-region)
@@ -1291,12 +1243,13 @@ With prefix ARG non-nil, insert the result at the end of region."
   "Replace periods and commas"
   (let ((s1 (if mark-active "選択領域" "バッファ全体"))
         (s2 (concat a2 b2))
-        (b (if mark-active (region-beginning) (point-min)))
-        (e (if mark-active (region-end) (point-max))))
+        (b (if mark-active (region-beginning)
+             (point-min)))
+        (e (if mark-active (region-end)
+             (point-max))))
     (if (y-or-n-p (concat s1 "の句読点を「" s2 "」にしますがよろしいですか?"))
-        (progn
-          (replace-string a1 a2 nil b e)
-          (replace-string b1 b2 nil b e)))))
+        (progn (replace-string a1 a2 nil b e)
+               (replace-string b1 b2 nil b e)))))
 
 (defun commaperiod ()
   "選択領域またはバッファ全体の句読点を「，．」にします"
@@ -1307,31 +1260,31 @@ With prefix ARG non-nil, insert the result at the end of region."
 ;;バッファ全体の句読点と読点をコンマとピリオドに変換
 (defun replace-commaperiod-buffer ()
   (interactive "r")
-  (save-excursion
-    (replace-string "、" ", " nil (point-min) (point-max))
-    (replace-string "。" ". " nil (point-min) (point-max))))
+  (save-excursion (replace-string "、" ", " nil (point-min)
+                                  (point-max))
+                  (replace-string "。" ". " nil (point-min)
+                                  (point-max))))
 
 ;;選択範囲内の全角英数字を半角英数字に変換
 (defun hankaku-eisuu-region (start end)
   (interactive "r")
-  (while (string-match
-          "[０-９Ａ-Ｚａ-ｚ]+"
-          (buffer-substring start end))
-    (save-excursion
-      (japanese-hankaku-region
-       (+ start (match-beginning 0))
-       (+ start (match-end 0))
-       ))))
+  (while (string-match "[０-９Ａ-Ｚａ-ｚ]+"
+                       (buffer-substring
+                        start
+                        end))
+    (save-excursion (japanese-hankaku-region (+ start (match-beginning 0))
+                                             (+ start (match-end 0))))))
 
 ;;バッファ全体の全角英数字を半角英数字に変換
 (defun hankaku-eisuu-buffer ()
   (interactive)
-  (hankaku-eisuu-region (point-min) (point-max)))
+  (hankaku-eisuu-region (point-min)
+                        (point-max)))
 
 (defun replace-commaperiod-before-save-if-needed ()
-  (when (memq major-mode
-              '(latex-mode))
-    (replace-commaperiod-buffer)(hankaku-eisuu-buffer)))
+  (when (memq major-mode '(latex-mode))
+    (replace-commaperiod-buffer)
+    (hankaku-eisuu-buffer)))
 
 ;;保存前フックに追加
 (add-hook 'before-save-hook 'replace-commaperiod-before-save-if-needed)
@@ -1342,8 +1295,10 @@ With prefix ARG non-nil, insert the result at the end of region."
 
 ;; Colorize Protobuf
 (require 'protobuf-mode)
-(defconst my-protobuf-style '((c-basic-offset . 4) (indent-tabs-mode . nil)))
-(add-hook 'protobuf-mode-hook (lambda () (c-add-style "my-style" my-protobuf-style t)))
+(defconst my-protobuf-style '((c-basic-offset . 4)
+                              (indent-tabs-mode . nil)))
+(add-hook 'protobuf-mode-hook (lambda ()
+                                (c-add-style "my-style" my-protobuf-style t)))
 (add-to-list 'auto-mode-alist '("\\.proto$" . protobuf-mode))
 ;; (add-to-list 'auto-mode-alist '("\\.pb.txt$" . protobuf-mode))
 
@@ -1362,87 +1317,87 @@ With prefix ARG non-nil, insert the result at the end of region."
         (block-open . 0)
         (inline-open . 0)
         (substatement-open . 0)
-        (statement-cont
-         .
-         (,(when (fboundp 'c-no-indent-after-java-annotations)
-             'c-no-indent-after-java-annotations)
-          ,(when (fboundp 'c-lineup-assignments)
-             'c-lineup-assignments)
-          ++))
+        (statement-cont . (,(when (fboundp 'c-no-indent-after-java-annotations)
+                              'c-no-indent-after-java-annotations)
+                           ,(when (fboundp 'c-lineup-assignments) 'c-lineup-assignments) ++))
         (label . /)
         (case-label . +)
         (statement-case-open . +)
-        (statement-case-intro . +) ; case w/o {
+        (statement-case-intro . +)      ; case w/o {
         ;;(access-label . /)
         (innamespace . 0)))
 
 ;; Quick & Dirty C++11 support
 (defun c++-mode-hook-c++11 ()
   (font-lock-add-keywords
-   nil '(;; complete some fundamental keywords
-  ("\\<\\(void\\|unsigned\\|signed\\|char\\|short\\|bool\\|int\\|long\\|float\\|double\\)\\>" . font-lock-keyword-face)
-  ;; namespace names and tags - these are rendered as constants by cc-mode
-  ("\\<\\(\\w+::\\)" . font-lock-function-name-face)
-  ;;  new C++11 keywords
-  ("\\<\\(alignof\\|alignas\\|constexpr\\|decltype\\|noexcept\\|nullptr\\|static_assert\\|thread_local\\|override\\|final\\)\\>" . font-lock-keyword-face)
-  ("\\<\\(char16_t\\|char32_t\\)\\>" . font-lock-keyword-face)
-  ;; PREPROCESSOR_CONSTANT, PREPROCESSORCONSTANT
-  ("\\<[A-Z]*_[A-Z_]+\\>" . font-lock-constant-face)
-  ("\\<[A-Z]\\{3,\\}\\>"  . font-lock-constant-face)
-  ;; hexadecimal numbers
-  ("\\<0[xX][0-9A-Fa-f]+\\>" . font-lock-constant-face)
-  ;; integer/float/scientific numbers
-  ("\\<[\\-+]*[0-9]*\\.?[0-9]+\\([ulUL]+\\|[eE][\\-+]?[0-9]+\\)?\\>" . font-lock-constant-face)
-  ;; c++11 string literals
-  ;;       L"wide string"
-  ;;       L"wide string with UNICODE codepoint: \u2018"
-  ;;       u8"UTF-8 string", u"UTF-16 string", U"UTF-32 string"
-  ("\\<\\([LuU8]+\\)\".*?\"" 1 font-lock-keyword-face)
-  ;;       R"(user-defined literal)"
-  ;;       R"( a "quot'd" string )"
-  ;;       R"delimiter(The String Data" )delimiter"
-  ;;       R"delimiter((a-z))delimiter" is equivalent to "(a-z)"
-  ("\\(\\<[uU8]*R\"[^\\s-\\\\()]\\{0,16\\}(\\)" 1 font-lock-keyword-face t) ; start delimiter
-  (   "\\<[uU8]*R\"[^\\s-\\\\()]\\{0,16\\}(\\(.*?\\))[^\\s-\\\\()]\\{0,16\\}\"" 1 font-lock-string-face t)  ; actual string
-  (   "\\<[uU8]*R\"[^\\s-\\\\()]\\{0,16\\}(.*?\\()[^\\s-\\\\()]\\{0,16\\}\"\\)" 1 font-lock-keyword-face t) ; end delimiter
+   nil
+   '( ;; complete some fundamental keywords
+     ("\\<\\(void\\|unsigned\\|signed\\|char\\|short\\|bool\\|int\\|long\\|float\\|double\\)\\>" .
+      font-lock-keyword-face)
+     ;; namespace names and tags - these are rendered as constants by cc-mode
+     ("\\<\\(\\w+::\\)" . font-lock-function-name-face)
+     ;;  new C++11 keywords
+     ("\\<\\(alignof\\|alignas\\|constexpr\\|decltype\\|noexcept\\|nullptr\\|static_assert\\|thread_local\\|override\\|final\\)\\>"
+      . font-lock-keyword-face)
+     ("\\<\\(char16_t\\|char32_t\\)\\>" . font-lock-keyword-face)
+     ;; PREPROCESSOR_CONSTANT, PREPROCESSORCONSTANT
+     ("\\<[A-Z]*_[A-Z_]+\\>" . font-lock-constant-face)
+     ("\\<[A-Z]\\{3,\\}\\>"  . font-lock-constant-face)
+     ;; hexadecimal numbers
+     ("\\<0[xX][0-9A-Fa-f]+\\>" . font-lock-constant-face)
+     ;; integer/float/scientific numbers
+     ("\\<[\\-+]*[0-9]*\\.?[0-9]+\\([ulUL]+\\|[eE][\\-+]?[0-9]+\\)?\\>" . font-lock-constant-face)
+     ;; c++11 string literals
+     ;;       L"wide string"
+     ;;       L"wide string with UNICODE codepoint: \u2018"
+     ;;       u8"UTF-8 string", u"UTF-16 string", U"UTF-32 string"
+     ("\\<\\([LuU8]+\\)\".*?\"" 1 font-lock-keyword-face)
+     ;;       R"(user-defined literal)"
+     ;;       R"( a "quot'd" string )"
+     ;;       R"delimiter(The String Data" )delimiter"
+     ;;       R"delimiter((a-z))delimiter" is equivalent to "(a-z)"
+     ("\\(\\<[uU8]*R\"[^\\s-\\\\()]\\{0,16\\}(\\)" 1 font-lock-keyword-face t) ; start delimiter
+     (   "\\<[uU8]*R\"[^\\s-\\\\()]\\{0,16\\}(\\(.*?\\))[^\\s-\\\\()]\\{0,16\\}\"" 1
+         font-lock-string-face t)       ; actual string
+     (   "\\<[uU8]*R\"[^\\s-\\\\()]\\{0,16\\}(.*?\\()[^\\s-\\\\()]\\{0,16\\}\"\\)" 1
+         font-lock-keyword-face t)      ; end delimiter
 
-  ;; user-defined types (rather project-specific)
-  ("\\<[A-Za-z_]+[A-Za-z_0-9]*_\\(type\\|ptr\\)\\>" . font-lock-type-face)
-  ("\\<\\(xstring\\|xchar\\)\\>" . font-lock-type-face)
-  ))
-  )
+     ;; user-defined types (rather project-specific)
+     ("\\<[A-Za-z_]+[A-Za-z_0-9]*_\\(type\\|ptr\\)\\>" . font-lock-type-face)
+     ("\\<\\(xstring\\|xchar\\)\\>" . font-lock-type-face))))
 
-(add-hook 'c++-mode-hook
-          (lambda()
-            (set-fill-column 100)
-            ;;(column-marker-1 100)
-            (c++-mode-hook-c++11)
-            (add-hook 'before-save-hook 'delete-trailing-whitespace)
-            (google-set-c-style)
-            (google-make-newline-indent)
-            (setq c-basic-offset 4)
-            ))
+(add-hook 'c++-mode-hook (lambda()
+                           (set-fill-column 100)
+                           ;;(column-marker-1 100)
+                           (c++-mode-hook-c++11)
+                           (add-hook 'before-save-hook 'delete-trailing-whitespace)
+                           (google-set-c-style)
+                           (google-make-newline-indent)
+                           (setq c-basic-offset 4)))
 
 (setq js-indent-level 4)
-(add-hook 'js-mode (lambda () (setq js-indent-level 4) (setq c-basic-offset 4)))
+(add-hook 'js-mode (lambda ()
+                     (setq js-indent-level 4)
+                     (setq c-basic-offset 4)))
 
 ;; gtags
 ;; update gtags after save it
 (require 'gtags)
-(defun update-gtags (&optional prefix)
+(defun update-gtags
+    (&optional
+     prefix)
   (interactive "P")
   (let ((rootdir (gtags-get-rootpath))
         (args (if prefix "-v" "-iv")))
-    (when rootdir
-      (let* ((default-directory rootdir)
-             (buffer (get-buffer-create "*update GTAGS*")))
-        (save-excursion
-          (set-buffer buffer)
-          (erase-buffer)
-          (let ((result (process-file "gtags" nil buffer nil args)))
-            (if (= 0 result)
-                (message "GTAGS successfully updated.")
-              (message "update GTAGS error with exit status %d" result))))))))
+    (when rootdir (let* ((default-directory rootdir)
+                         (buffer (get-buffer-create "*update GTAGS*")))
+                    (save-excursion (set-buffer buffer)
+                                    (erase-buffer)
+                                    (let ((result (process-file "gtags" nil buffer nil args)))
+                                      (if (= 0 result)
+                                          (message "GTAGS successfully updated.")
+                                        (message "update GTAGS error with exit status %d"
+                                                 result))))))))
 ;; it may be slow...
 ;;(add-hook 'after-save-hook 'update-gtags)
 
@@ -1484,12 +1439,10 @@ With prefix ARG non-nil, insert the result at the end of region."
 (require 'win-switch)
 ;; simple functions to change background color of selected buffer
 
-(custom-set-variables
- '(win-switch-feedback-background-color "yellow")
- '(win-switch-feedback-foreground-color "black")
- '(win-switch-idle-time 1.5)
- '(win-switch-window-threshold 1)
- )
+(custom-set-variables '(win-switch-feedback-background-color "yellow")
+                      '(win-switch-feedback-foreground-color "black")
+                      '(win-switch-idle-time 1.5)
+                      '(win-switch-window-threshold 1))
 
 ;; switching window
 (win-switch-set-keys '("k") 'up)
@@ -1516,8 +1469,8 @@ With prefix ARG non-nil, insert the result at the end of region."
 
 (require 'company)
 (global-company-mode)
-(setq company-idle-delay 0.1) ; デフォルトは0.5
-(setq company-minimum-prefix-length 2) ; デフォルトは4
+(setq company-idle-delay 0.1)           ; デフォルトは0.5
+(setq company-minimum-prefix-length 2)  ; デフォルトは4
 (setq company-selection-wrap-around t) ; 候補の一番下でさらに下に行こうとすると一番上に戻る
 (define-key company-active-map (kbd "C-n") 'company-select-next)
 (define-key company-active-map (kbd "C-p") 'company-select-previous)
@@ -1525,13 +1478,11 @@ With prefix ARG non-nil, insert the result at the end of region."
 (define-key company-search-map (kbd "C-p") 'company-select-previous)
 (define-key company-search-map (kbd "C-h") 'backward-delete-char)
 (define-key company-active-map (kbd "C-h") 'backward-delete-char)
-(push (apply-partially #'cl-remove-if
-                      (lambda (c)
-                        (or (string-match-p "[^\x00-\x7F]+" c)
-                            (string-match-p "[0-9]+" c)
-                            (if (equal major-mode "org")
-                                (>= (length c) 15)))))
-             company-transformers)
+(push (apply-partially #'cl-remove-if (lambda (c)
+                                        (or (string-match-p "[^\x00-\x7F]+" c)
+                                            (string-match-p "[0-9]+" c)
+                                            (if (equal major-mode "org")
+                                                (>= (length c) 15))))) company-transformers)
 
 (require 'irony)
 ;; run "M-x irony-install-server" the first time
@@ -1539,10 +1490,9 @@ With prefix ARG non-nil, insert the result at the end of region."
 (add-hook 'c++-mode-hook 'irony-mode)
 (add-hook 'objc-mode-hook 'irony-mode)
 (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
-(setq irony-lang-compile-option-alist
-      '((c++-mode . ("c++" "-std=c++11" "-lstdc++" "-lm"))
-        (c-mode . ("c"))
-        (objc-mode . '("objective-c"))))
+(setq irony-lang-compile-option-alist '((c++-mode . ("c++" "-std=c++11" "-lstdc++" "-lm"))
+                                        (c-mode . ("c"))
+                                        (objc-mode . '("objective-c"))))
 (defun irony--lang-compile-option ()
   (irony--awhen (cdr-safe (assq major-mode irony-lang-compile-option-alist))
     (append '("-x") it)))
@@ -1559,18 +1509,16 @@ With prefix ARG non-nil, insert the result at the end of region."
   (interactive "p")
   (if (= num_wins 2)
       (split-window-vertically)
-    (progn
-      (split-window-vertically
-       (- (window-height) (/ (window-height) num_wins)))
-      (split-window-vertically-n (- num_wins 1)))))
+    (progn (split-window-vertically (- (window-height)
+                                       (/ (window-height) num_wins)))
+           (split-window-vertically-n (- num_wins 1)))))
 (defun split-window-horizontally-n (num_wins)
   (interactive "p")
   (if (= num_wins 2)
       (split-window-horizontally)
-    (progn
-      (split-window-horizontally
-       (- (window-width) (/ (window-width) num_wins)))
-      (split-window-horizontally-n (- num_wins 1)))))
+    (progn (split-window-horizontally (- (window-width)
+                                         (/ (window-width) num_wins)))
+           (split-window-horizontally-n (- num_wins 1)))))
 
 (defun other-window-or-split ()
   (interactive)
@@ -1582,32 +1530,33 @@ With prefix ARG non-nil, insert the result at the end of region."
   (win-switch-dispatch))
 (global-set-key "\M-o" 'other-window-or-split)
 
-(defun revert-buffer-no-confirm (&optional force-reverting)
+(defun revert-buffer-no-confirm
+    (&optional
+     force-reverting)
   "Interactive call to revert-buffer. Ignoring the auto-save
  file and not requesting for confirmation. When the current buffer
  is modified, the command refuses to revert it, unless you specify
  the optional argument: force-reverting to true."
   (interactive "P")
   ;;(message "force-reverting value is %s" force-reverting)
-  (if (or force-reverting (not (buffer-modified-p)))
-      (revert-buffer :ignore-auto :noconfirm)
-    (error "The buffer has been modified")))
+  (if (or force-reverting
+          (not (buffer-modified-p)))
+      (revert-buffer
+       :ignore-auto
+       :noconfirm)
+    (error
+     "The buffer has been modified")))
 (global-set-key "\M-r" 'revert-buffer-no-confirm)
 
 ;; for tmux integration
 (defun open-current-file-in-tmux ()
   (interactive)
   (let ((file-path (buffer-file-name)))
-    (let ((target-dir (if (file-directory-p file-path)
-                          file-path
-                          (file-name-directory file-path))))
+    (let ((target-dir (if (file-directory-p file-path) file-path (file-name-directory file-path))))
       (message (format "Opening directory %s in tmux" target-dir))
-      (call-process-shell-command
-       "tmux" nil "*tmux-output*"
-       nil
-       (format "new-window -a -t $(tmux ls -F \"#S\") -c %s"
-               target-dir))
-    )))
+      (call-process-shell-command "tmux" nil "*tmux-output*" nil (format
+                                                                  "new-window -a -t $(tmux ls -F \"#S\") -c %s"
+                                                                  target-dir)))))
 
 (global-set-key "\M-t" 'open-current-file-in-tmux)
 
@@ -1638,17 +1587,19 @@ With prefix ARG non-nil, insert the result at the end of region."
 (global-set-key "\M-." 'helm-etags+-select)
 
 (defun increment-number-at-point ()
-      (interactive)
-      (skip-chars-backward "0123456789")
-      (or (looking-at "[0123456789]+")
-          (error "No number at point"))
-      (replace-match (number-to-string (1+ (string-to-number (match-string 0))))))
+  (interactive)
+  (skip-chars-backward "0123456789")
+  (or (looking-at "[0123456789]+")
+      (error
+       "No number at point"))
+  (replace-match (number-to-string (1+ (string-to-number (match-string 0))))))
 (defun decrement-number-at-point ()
-      (interactive)
-      (skip-chars-backward "0123456789")
-      (or (looking-at "[0123456789]+")
-          (error "No number at point"))
-      (replace-match (number-to-string (1- (string-to-number (match-string 0))))))
+  (interactive)
+  (skip-chars-backward "0123456789")
+  (or (looking-at "[0123456789]+")
+      (error
+       "No number at point"))
+  (replace-match (number-to-string (1- (string-to-number (match-string 0))))))
 (global-set-key (kbd "C-c C-+") 'increment-number-at-point)
 (global-set-key (kbd "C-c C-;") 'increment-number-at-point)
 (global-set-key (kbd "C-c C--") 'decrement-number-at-point)
@@ -1659,39 +1610,36 @@ With prefix ARG non-nil, insert the result at the end of region."
 (defadvice linum-schedule (around my-linum-schedule () activate)
   (run-with-idle-timer 0.2 nil #'linum-update-current))
 
-(custom-set-variables
- '(sort-fold-case t t)
-)
+(custom-set-variables '(sort-fold-case t t))
 
 ;; 作業時間終了後に開くファイル。デフォルトでは "~/.emacs.d/pomodoro.org"
 (setq pomodoro:file "~/mywork.md")
 
 ;; 作業時間関連
-(setq pomodoro:work-time 25
-      pomodoro:rest-time 5
-      pomodoro:long-rest-time 30)
+(setq pomodoro:work-time 25 pomodoro:rest-time 5 pomodoro:long-rest-time 30)
 
 ;; hook関数関連
 (require 'notifications) ;; Linuxで DBUSがある環境のみ
-(defun* my/pomodoro-notification (&key (title "Pomodoro")
-                                       body
-                                       (urgency 'critical))
-  (notifications-notify :title title :body body :urgency urgency))
+(defun* my/pomodoro-notification
+    (&key
+     (title "Pomodoro")
+     body
+     (urgency 'critical))
+  (notifications-notify :title title
+                        :body body
+                        :urgency urgency))
 
 ;; 作業終了後の hook
-(add-hook 'pomodoro:finish-work-hook
-          (lambda ()
-            (my/pomodoro-notification :body "Work is Finish")))
+(add-hook 'pomodoro:finish-work-hook (lambda ()
+                                       (my/pomodoro-notification :body "Work is Finish")))
 
 ;; 休憩終了後の hook
-(add-hook 'pomodoro:finish-rest-hook
-          (lambda ()
-            (my/pomodoro-notification :body "Break time is finished")))
+(add-hook 'pomodoro:finish-rest-hook (lambda ()
+                                       (my/pomodoro-notification :body "Break time is finished")))
 
 ;; 長期休憩後の hook
-(add-hook 'pomodoro:long-rest-hook
-          (lambda ()
-            (my/pomodoro-notification :body "Long Break time now")))
+(add-hook 'pomodoro:long-rest-hook (lambda ()
+                                     (my/pomodoro-notification :body "Long Break time now")))
 
 (require 'calfw)
 
@@ -1704,11 +1652,10 @@ With prefix ARG non-nil, insert the result at the end of region."
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-cb" 'org-iswitchb)
 
-(setq org-capture-templates
-      '(("t" "Todo" entry (file+headline "~/org/gtd.org" "Tasks")
-     "* TODO %?\n  %i\n  %a")
-        ("j" "Journal" entry (file+datetree "~/org/journal.org")
-     "* %?\nEntered on %U\n  %i\n  %a")))
+(setq org-capture-templates '(("t" "Todo" entry (file+headline "~/org/gtd.org" "Tasks")
+                               "* TODO %?\n  %i\n  %a")
+                              ("j" "Journal" entry (file+datetree "~/org/journal.org")
+                               "* %?\nEntered on %U\n  %i\n  %a")))
 
 (require 'ob-ipython)
 
@@ -1718,7 +1665,8 @@ With prefix ARG non-nil, insert the result at the end of region."
 
 (defun random-alnum ()
   (let* ((alnum "abcdefghijklmnopqrstuvwxyz0123456789")
-         (i (% (abs (random)) (length alnum))))
+         (i (% (abs (random))
+               (length alnum))))
     (substring alnum i (1+ i))))
 
 (defun org-babel-tangle-and-execute ()
@@ -1731,26 +1679,22 @@ With prefix ARG non-nil, insert the result at the end of region."
   (interactive)
   (insert "#+BEGIN_SRC ipython :session\n")
   (insert "%matplotlib inline\n")
-  (insert "#+END_SRC\n")
-  )
+  (insert "#+END_SRC\n"))
 
 (defun org-ipython-insert-matplotlib-block ()
   (interactive)
   ;; create .image directory under current directory
   (if (not (file-exists-p ".images"))
       (make-directory ".images"))
-  (let ((random-png-file (format ".images/%s%s%s%s%s.png"
-                                 (random-alnum)
+  (let ((random-png-file (format ".images/%s%s%s%s%s.png" (random-alnum)
                                  (random-alnum)
                                  (random-alnum)
                                  (random-alnum)
                                  (random-alnum))))
     (if (not (file-exists-p random-png-file))
-        (progn
-          (insert (format "#+BEGIN_SRC ipython :session :file %s :exports both\n"
-                          random-png-file))
-          (insert "#+END_SRC\n")))
-    ))
+        (progn (insert (format "#+BEGIN_SRC ipython :session :file %s :exports both\n"
+                               random-png-file))
+               (insert "#+END_SRC\n")))))
 
 (define-key org-mode-map (kbd "C-c C-i") 'org-ipython-insert-matplotlib-block)
 (define-key org-mode-map (kbd "C-x C-e") 'org-babel-tangle-and-execute)
@@ -1774,24 +1718,20 @@ With prefix ARG non-nil, insert the result at the end of region."
 (defun jekyll-new-post (title)
   "Create a new post for jekyll with filling date."
   (interactive "MEnter post title: ")
-  (let* ((YYYY-MM-DD
-          (format-time-string "%Y-%m-%d" nil t))
-         (file-name (format "%s/_posts/%s-%s.md" jekyll-root YYYY-MM-DD title))
-         )
+  (let* ((YYYY-MM-DD (format-time-string "%Y-%m-%d" nil t))
+         (file-name (format "%s/_posts/%s-%s.md" jekyll-root YYYY-MM-DD title)))
     ;; template header
-    (save-excursion
-      (find-file file-name)
-      (insert "---\n")
-      (insert "layout: post\n")
-      (insert (format "title: %s\n" title))
-      (insert (format "date: %s\n" (format-time-string "%Y-%m-%dT%H:%M:%SJST")))
-      (insert "descriptions:\n")
-      (insert "categories:\n")
-      (insert "- blog\n")
-      (insert "---\n")
-      (insert "\n"))
-    (find-file file-name)
-    ))
+    (save-excursion (find-file file-name)
+                    (insert "---\n")
+                    (insert "layout: post\n")
+                    (insert (format "title: %s\n" title))
+                    (insert (format "date: %s\n" (format-time-string "%Y-%m-%dT%H:%M:%SJST")))
+                    (insert "descriptions:\n")
+                    (insert "categories:\n")
+                    (insert "- blog\n")
+                    (insert "---\n")
+                    (insert "\n"))
+    (find-file file-name)))
 
 (require 'web-mode)
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
@@ -1804,5 +1744,7 @@ With prefix ARG non-nil, insert the result at the end of region."
 
 (require 'string-inflection)
 (global-set-key (kbd "C-c i") 'string-inflection-cycle)
+
+(require 'elisp-format)
 
 (provide 'garaemon-dot-emacs)

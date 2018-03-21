@@ -1,5 +1,12 @@
-;; -*- mode: emacs-lisp; -*-
-;; written by R.Ueda, a.k.a. garaemon
+;;; dot.emacs --- entrypoint of setting emacs
+
+;;; This elisp provides minimum settings for coding and load
+;;; other settings.
+
+;;; Commentary:
+
+;;; Code:
+;;; ln -sf ~/.emacs.d/dot.emacs ~/.emacs
 
 ;; Load path from shellenv.el
 (let ((shellenv-file (expand-file-name "~/.emacs.d/shellenv.el")))
@@ -7,51 +14,57 @@
       (load-file shellenv-file)))
 (dolist (path (reverse (split-string (getenv "PATH") ":")))
   (add-to-list 'exec-path path))
+
 ;; minimum settings
 (setq-default tab-width 4)
+;; disable hard-tab
 (setq-default indent-tabs-mode nil)
+;; use C-h as backspace
 (global-set-key "\C-h" 'backward-delete-char)
+
+;; Use M-p and M-n to scoll in place
 (global-unset-key "\M-p")
 (global-unset-key "\M-n")
 
 (defun scroll-up-in-place (n)
+  "Scroll up the current buffer with keeping cursor position.
+
+- N the number of the lines to scroll up"
   (interactive "p")
-  (previous-line n)
+  (forward-line n)
   (scroll-down n))
 
 (defun scroll-down-in-place (n)
+  "Scroll down the current buffer with keeping cursor position.
+
+- N the number of the lines to scroll down"
   (interactive "p")
-  (next-line n)
+  (forward-line n)
   (scroll-up n))
 
 (global-set-key "\M-p" 'scroll-up-in-place)
 (global-set-key [M-up] 'scroll-up-in-place)
 (global-set-key "\M-n" 'scroll-down-in-place)
 (global-set-key [M-down] 'scroll-down-in-place)
+
+
 (global-set-key "\C-o" 'dabbrev-expand)
 (setq mac-command-modifier 'meta)
-
-;; setup el-get local recipes
 (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
-(add-to-list 'load-path "~/.local/share/emacs/site-lisp/rtags")
-
-(unless (require 'el-get nil 'noerror)
-  (require 'package)
-  (add-to-list 'package-archives
-               '("melpa" . "http://melpa.org/packages/"))
-  (package-initialize)
-  (package-refresh-contents)
-  (package-initialize)
-  (package-install 'el-get)
-  (require 'el-get)
-  (el-get 'sync)
-  (save-buffers-kill-terminal)
-  )
+(unless
+    (require 'el-get nil 'noerror)
+  (with-current-buffer (url-retrieve-synchronously
+                        "https://raw.githubusercontent.com/dimitri/el-get/master/el-get-install.el")
+    (goto-char (point-max))
+    (eval-print-last-sexp)))
 
 (require 'package)
-(add-to-list 'el-get-recipe-path "~/.emacs.d/recipes/")
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+(package-initialize)
 
-;; (el-get 'sync)
+(defvar el-get-recipe-path)
+(add-to-list 'el-get-recipe-path "~/.emacs.d/recipes/")
+(el-get-bundle sync)
 (when (executable-find "pdftex")
   (el-get-bundle auctex)) ;; it depends on tex
 (el-get-bundle ace-isearch)
@@ -76,6 +89,8 @@
 (el-get-bundle dired-plus)
 (el-get-bundle direx)
 (el-get-bundle dockerfile-mode)
+(el-get-bundle elisp-format
+  :url "http://www.emacswiki.org/emacs/download/elisp-format.el")
 (el-get-bundle emoji-cheat-sheet)
 (el-get-bundle expand-region)
 (el-get-bundle f)
@@ -151,9 +166,6 @@
 (el-get-bundle win-switch-git)
 (el-get-bundle yaml-mode)
 (el-get-bundle yasnippet)
-;; (el-get-bundle nyan-mode)
-;; (el-get-bundle rtags)
-
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp"))
 
 (require 'garaemon-dot-emacs)
@@ -167,24 +179,26 @@
 (if (file-exists-p "~/.emacs.d/dot.emacs.local.el")
     (load "~/.emacs.d/dot.emacs.local.el"))
 
-;;; dot.emacs ends here
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   (quote
-    ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" default)))
+ '(custom-safe-themes (quote ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4"
+                              "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879"
+                              default)))
  '(ediff-split-window-function (quote split-window-horizontally))
  '(helm-gtags-auto-update nil)
  '(helm-gtags-ignore-case t)
  '(helm-gtags-prefix-key "C-t")
  '(helm-gtags-suggested-key-mapping t)
- '(helm-mini-default-sources
-   (quote
-    (helm-source-buffers-list helm-source-ls-git helm-source-files-in-current-dir helm-source-recentf helm-source-rospack-list helm-source-buffer-not-found)))
- '(package-selected-packages (quote (nlinum company nil lua-mode el-get)))
+ '(helm-mini-default-sources (quote (helm-source-buffers-list helm-source-ls-git
+                                                              helm-source-files-in-current-dir
+                                                              helm-source-recentf
+                                                              helm-source-rospack-list
+                                                              helm-source-buffer-not-found)))
+ '(package-selected-packages (quote ("paradox" paradox nlinum company nil lua-mode el-get)))
+ '(sort-fold-case t t)
  '(win-switch-feedback-background-color "blue")
  '(win-switch-feedback-foreground-color "white")
  '(win-switch-idle-time 1.5)
@@ -195,5 +209,5 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(rainbow-delimiters-depth-1-face ((t (:foreground "#7f8c8d")))))
-(put 'downcase-region 'disabled nil)
+ '(rainbow-delimiters-depth-1-face ((t
+                                     (:foreground "#7f8c8d")))))
