@@ -19,3 +19,4 @@ emacs-visited-files
 undohist/
 irony
 .python-environments
+var/
