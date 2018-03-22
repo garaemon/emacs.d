@@ -1695,4 +1695,12 @@ Requires Flake8 3.0 or newer. See URL
   (require 'imenus))
 (gde-imenus-setting)
 
+(require 'sr-speedbar)
+(setq sr-speedbar-right-side nil)
+;; (sr-speedbar-open)
+
+(require 'imenus)
+
+(add-to-list 'auto-mode-alist '("\\.cfg$" . python-mode))
+
 (provide 'garaemon-dot-emacs)
