@@ -59,6 +59,12 @@
     (goto-char (point-max))
     (eval-print-last-sexp)))
 
+;; Load s and dash before calling `package-initialize` in order not to use them installed by
+;; package-install.
+(require 'el-get)
+(el-get-bundle s)
+(el-get-bundle dash)
+
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
@@ -66,7 +72,6 @@
 (defvar el-get-recipe-path)
 (add-to-list 'el-get-recipe-path "~/.emacs.d/recipes/")
 
-(require 'el-get)
 (when (executable-find "pdftex")
   (el-get-bundle auctex)) ;; it depends on tex
 (el-get-bundle ace-isearch)
@@ -97,6 +102,7 @@
 (el-get-bundle emoji-cheat-sheet)
 (el-get-bundle expand-region)
 (el-get-bundle f)
+(el-get-bundle folding)
 (el-get-bundle fill-column-indicator)
 (el-get-bundle flycheck)
 (el-get-bundle flycheck-google-cpplint)
@@ -141,6 +147,7 @@
 (el-get-bundle multiple-cursors)
 (el-get-bundle nlinum)
 (el-get-bundle ob-ipython)
+(el-get-bundle origami)
 (el-get-bundle org-mode)
 (el-get-bundle outshine)
 (el-get-bundle pcache)
@@ -171,6 +178,7 @@
 (el-get-bundle undo-tree)
 (el-get-bundle undohist)
 (el-get-bundle volatile-highlights)
+(el-get-bundle vimish-fold)
 (el-get-bundle web-mode)
 (el-get-bundle win-switch-git)
 (el-get-bundle yaml-mode)
@@ -194,10 +202,19 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(anzu-search-threshold 1000)
+ '(compilation-scroll-output t)
  '(custom-safe-themes
    (quote
     ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" default)))
  '(ediff-split-window-function (quote split-window-horizontally))
+ '(flycheck-check-syntax-automatically (mode-enabled save))
+ '(flycheck-disable-checkers (quote (flycheck-disable-checkers javascript-jshint)))
+ '(flycheck-emacs-lisp-load-path (quote inherit))
+ '(flycheck-googlelint-filter "-runtime/references,-readability/braces")
+ '(flycheck-googlelint-verbose "3")
+ '(global-hl-line-timer
+   [nil 0 0 29999 t global-hl-line-timer-function nil idle 999999])
  '(gosh-program-name "/usr/bin/env gosh -i")
  '(helm-gtags-auto-update nil)
  '(helm-gtags-ignore-case t)
@@ -206,18 +223,24 @@
  '(helm-mini-default-sources
    (quote
     (helm-source-buffers-list helm-source-ls-git helm-source-files-in-current-dir helm-source-recentf helm-source-grep-ag helm-source-rospack-list helm-source-buffer-not-found)))
+ '(helm-yas-space-match-any-greedy t)
  '(mumamo-background-colors nil)
  '(package-selected-packages
    (quote
-    (minimap imenu-list imenus "paradox" paradox nlinum company nil lua-mode el-get)))
+    (origami minimap imenu-list imenus "paradox" paradox nlinum company nil lua-mode el-get)))
  '(scheme-program-name "gosh -i")
+ '(show-paren-style (quote mixed))
  '(sort-fold-case t t)
+ '(symon-delay 5)
+ '(symon-sparkline-type symon-sparkline-type-gridded)
  '(tramp-default-method "ssh")
  '(tramp-verbose 10)
  '(win-switch-feedback-background-color "blue")
  '(win-switch-feedback-foreground-color "white")
  '(win-switch-idle-time 1.5)
  '(win-switch-window-threshold 1)
+ '(yas-snippet-dirs
+   ("~/.emacs.d/snippets" "~/.emacs.d/el-get/yasnippet/snippets"))
  '(yas-trigger-key "Enter" t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
