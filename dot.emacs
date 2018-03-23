@@ -175,6 +175,7 @@
 (el-get-bundle symon)
 (el-get-bundle tabbar)
 (el-get-bundle thingopt)
+(el-get-bundle tide)
 (el-get-bundle trr)
 (el-get-bundle twittering-mode)
 (el-get-bundle undo-tree)

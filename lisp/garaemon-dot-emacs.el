@@ -1080,7 +1080,21 @@ Requires Flake8 3.0 or newer. See URL
 (eval-after-load 'flycheck
   '(add-hook 'flycheck-mode-hook #'flycheck-typescript-tslint-setup))
 (add-hook 'typescript-mode-hook (lambda ()
+                                  (setup-tide-mode)
                                   (setq typescript-indent-level 2)))
+(tide-setup)
+(tide-hl-identifier-mode +1)
+;;; }}}
+
+;;; Use web-mode for tsx {{{
+(require 'web-mode)
+(add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
+(add-hook 'web-mode-hook
+          (lambda ()
+            (when (string-equal "tsx" (file-name-extension buffer-file-name))
+              (setup-tide-mode))))
+;; enable typescript-tslint checker
+(flycheck-add-mode 'typescript-tslint 'web-mode)
 ;;; }}}
 
 ;;; some utility functions for Japanese. {{{
