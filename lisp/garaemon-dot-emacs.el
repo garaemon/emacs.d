@@ -1083,10 +1083,16 @@ Requires Flake8 3.0 or newer. See URL
 (eval-after-load 'flycheck
   '(add-hook 'flycheck-mode-hook #'flycheck-typescript-tslint-setup))
 (add-hook 'typescript-mode-hook (lambda ()
+                                  (tide-setup)
+                                  (flycheck-mode t)
                                   (setup-tide-mode)
-                                  (setq typescript-indent-level 2)))
-(tide-setup)
-(tide-hl-identifier-mode +1)
+                                  (setq typescript-indent-level 2)
+                                  (eldoc-mode t)
+                                  (setq flycheck-check-syntax-automatically
+                                        '(save mode-enabled))
+                                  (company-mode-on)
+                                  (tide-hl-identifier-mode +1)
+                                  ))
 ;;; }}}
 
 ;;; Use web-mode for tsx {{{
