@@ -1223,7 +1223,7 @@ Requires Flake8 3.0 or newer. See URL
 ;;; company for completion {{{
 (require 'company)
 (global-company-mode)
-(setq company-idle-delay 0.1)           ; デフォルトは0.5
+(setq company-idle-delay 0)           ; デフォルトは0.5
 (setq company-minimum-prefix-length 2)  ; デフォルトは4
 (setq company-selection-wrap-around t) ; 候補の一番下でさらに下に行こうとすると一番上に戻る
 (define-key company-active-map (kbd "C-n") 'company-select-next)
