@@ -906,7 +906,7 @@
 ;;; symon to visualize CPU, memory and so on. {{{
 (require 'symon)
 (custom-set-variables '(symon-sparkline-type symon-sparkline-type-gridded)
-                      '(symon-delay 5))
+                      '(symon-delay 100))
 (symon-mode)
 ;;; }}}
 
