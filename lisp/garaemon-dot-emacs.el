@@ -1076,6 +1076,10 @@ Requires Flake8 3.0 or newer. See URL
 ;;; typescript {{{
 (require 'typescript)
 (setq auto-mode-alist (cons (cons "\\.ts?$" 'typescript-mode) auto-mode-alist))
+(eval-after-load 'flycheck
+  '(add-hook 'flycheck-mode-hook #'flycheck-typescript-tslint-setup))
+(add-hook 'typescript-mode-hook (lambda ()
+                                  (setq typescript-indent-level 2)))
 ;;; }}}
 
 ;;; some utility functions for Japanese. {{{

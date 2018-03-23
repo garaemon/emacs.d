@@ -108,6 +108,7 @@
 (el-get-bundle flycheck-google-cpplint)
 (if (not (eq system-type 'darwin))
     (el-get-bundle flycheck-pos-tip))
+(el-get-bundle Simplify/flycheck-typescript-tslint)
 (el-get-bundle gh)
 (el-get-bundle gist)
 (el-get-bundle git-gutter+)
