@@ -166,6 +166,7 @@
 (el-get-bundle save-visited-files)
 (el-get-bundle scss-mode)
 (el-get-bundle smart-cursor-color)
+(el-get-bundle smart-mode-line)
 (el-get-bundle smartrep)
 (el-get-bundle solarized-emacs)
 (el-get-bundle sr-speedbar)
@@ -206,7 +207,7 @@
  '(compilation-scroll-output t)
  '(custom-safe-themes
    (quote
-    ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" default)))
+    ("3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" default)))
  '(ediff-split-window-function (quote split-window-horizontally))
  '(flycheck-check-syntax-automatically (mode-enabled save))
  '(flycheck-disable-checkers (quote (flycheck-disable-checkers javascript-jshint)))
