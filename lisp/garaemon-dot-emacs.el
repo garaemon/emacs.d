@@ -68,6 +68,7 @@
  '(compilation-scroll-output t))
 ;; sort with ignoring case.
 (custom-set-variables '(sort-fold-case t t))
+(eldoc-mode 1)
 ;;; }}}
 
 ;;; tramp {{{
