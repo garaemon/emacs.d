@@ -67,7 +67,10 @@
 (custom-set-variables '(sort-fold-case t t))
 (eldoc-mode 1)
 ;; do not ask y-or-n when saving all
-(defun save-all () (interactive) (save-some-buffers t))
+(defun save-all ()
+  "Save all buffers without y-or-n asking."
+  (interactive)
+  (save-some-buffers t))
 (global-set-key "\C-xs" 'save-all)
 ;;; }}}
 
