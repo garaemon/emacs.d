@@ -266,6 +266,7 @@
   (list "\\(defclass\\*\\)" '(1 font-lock-keyword-face nil t))))
 
 (defun cl-indent (sym indent)
+  "Set indent level of SYM according to indent level of INDENT."
   (put sym 'common-lisp-indent-function
        (if (symbolp indent)
            (get indent 'common-lisp-indent-function) indent)))
@@ -462,6 +463,7 @@
                         (forward-char offset)))))
 
 (defun my-js2-mode-hook ()
+  "Indent function for js2-mode."
   (require 'js)
   (setq js-indent-level 2 indent-tabs-mode nil c-basic-offset 2)
   ;; Disable some js2 features for eslint integration by flycheck
@@ -643,6 +645,7 @@
 ;; these linum-delay and linum-schedule are required even if nlinum-mode is used?
 (setq linum-delay t)
 (defadvice linum-schedule (around my-linum-schedule () activate)
+  "Set scheduler of linux-mode."
   (run-with-idle-timer 0.2 nil #'linum-update-current))
 ;;; }}}
 
@@ -840,29 +843,35 @@
 (require 'direx)
 (require 'direx-project)
 (require 'popwin)
-(setq display-buffer-function 'popwin:display-buffer)
+
 (push '(direx:direx-mode :position left
                          :width 50
                          :dedicated t) popwin:special-display-config)
 
 ;; re-redifine function in order to support .repo
 (defun direx-project:vc-repo-p (dirname)
-  (cl-loop for vc-dir in '(".repo") thereis (file-exists-p (expand-file-name vc-dir dirname))))
+  "Return t if DIRNAME is a part of repo project."
+  (cl-loop for vc-dir in '(".repo") thereis
+           (file-exists-p (expand-file-name vc-dir dirname))))
 
 (defun direx-project:vc-root-p (dirname)
-  (cl-loop for vc-dir in '(".git" ".hg" ".bzr") thereis (file-exists-p (expand-file-name vc-dir
-                                                                                         dirname))))
+  "Return t if DIRNAME is a part of vcs project."
+  (cl-loop for vc-dir in '(".git" ".hg" ".bzr")
+           thereis (file-exists-p (expand-file-name vc-dir dirname))))
 
 (defun direx-project:project-root-p (dirname)
+  "Return t if DIRNAME is a project root."
   (cl-some (lambda (fun)
              (funcall fun dirname)) direx-project:project-root-predicate-functions))
 
 (defun direx-project:project-repo-root-p (dirname)
+  "Return t if DIRNAME is a repo project root."
   (cl-some (lambda (fun)
              (funcall fun dirname))
            '(direx-project:vc-repo-p)))
 
 (defun direx-project:find-project-root-noselect (filename)
+  "Lookup project root directory for FILENAME."
   (interactive)
   (or (cl-loop for parent-dirname in (if (file-directory-p filename)
                                          (cons filename (direx:directory-parents filename))
@@ -897,6 +906,7 @@
 (require 'hl-line)
 ;; Small delay to update hl-line to reduce CPU load.
 (defun global-hl-line-timer-function ()
+  "Callback function for hl-line timer."
   (global-hl-line-unhighlight-all)
   (let ((global-hl-line-mode t))
     (global-hl-line-highlight)))
@@ -946,7 +956,7 @@
 
 ;;; useful functions to manage multiple windows. {{{
 (defun split-window-vertically-n (num-wins)
-  "Split window vertically into `num-wins' windows."
+  "Split window vertically into NUM-WINS windows."
   (interactive "p")
   (if (= num-wins 2)
       (split-window-vertically)
@@ -955,7 +965,7 @@
            (split-window-vertically-n (- num-wins 1)))))
 
 (defun split-window-horizontally-n (num-wins)
-  "Split window horizontally into `num-wins' windows."
+  "Split window horizontally into NUM-WINS windows."
   (interactive "p")
   (if (= num-wins 2)
       (split-window-horizontally)
@@ -1207,6 +1217,7 @@ Requires Flake8 3.0 or newer. See URL
                                         (c-mode . ("c"))
                                         (objc-mode . '("objective-c"))))
 (defun irony--lang-compile-option ()
+  "Return irony compiler option."
   (irony--awhen (cdr-safe (assq major-mode irony-lang-compile-option-alist))
     (append '("-x") it)))
 (add-to-list 'company-backends 'company-irony)
@@ -1223,10 +1234,11 @@ Requires Flake8 3.0 or newer. See URL
 
 ;;; Re-open current file with \M-r {{{
 (defun revert-buffer-no-confirm (&optional force-reverting)
-  "Interactive call to revert-buffer. Ignoring the auto-save
- file and not requesting for confirmation. When the current buffer
- is modified, the command refuses to revert it, unless you specify
- the optional argument: force-reverting to true."
+  "Force to reload buffer if the file is modiied or FORCE-REVREZTING is t.
+
+Ignoring the auto-save file and not requesting for confirmation.
+When the current buffer is modified, the command refuses to revert it,
+unless you specify the optional argument: FORCE-REVERTING to true."
   (interactive "P")
   ;;(message "force-reverting value is %s" force-reverting)
   (if (or force-reverting
@@ -1241,16 +1253,17 @@ Requires Flake8 3.0 or newer. See URL
 
 ;;; tmux integration utilities {{{
 (defun open-current-file-in-tmux ()
+  "Open current file in tmux."
   (interactive)
   (let ((file-path (buffer-file-name)))
     (let ((target-dir (if (file-directory-p file-path)
                           file-path
                         (file-name-directory file-path))))
       (message (format "Opening directory %s in tmux" target-dir))
-      (call-process-shell-command "tmux" nil "*tmux-output*" nil
-                                  (format
-                                   "new-window -a -t $(tmux ls -F \"#S\") -c %s"
-                                   target-dir)))))
+      (call-process-shell-command (format
+                                   "tmux new-window -a -t $(tmux ls -F \"#S\") -c %s"
+                                   target-dir) nil "*tmux-output*" nil
+                                   ))))
 
 (global-set-key "\M-t" 'open-current-file-in-tmux)
 ;;; }}}
@@ -1330,24 +1343,27 @@ Requires Flake8 3.0 or newer. See URL
 ;; ソースコードを書き出すコマンド
 
 (defun random-alnum ()
+  "Return a random character."
   (let* ((alnum "abcdefghijklmnopqrstuvwxyz0123456789")
-         (i (% (abs (random))
-               (length alnum))))
+         (i (% (abs (random)) (length alnum))))
     (substring alnum i (1+ i))))
 
 (defun org-babel-tangle-and-execute ()
+  "Toggle org-babel."
   (interactive)
   (org-babel-tangle)
   (org-babel-execute-buffer)
   (org-display-inline-images))
 
 (defun org-ipython-insert-initial-setting ()
+  "Insert ipython block."
   (interactive)
   (insert "#+BEGIN_SRC ipython :session\n")
   (insert "%matplotlib inline\n")
   (insert "#+END_SRC\n"))
 
 (defun org-ipython-insert-matplotlib-block ()
+  "Insert matplotlib block."
   (interactive)
   ;; create .image directory under current directory
   (if (not (file-exists-p ".images"))
@@ -1382,11 +1398,12 @@ Requires Flake8 3.0 or newer. See URL
 (setq-default jekyll-root (expand-file-name "~/gprog/garaemon.github.io"))
 (setq-default hyde-home (expand-file-name "~/gprog/garaemon.github.io"))
 (defun ghyde ()
+  "Run hyde mode on HYDE-HOME."
   (interactive)
   (hyde hyde-home))
 
 (defun jekyll-new-post (title)
-  "Create a new post for jekyll with filling date."
+  "Create a new post for jekyll with TITLE and date."
   (interactive "MEnter post title: ")
   (let* ((YYYY-MM-DD (format-time-string "%Y-%m-%d" nil t))
          (file-name (format "%s/_posts/%s-%s.md" jekyll-root YYYY-MM-DD title)))
@@ -1449,7 +1466,7 @@ Requires Flake8 3.0 or newer. See URL
 (sml/setup)
 ;;; }}}
 
-;;; Provide package
+;; Provide package
 (provide 'garaemon-dot-emacs)
 
 ;; Local Variables:
