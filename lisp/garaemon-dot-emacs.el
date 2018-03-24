@@ -8,7 +8,7 @@
 (require 'garaemon-util)
 (require 'cl)
 
-;;; badasic setting {{{
+;;; basic setting {{{
 ;; C-o to expand completion
 (global-set-key "\C-o" 'dabbrev-expand)
 ;; Increase threshold to fire garbage collection
