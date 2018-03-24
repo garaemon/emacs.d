@@ -6,7 +6,8 @@
 ;;; Code:
 
 (require 'garaemon-util)
-(require 'cl)
+(eval-when-compile
+  (require 'cl))
 
 ;;; basic setting {{{
 ;; C-o to expand completion
