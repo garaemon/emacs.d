@@ -317,7 +317,7 @@
  '(scheme-program-name "gosh -i"))
 
 (defun scheme-other-window ()
-  "Run scheme on other window"
+  "Run scheme on other window."
   (interactive)
   (switch-to-buffer-other-window (get-buffer-create "*scheme*"))
   (run-scheme scheme-program-name))
@@ -517,7 +517,7 @@
 (define-key markdown-mode-map (kbd "M-p") nil)
 (define-key markdown-mode-map (kbd "M-n") nil)
 (defun open-with-shiba ()
-  "open a current markdown file with shiba"
+  "Open a current markdown file with shiba."
   (interactive)
   (start-process "shiba" "*shiba*" "shiba" "--detach" buffer-file-name))
 (define-key markdown-mode-map (kbd "C-c C-c") 'open-with-shiba)
@@ -903,6 +903,7 @@
 (custom-set-variables
  (list 'global-hl-line-timer
        (run-with-idle-timer 0.03 t 'global-hl-line-timer-function)))
+
 ;;; }}}
 
 ;;; query-replace-regexp. {{{
@@ -1112,58 +1113,6 @@ Requires Flake8 3.0 or newer. See URL
               (setup-tide-mode))))
 ;; enable typescript-tslint checker
 (flycheck-add-mode 'typescript-tslint 'web-mode)
-;;; }}}
-
-;;; some utility functions for Japanese. {{{
-(defun replace-punctuation (a1 a2 b1 b2)
-  "Replace periods and commas"
-  (let ((s1 (if mark-active "選択領域" "バッファ全体"))
-        (s2 (concat a2 b2))
-        (b (if mark-active (region-beginning)
-             (point-min)))
-        (e (if mark-active (region-end)
-             (point-max))))
-    (if (y-or-n-p (concat s1 "の句読点を「" s2 "」にしますがよろしいですか?"))
-        (progn (replace-string a1 a2 nil b e)
-               (replace-string b1 b2 nil b e)))))
-
-(defun commaperiod ()
-  "選択領域またはバッファ全体の句読点を「，．」にします"
-  (interactive)
-  (replace-punctuation "、" ", " "。" ". "))
-
-
-(defun replace-commaperiod-buffer ()
-  "バッファ全体の句読点と読点をコンマとピリオドに変換"
-  (interactive "r")
-  (save-excursion (replace-string "、" ", " nil (point-min)
-                                  (point-max))
-                  (replace-string "。" ". " nil (point-min)
-                                  (point-max))))
-
-(defun hankaku-eisuu-region (start end)
-  "選択範囲内の全角英数字を半角英数字に変換"
-  (interactive "r")
-  (while (string-match "[０-９Ａ-Ｚａ-ｚ]+"
-                       (buffer-substring
-                        start
-                        end))
-    (save-excursion (japanese-hankaku-region (+ start (match-beginning 0))
-                                             (+ start (match-end 0))))))
-
-(defun hankaku-eisuu-buffer ()
-  "バッファ全体の全角英数字を半角英数字に変換"
-  (interactive)
-  (hankaku-eisuu-region (point-min)
-                        (point-max)))
-
-(defun replace-commaperiod-before-save-if-needed ()
-  (when (memq major-mode '(latex-mode))
-    (replace-commaperiod-buffer)
-    (hankaku-eisuu-buffer)))
-
-;; register as function
-(add-hook 'before-save-hook 'replace-commaperiod-before-save-if-needed)
 ;;; }}}
 
 ;;; google this {{{
