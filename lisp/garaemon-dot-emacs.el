@@ -140,9 +140,11 @@
 (defun my-solarized-dark-workaround (frame)
   "Fix solarized-dark theme for terminal FRAME."
   (with-selected-frame frame
-    (if (and (featurep 'color-theme)
-             (not window-system))
-        (set-face-background 'default "none" frame))))
+    (when (and (featurep 'color-theme)
+               (not window-system))
+      (custom-set-faces
+       '(hl-line ((t (:background "color-236")))))
+      (set-face-background 'default "none" frame))))
 
 ;; first created emacsclient frame not fixed so use focus-in-hook
 (add-hook 'after-make-frame-functions #'my-solarized-dark-workaround)
