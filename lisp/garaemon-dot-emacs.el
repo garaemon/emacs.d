@@ -274,6 +274,37 @@
 (cl-indent 'mapping 'let)
 (cl-indent 'mapping 'let)
 (cl-indent 'define-test 'let)
+
+(defun my-indent-sexp ()
+  "Fix indent of current s expression."
+  (interactive)
+  (save-restriction (save-excursion (widen)
+                                    (let* ((inhibit-point-motion-hooks t)
+                                           (parse-status (syntax-ppss (point)))
+                                           (beg (nth 1 parse-status))
+                                           (end-marker (make-marker))
+                                           (end (progn (goto-char beg)
+                                                       (forward-list)
+                                                       (point)))
+                                           (ovl (make-overlay beg end)))
+                                      (set-marker end-marker end)
+                                      (overlay-put ovl 'face 'highlight)
+                                      (goto-char beg)
+                                      (while (< (point)
+                                                (marker-position end-marker))
+                                        ;; don't reindent blank lines so we don't set the "buffer
+                                        ;; modified" property for nothing
+                                        (beginning-of-line)
+                                        (unless (looking-at "\\s-*$")
+                                          (indent-according-to-mode))
+                                        (forward-line))
+                                      (run-with-timer 0.5 nil '(lambda(ovl)
+                                                                 (delete-overlay ovl)) ovl)))))
+(define-key lisp-mode-map "\C-cr" 'my-indent-sexp)
+;;; }}}
+
+;;; emacslisp {{{
+(define-key emacs-lisp-mode-map "\C-cr" 'my-indent-sexp)
 ;;; }}}
 
 ;;; scheme {{{
@@ -430,30 +461,6 @@
                       (when (> offset 0)
                         (forward-char offset)))))
 
-(defun my-indent-sexp ()
-  (interactive)
-  (save-restriction (save-excursion (widen)
-                                    (let* ((inhibit-point-motion-hooks t)
-                                           (parse-status (syntax-ppss (point)))
-                                           (beg (nth 1 parse-status))
-                                           (end-marker (make-marker))
-                                           (end (progn (goto-char beg)
-                                                       (forward-list)
-                                                       (point)))
-                                           (ovl (make-overlay beg end)))
-                                      (set-marker end-marker end)
-                                      (overlay-put ovl 'face 'highlight)
-                                      (goto-char beg)
-                                      (while (< (point)
-                                                (marker-position end-marker))
-                                        ;; don't reindent blank lines so we don't set the "buffer
-                                        ;; modified" property for nothing
-                                        (beginning-of-line)
-                                        (unless (looking-at "\\s-*$")
-                                          (indent-according-to-mode))
-                                        (forward-line))
-                                      (run-with-timer 0.5 nil '(lambda(ovl)
-                                                                 (delete-overlay ovl)) ovl)))))
 (defun my-js2-mode-hook ()
   (require 'js)
   (setq js-indent-level 2 indent-tabs-mode nil c-basic-offset 2)
@@ -475,7 +482,6 @@
   (define-key js2-mode-map [(return)] 'newline-and-indent)
   (define-key js2-mode-map [(backspace)] 'c-electric-backspace)
   (define-key js2-mode-map [(control d)] 'c-electric-delete-forward)
-  (define-key js2-mode-map [(control meta q)] 'my-indent-sexp)
   (if
       (featurep 'js2-highlight-vars)
       (js2-highlight-vars-mode))
