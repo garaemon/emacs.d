@@ -2,12 +2,8 @@
 
 ;;; Commentary:
 ;; Use C-# to toggle folding for visibility.
+
 ;;; Code:
-
-;; Local Variables:
-;; byte-compile-warnings: (not free-vars)
-;; End:
-
 
 (require 'garaemon-util)
 (require 'cl)
@@ -1494,3 +1490,8 @@ Requires Flake8 3.0 or newer. See URL
 
 ;;; Provide package
 (provide 'garaemon-dot-emacs)
+
+;; Local Variables:
+;; byte-compile-warnings: (not free-vars)
+;; eval: (origami-mode)
+;; End:
