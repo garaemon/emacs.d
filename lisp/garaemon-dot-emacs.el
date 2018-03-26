@@ -72,11 +72,17 @@
   (interactive)
   (save-some-buffers t))
 (global-set-key "\C-xs" 'save-all)
+
+(defun open-setting-file ()
+  "Open this file."
+  (interactive)
+  (find-file "~/.emacs./lisp/garaemon-dot-emacs.el"))
 ;;; }}}
 
 ;;; tramp {{{
 (require 'tramp)
 (custom-set-variables
+ '(tramp-debug-buffer t)
  '(tramp-verbose 10)
  '(tramp-default-method "ssh"))
 ;;; }}}
