@@ -137,31 +137,7 @@
 ;;; }}}
 
 ;;; theme {{{
-(when (and window-system (>= emacs-major-version 24))
-  (load-theme 'solarized-dark t))
-;;(require 'color-theme-solarized)
-;;(color-theme-solarized)
-
-;; Supporting terminal.
-;; See https://github.com/bbatsov/solarized-emacs/issues/18#issuecomment-313521878
-(defun my-solarized-dark-workaround (frame)
-  "Fix solarized-dark theme for terminal FRAME."
-  (with-selected-frame frame
-    (when (and (featurep 'color-theme)
-               (not window-system))
-      (custom-set-faces
-       '(hl-line ((t (:background "color-236")))))
-      (set-face-background 'default "none" frame))))
-
-;; first created emacsclient frame not fixed so use focus-in-hook
-(add-hook 'after-make-frame-functions #'my-solarized-dark-workaround)
-
-(defun my-solarized-dark-on-focus ()
-  "Fix solarized-dark theme for terminal on focus."
-  (my-solarized-dark-workaround (selected-frame)))
-
-(add-hook 'focus-in-hook #'my-solarized-dark-on-focus)
-;; (seq-doseq (frame (frame-list)) (my-solarized-dark-workaround frame))
+(load-theme 'base16-solarized-dark t)
 ;;; }}}
 
 ;;; magit {{{

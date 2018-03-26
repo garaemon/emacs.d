@@ -81,6 +81,7 @@
 (el-get-bundle auto-highlight-symbol)
 (el-get-bundle auto-save-buffers-enhanced)
 (el-get-bundle backup-each-save)
+(el-get-bundle base16-theme)
 (el-get-bundle bm)
 (el-get-bundle calfw)
 (el-get-bundle code-format)
