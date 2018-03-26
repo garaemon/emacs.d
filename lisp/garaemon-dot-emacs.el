@@ -992,7 +992,7 @@
 
 ;;; flycheck {{{
 (require 'flycheck)
-(custom-set-variables '(flycheck-check-syntax-automatically (mode-enabled save)))
+(setq flycheck-check-syntax-automatically '(mode-enabled save))
 (global-flycheck-mode t)
 ;; flycheck runs emacs with `-Q` option to lint emacs lisp codes. It means that
 ;; load-path is not taken into account in linting.
