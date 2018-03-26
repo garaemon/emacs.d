@@ -1088,29 +1088,41 @@ Requires Flake8 3.0 or newer. See URL
 
 ;;; typescript {{{
 (require 'typescript)
-(setq auto-mode-alist (cons (cons "\\.ts?$" 'typescript-mode) auto-mode-alist))
-(eval-after-load 'flycheck
-  '(add-hook 'flycheck-mode-hook #'flycheck-typescript-tslint-setup))
+;; (setq auto-mode-alist (cons (cons "\\.ts?$" 'typescript-mode) auto-mode-alist))
+;;(eval-after-load 'flycheck
+;;  '(add-hook 'flycheck-mode-hook #'flycheck-typescript-tslint-setup))
 (setq typescript-indent-level 2)
-(add-hook 'typescript-mode-hook (lambda ()
-                                  (tide-setup)
-                                  (flycheck-mode t)
-                                  (setup-tide-mode)
-                                  (eldoc-mode t)
-                                  (setq flycheck-check-syntax-automatically
-                                        '(save mode-enabled))
-                                  (company-mode-on)
-                                  (tide-hl-identifier-mode +1)
-                                  ))
+(defun my-typescript-hook ()
+  "My hook function for typescript-mode."
+  (tide-setup)
+  (flycheck-mode t)
+  (setup-tide-mode)
+  (eldoc-mode t)
+  (setq flycheck-check-syntax-automatically
+        (mode-enabled save))
+  (company-mode-on)
+  (tide-hl-identifier-mode +1)
+  (setq typescript-indent-level 2)
+  (define-smartrep-keys)
+  )
+(add-hook 'typescript-mode-hook
+          (lambda ()
+            (my-typescript-hook)
+            ))
 ;;; }}}
 
 ;;; Use web-mode for tsx {{{
 (require 'web-mode)
-(add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.ts[x]?\\'" . web-mode))
 (add-hook 'web-mode-hook
           (lambda ()
-            (when (string-equal "tsx" (file-name-extension buffer-file-name))
-              (setup-tide-mode))))
+            (let ((ext (file-name-extension buffer-file-name)))
+              (when (or (string-equal "tsx" ext)
+                        (string-equal "ts" ext))
+                ;; need to call my-web-mode-hook twice to apply
+                ;; indent setting correctly.
+                (my-web-mode-hook)
+                (my-typescript-hook)))))
 ;; enable typescript-tslint checker
 (flycheck-add-mode 'typescript-tslint 'web-mode)
 ;;; }}}
