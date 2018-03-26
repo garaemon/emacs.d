@@ -785,9 +785,9 @@
 ;; Force to load yasnippet/yasnippet.el in order to avoid
 ;; to use yasnippet.el under elpa packages.
 (require 'yasnippet)
+(setq yas-snippet-dirs '("~/.emacs.d/snippets"
+                         "~/.emacs.d/el-get/yasnippet/snippets"))
 (custom-set-variables
- '(yas-snippet-dirs ("~/.emacs.d/snippets"
-                     "~/.emacs.d/el-get/yasnippet/snippets"))
  '(yas-trigger-key "Enter"))
 (yas-global-mode)
 ;;(custom-set-variables '(yas-trigger-key "TAB"))
