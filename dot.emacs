@@ -201,54 +201,17 @@
 (if (file-exists-p "~/.emacs.d/dot.emacs.local.el")
     (load "~/.emacs.d/dot.emacs.local.el"))
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(anzu-search-threshold 1000)
- '(compilation-scroll-output t)
- '(custom-safe-themes
-   (quote
-    ("3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" default)))
- '(ediff-split-window-function (quote split-window-horizontally))
- '(flycheck-check-syntax-automatically (mode-enabled save))
- '(flycheck-disable-checkers (quote (flycheck-disable-checkers javascript-jshint)))
- '(flycheck-emacs-lisp-load-path (quote inherit))
- '(flycheck-googlelint-filter "-runtime/references,-readability/braces")
- '(flycheck-googlelint-verbose "3")
- '(global-hl-line-timer
-   [nil 0 0 29999 t global-hl-line-timer-function nil idle 999999])
- '(gosh-program-name "/usr/bin/env gosh -i")
- '(helm-gtags-auto-update nil)
- '(helm-gtags-ignore-case t)
- '(helm-gtags-prefix-key "C-t")
- '(helm-gtags-suggested-key-mapping t)
- '(helm-mini-default-sources
-   (quote
-    (helm-source-buffers-list helm-source-ls-git helm-source-files-in-current-dir helm-source-recentf helm-source-grep-ag helm-source-rospack-list helm-source-buffer-not-found)))
- '(helm-yas-space-match-any-greedy t)
- '(mumamo-background-colors nil)
- '(package-selected-packages
-   (quote
-    (origami minimap imenu-list imenus "paradox" paradox nlinum company nil lua-mode el-get)))
- '(scheme-program-name "gosh -i")
- '(show-paren-style (quote mixed))
- '(sort-fold-case t t)
- '(symon-delay 5)
- '(symon-sparkline-type symon-sparkline-type-gridded)
- '(tramp-default-method "ssh")
- '(tramp-verbose 10)
- '(win-switch-feedback-background-color "blue")
- '(win-switch-feedback-foreground-color "white")
- '(win-switch-idle-time 1.5)
- '(win-switch-window-threshold 1)
- '(yas-snippet-dirs
-   ("~/.emacs.d/snippets" "~/.emacs.d/el-get/yasnippet/snippets"))
- '(yas-trigger-key "Enter" t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(rainbow-delimiters-depth-1-face ((t (:foreground "#7f8c8d")))))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+    ("3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" default))))

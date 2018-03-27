@@ -49,8 +49,7 @@
 (setq ring-bell-function 'ignore)
 ;; Highlight parens
 (show-paren-mode t)
-(custom-set-variables
- '(show-paren-style 'mixed))
+(setq show-paren-style 'mixed)
 ;; Disable hard tabs
 (setq-default indent-tabs-mode nil)
 ;; Disable startup image
@@ -61,10 +60,9 @@
 (setq system-uses-terminfo nil)
 (setq-default tab-width 4)
 ;; scroll down compilation buffer when new output is available.
-(custom-set-variables
- '(compilation-scroll-output t))
+(setq compilation-scroll-output t)
 ;; sort with ignoring case.
-(custom-set-variables '(sort-fold-case t t))
+(setq sort-fold-case t)
 (eldoc-mode 1)
 ;; do not ask y-or-n when saving all
 (defun save-all ()
@@ -81,10 +79,9 @@
 
 ;;; tramp {{{
 (require 'tramp)
-(custom-set-variables
- '(tramp-debug-buffer t)
- '(tramp-verbose 10)
- '(tramp-default-method "ssh"))
+(setq tramp-debug-buffer t
+      tramp-verbose 10
+      tramp-default-method "ssh")
 ;;; }}}
 
 ;;; scroll in place {{{
@@ -295,10 +292,10 @@
 (require 'cmuscheme)
 (setq process-coding-system-alist
       (cons '("gosh" utf-8 . utf-8) process-coding-system-alist))
-(custom-set-variables
- '(scheme-program-name "gosh")
- '(gosh-program-name "/usr/bin/env gosh -i")
- '(scheme-program-name "gosh -i"))
+(setq
+ scheme-program-name "gosh"
+ gosh-program-name "/usr/bin/env gosh -i"
+ scheme-program-name "gosh -i")
 
 (defun scheme-other-window ()
   "Run scheme on other window."
@@ -491,8 +488,7 @@
 
 ;;; nxml {{{
 (defvar nxml-child-indent 2)
-(custom-set-variables
- '(mumamo-background-colors nil))
+(setq mumamo-background-colors nil)
 ;;; }}}
 
 ;;; less {{{
@@ -520,13 +516,13 @@
 ;; sudo apt-get install cmigemo is required
 (when (and (executable-find "cmigemo")
            (require 'migemo nil t))
-  (custom-set-variables
-   '(migemo-command "cmigemo")
-   '(migemo-options '("-q" "--emacs"))
-   '(migemo-dictionary "/usr/share/cmigemo/utf-8/migemo-dict")
-   '(migemo-user-dictionary nil)
-   '(migemo-regex-dictionary nil)
-   '(migemo-coding-system 'utf-8-unix))
+  (setq
+   migemo-command "cmigemo"
+   migemo-options '("-q" "--emacs")
+   migemo-dictionary "/usr/share/cmigemo/utf-8/migemo-dict"
+   migemo-user-dictionary nil
+   migemo-regex-dictionary nil
+   migemo-coding-system 'utf-8-unix)
   (load-library "migemo")
   (migemo-init))
 ;;; }}}
@@ -653,10 +649,10 @@
   (add-hook 'c-mode-hook 'helm-gtags-mode)
   (add-hook 'c++-mode-hook 'helm-gtags-mode)
   (add-hook 'asm-mode-hook 'helm-gtags-mode)
-  (custom-set-variables '(helm-gtags-prefix-key "C-t")
-                        '(helm-gtags-suggested-key-mapping t)
-                        '(helm-gtags-ignore-case t)
-                        '(helm-gtags-auto-update nil))
+  (setq helm-gtags-prefix-key "C-t"
+        helm-gtags-suggested-key-mapping t
+        helm-gtags-ignore-case t
+        helm-gtags-auto-update nil)
   (eval-after-load "helm-gtags"
     '(progn (define-key helm-gtags-mode-map (kbd "C-:")
               'helm-gtags-find-pattern)
@@ -682,15 +678,15 @@
   ;; For helm-find-files etc.
   ;;(define-key helm-find-files-map (kbd "TAB") 'helm-execute-persistent-action)
   ;; (require 'helm-regexp)
-  (custom-set-variables
-   '(helm-mini-default-sources
-     '(helm-source-buffers-list helm-source-ls-git
-                                ;; helm-c-source-replace-string
-                                helm-source-files-in-current-dir
-                                helm-source-recentf
-                                helm-source-grep-ag
-                                helm-source-rospack-list
-                                helm-source-buffer-not-found)))
+  (setq
+   helm-mini-default-sources
+   '(helm-source-buffers-list helm-source-ls-git
+                              ;; helm-c-source-replace-string
+                              helm-source-files-in-current-dir
+                              helm-source-recentf
+                              helm-source-grep-ag
+                              helm-source-rospack-list
+                              helm-source-buffer-not-found))
   (add-to-list 'helm-completing-read-handlers-alist '(find-file . nil))
   (add-to-list 'helm-completing-read-handlers-alist '(find-ros-file . nil))
   (define-key global-map (kbd "M-x")     'helm-M-x)
@@ -733,9 +729,9 @@
 
 ;;; rainbow-delimiters {{{
 (require 'rainbow-delimiters)
-(custom-set-faces '(rainbow-delimiters-depth-1-face
-                    ((t
-                      (:foreground "#7f8c8d")))))
+(setq rainbow-delimiters-depth-1-face
+      '((t
+         (:foreground "#7f8c8d"))))
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 ;;; }}}
 
@@ -769,8 +765,7 @@
 ;;; Setup anzu to visualize the number of match in status bar. {{{
 (require 'anzu)
 (global-anzu-mode +1)
-(custom-set-variables
- '(anzu-search-threshold 1000))
+(setq anzu-search-threshold 1000)
 ;;; }}}
 
 ;;; Delete trailing whitespaces when saving the file. {{{
@@ -787,8 +782,7 @@
 (require 'yasnippet)
 (setq yas-snippet-dirs '("~/.emacs.d/snippets"
                          "~/.emacs.d/el-get/yasnippet/snippets"))
-(custom-set-variables
- '(yas-trigger-key "Enter"))
+(setq yas-trigger-key "Enter")
 (yas-global-mode)
 ;;(custom-set-variables '(yas-trigger-key "TAB"))
 
@@ -806,8 +800,7 @@
 ;;            '(require-snippet-condition . force-in-comment)))
 ;; bind M-- to list snippets
 (when (require 'helm-c-yasnippet nil t)
-  (custom-set-variables
-   '(helm-c-yas-space-match-any-greedy t))
+  (setq helm-c-yas-space-match-any-greedy t)
   (global-set-key (kbd "M--") 'helm-c-yas-complete))
 ;;; }}}
 
@@ -900,9 +893,8 @@
   (global-hl-line-unhighlight-all)
   (let ((global-hl-line-mode t))
     (global-hl-line-highlight)))
-(custom-set-variables
- (list 'global-hl-line-timer
-       (run-with-idle-timer 0.03 t 'global-hl-line-timer-function)))
+(setq global-hl-line-timer
+      (run-with-idle-timer 0.03 t 'global-hl-line-timer-function))
 
 ;;; }}}
 
@@ -914,8 +906,8 @@
 
 ;;; symon to visualize CPU, memory and so on. {{{
 (require 'symon)
-(custom-set-variables '(symon-sparkline-type symon-sparkline-type-gridded)
-                      '(symon-delay 100))
+(setq symon-sparkline-type 'symon-sparkline-type-gridded)
+(setq symon-delay 100)
 (symon-mode)
 ;;; }}}
 
@@ -998,8 +990,7 @@
 ;; load-path is not taken into account in linting.
 ;; By assiging `flycheck-emacs-lisp-load-path` to 'inherit, flycheck runs emacs with
 ;; `load-path` inherited from the current emacs.
-(custom-set-variables
- '(flycheck-emacs-lisp-load-path 'inherit))
+(setq flycheck-emacs-lisp-load-path 'inherit)
 
 (defun flycheck-exclude-tramp ()
   "Do not run flycheck for the file over tramp mode.
@@ -1015,28 +1006,23 @@ See http://fukuyama.co/tramp-flycheck"
     (progn
       (require 'flycheck-pos-tip)
       (eval-after-load 'flycheck
-        '(custom-set-variables
-          '(flycheck-display-errors-function
-            #'flycheck-pos-tip-error-messages)
-          '(flycheck-disable-checkers '(c/c++-clang
-                                        c/c++-gcc
-                                        javascript-jshint))))))
+        '(setq
+          flycheck-display-errors-function #'flycheck-pos-tip-error-messages
+          flycheck-disable-checkers '(c/c++-clang
+                                      c/c++-gcc
+                                      javascript-jshint)))))
 ;; disable clang and gcc linter
-(custom-set-variables
- '(flycheck-disable-checkers '(flycheck-disable-checkers . (c/c++-clang
-                                                            c/c++-gcc))))
-;; disable jshint: append?
-(custom-set-variables
- '(flycheck-disable-checkers '(flycheck-disable-checkers . (javascript-jshint))))
+(setq flycheck-disable-checkers '(c/c++-clang
+                                  c/c++-gcc
+                                  javascript-jshint))
 
 ;; googlelint for C++
 (eval-after-load 'flycheck
   '(progn
      (require 'flycheck-google-cpplint)
      (flycheck-add-next-checker 'c/c++-cppcheck '(warning . c/c++-googlelint))))
-(custom-set-variables
- '(flycheck-googlelint-filter "-runtime/references,-readability/braces")
- '(flycheck-googlelint-verbose "3"))
+(setq flycheck-googlelint-filter "-runtime/references,-readability/braces"
+      flycheck-googlelint-verbose "3")
 
 ;; python
 ;; check flake8 version.
@@ -1153,17 +1139,17 @@ Requires Flake8 3.0 or newer. See URL
 ;;; }}}
 
 ;;; Show eidiff with horizontal split view. {{{
-(custom-set-variables '(ediff-split-window-function 'split-window-horizontally))
+(setq ediff-split-window-function 'split-window-horizontally)
 ;;; }}}
 
 ;;; shortcut prefix key to switch windows. {{{
 (require 'win-switch)
 ;; simple functions to change background color of selected buffer
 
-(custom-set-variables '(win-switch-feedback-background-color "yellow")
-                      '(win-switch-feedback-foreground-color "black")
-                      '(win-switch-idle-time 1.5)
-                      '(win-switch-window-threshold 1))
+(setq win-switch-feedback-background-color "yellow"
+      win-switch-feedback-foreground-color "black"
+      win-switch-idle-time 1.5
+      win-switch-window-threshold 1)
 
 ;; switching window
 (win-switch-set-keys '("k") 'up)
@@ -1447,9 +1433,9 @@ unless you specify the optional argument: FORCE-REVERTING to true."
 ;;; }}}
 
 ;;; vimish-fold mode to fold code {{{
-(require 'vimish-fold)
-(vimish-fold-global-mode 1)
-(global-set-key "\C-q" 'vimish-fold-toggle)
+;; (require 'vimish-fold)
+;; (vimish-fold-global-mode 1)
+;; (global-set-key "\C-q" 'vimish-fold-toggle)
 ;;; }}}
 
 ;;; setting origami mode to fold codes {{{
@@ -1465,6 +1451,7 @@ unless you specify the optional argument: FORCE-REVERTING to true."
 ;;; }}}
 
 ;;; smart-mode-line {{{
+(setq sml/no-confirm-load-theme t)
 (sml/setup)
 ;;; }}}
 
