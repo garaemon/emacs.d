@@ -177,6 +177,7 @@
 (el-get-bundle tabbar)
 (el-get-bundle thingopt)
 (el-get-bundle tide)
+(el-get-bundle total-lines)
 (el-get-bundle trr)
 (el-get-bundle twittering-mode)
 (el-get-bundle undo-tree)
@@ -214,4 +215,7 @@
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    (quote
-    ("3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" default))))
+    ("3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" default)))
+ '(package-selected-packages
+   (quote
+    (total-lines solarized-theme origami nlinum minimap imenus imenu-list company base16-theme))))

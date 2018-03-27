@@ -35,6 +35,7 @@
 (global-unset-key "\C-\\")
 (set-language-environment "Japanese")
 (prefer-coding-system 'utf-8)
+(setq column-number-mode t) ; show column number
 ;; no scroll bar
 (scroll-bar-mode -1)
 ;; no menu bar
@@ -1451,9 +1452,24 @@ unless you specify the optional argument: FORCE-REVERTING to true."
 ;;; }}}
 
 ;;; smart-mode-line {{{
+;; Do not ask reload theme
 (setq sml/no-confirm-load-theme t)
+(setq sml/theme 'dark)
+(setq sml/shorten-directory -1)
 (sml/setup)
 ;;; }}}
+
+;;; Show totla lines on mode line {{{
+(require 'total-lines)
+(global-total-lines-mode t)
+(defun my-set-line-numbers ()
+  "Init hook to setup total lines."
+  (setq-default mode-line-front-space
+                (append mode-line-front-space
+                        '((:eval (format " (%d)" (- total-lines 1)))))))
+(add-hook 'after-init-hook 'my-set-line-numbers)
+;;; }}}
+
 
 ;; Provide package
 (provide 'garaemon-dot-emacs)
