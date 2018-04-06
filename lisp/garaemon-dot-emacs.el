@@ -1474,6 +1474,10 @@ unless you specify the optional argument: FORCE-REVERTING to true."
 (add-hook 'after-init-hook 'my-set-line-numbers)
 ;;; }}}
 
+;;; neotree {{{
+(require 'neotree)
+(global-set-key [f8] 'neotree-toggle)
+;;; }}}
 
 ;; Provide package
 (provide 'garaemon-dot-emacs)
