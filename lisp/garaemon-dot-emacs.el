@@ -1474,9 +1474,16 @@ unless you specify the optional argument: FORCE-REVERTING to true."
 (add-hook 'after-init-hook 'my-set-line-numbers)
 ;;; }}}
 
+;;; all-the-cons {{{
+(require 'all-the-icons)
+;; run (all-the-icons-install-fonts) to install fonts
+;;; }}}
+
 ;;; neotree {{{
 (require 'neotree)
 (global-set-key [f8] 'neotree-toggle)
+;; all-the-icons is required
+(setq neo-theme (if (display-graphic-p) 'icons 'arrow))
 ;;; }}}
 
 ;; Provide package
