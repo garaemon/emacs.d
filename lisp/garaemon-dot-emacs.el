@@ -65,6 +65,8 @@
 ;; sort with ignoring case.
 (setq sort-fold-case t)
 (eldoc-mode 1)
+;; subword for camelcase
+(global-subword-mode)
 ;; do not ask y-or-n when saving all
 (defun save-all ()
   "Save all buffers without y-or-n asking."
@@ -572,13 +574,13 @@
 
 ;;; expand-region {{{
 (require 'expand-region)
+(require 'subword-mode-expansions)
 ;; why required...?
 (when (<= emacs-major-version 24)
   (defmacro save-mark-and-excursion
       (&rest
        body)
     `(save-excursion ,@body)))
-
 (global-set-key (kbd "C-^") 'er/expand-region)
 (global-set-key (kbd "C-M-^") 'er/contract-region)
 ;;; }}}
