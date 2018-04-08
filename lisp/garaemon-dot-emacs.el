@@ -1293,7 +1293,7 @@ unless you specify the optional argument: FORCE-REVERTING to true."
 ;;; }}}
 
 ;;; auto-save-buffers-enhanced {{{
-;; DO not use auto-save-buffers-enhanced because tramp hangs if the mode is enabled.
+;; Do not use auto-save-buffers-enhanced because tramp hangs if the mode is enabled.
 ;; (require 'auto-save-buffers-enhanced)
 ;; (auto-save-buffers-enhanced-include-only-checkout-path t)
 ;; (auto-save-buffers-enhanced nil)
