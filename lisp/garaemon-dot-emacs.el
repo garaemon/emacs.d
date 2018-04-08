@@ -134,6 +134,24 @@
                       :height 120)    ;font size
   ;;(set-frame-font "Ricty Diminished-12")
   )
+(defun text-scale-increase ()
+  "Increase the size of text of CURRENT-BUFFER."
+  (interactive)
+  (text-scale-adjust +1))
+
+(defun text-scale-decrease ()
+  "Decrease the size of text of CURRENT-BUFFER."
+  (interactive)
+  (text-scale-adjust -1))
+
+(defun text-scale-reset ()
+  "Reset the size of text of CURRENT-BUFFER."
+  (interactive)
+  (text-scale-adjust 0))
+
+(global-set-key "\M-+" 'text-scale-increase)
+(global-set-key "\M--" 'text-scale-decrease)
+(global-set-key "\M-0" 'text-scale-reset)
 ;;; }}}
 
 ;;; theme {{{
