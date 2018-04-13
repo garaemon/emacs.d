@@ -731,7 +731,16 @@
   (require 'helm-ls-git)
   (require 'helm-ros)
   (setq helm-source-catkin-root "~/ros_catkin_ws/hydro/src")
+
+  ;; helm-swoop
   (global-set-key (kbd "M-i") 'helm-swoop)
+  (global-set-key (kbd "C-s") 'helm-swoop)
+  (define-key helm-swoop-map (kbd "C-r") 'helm-previous-line)
+  (define-key helm-swoop-map (kbd "C-s") 'helm-next-line)
+  (define-key helm-multi-swoop-map (kbd "C-r") 'helm-previous-line)
+  (define-key helm-multi-swoop-map (kbd "C-s") 'helm-next-line)
+  ;; Disable pre-input for helm-swoop
+  (setq helm-swoop-pre-input-function (lambda () nil))
 
   ;; (require 'swoop)
   ;; (require 'ace-isearch)
