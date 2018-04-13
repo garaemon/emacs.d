@@ -708,6 +708,8 @@
                               helm-source-grep-ag
                               helm-source-rospack-list
                               helm-source-buffer-not-found))
+  ;; Allow longer strinf to visualize buffer names
+  (setq helm-buffer-max-length 50)
   (add-to-list 'helm-completing-read-handlers-alist '(find-file . nil))
   (add-to-list 'helm-completing-read-handlers-alist '(find-ros-file . nil))
   (define-key global-map (kbd "M-x")     'helm-M-x)
