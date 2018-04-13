@@ -743,14 +743,6 @@
   (define-key helm-multi-swoop-map (kbd "C-s") 'helm-next-line)
   ;; Disable pre-input for helm-swoop
   (setq helm-swoop-pre-input-function (lambda () nil))
-
-  ;; (require 'swoop)
-  ;; (require 'ace-isearch)
-  ;; (global-ace-isearch-mode +1)
-  ;; (define-key helm-swoop-map (kbd "C-s") 'helm-next-line)
-  ;; (define-key helm-swoop-map (kbd "C-r") 'helm-previous-line)
-  ;; (define-key helm-swoop-map (kbd "C-n") 'helm-exit-minibuffer)
-  ;; (define-key helm-swoop-map (kbd "C-p") 'helm-exit-minibuffer)
   )
 ;;; }}}
 
