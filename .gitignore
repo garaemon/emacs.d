@@ -21,3 +21,5 @@ irony
 .python-environments
 var/
 url/
+
+flycheck_*.el
