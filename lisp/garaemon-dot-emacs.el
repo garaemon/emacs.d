@@ -534,7 +534,8 @@
 ;;; }}}
 
 ;;; daily memo on markdown {{{
-(defvar daily-markdown-memo-directory "~/daily-notes")
+(defvar daily-markdown-memo-directory "~/daily-notes"
+  "Directory to save daily markdown memos.")
 (defun daily-markdown-memo-create-today-markdown ()
   "Create markdown file for today under DAILY-MARKDOWN-MEMO-DIRECTORY."
   (interactive)
