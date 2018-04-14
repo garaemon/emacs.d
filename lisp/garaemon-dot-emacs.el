@@ -530,6 +530,8 @@
 (define-key markdown-mode-map (kbd "C-c m") 'newline)
 ;; syntax highlight for code block
 (setq markdown-fontify-code-blocks-natively t)
+;; Do not change font in code block
+(set-face-attribute 'markdown-code-face nil :inherit 'default)
 ;; For emacs 24
 (add-hook 'markdown-mode-hook '(lambda ()
                                  (electric-indent-local-mode -1)))
