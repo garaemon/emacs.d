@@ -221,3 +221,4 @@
  '(package-selected-packages
    (quote
     (total-lines solarized-theme origami nlinum minimap imenus imenu-list company base16-theme))))
+(put 'upcase-region 'disabled nil)
