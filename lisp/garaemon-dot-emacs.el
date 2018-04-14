@@ -528,6 +528,8 @@
   (start-process "shiba" "*shiba*" "shiba" "--detach" buffer-file-name))
 (define-key markdown-mode-map (kbd "C-c C-c") 'open-with-shiba)
 (define-key markdown-mode-map (kbd "C-c m") 'newline)
+;; syntax highlight for code block
+(setq markdown-fontify-code-blocks-natively t)
 ;; For emacs 24
 (add-hook 'markdown-mode-hook '(lambda ()
                                  (electric-indent-local-mode -1)))
