@@ -101,6 +101,7 @@
 (el-get-bundle dockerfile-mode)
 (el-get-bundle elisp-format
   :url "http://www.emacswiki.org/emacs/download/elisp-format.el")
+(el-get-bundle elpy)
 (el-get-bundle emoji-cheat-sheet)
 (el-get-bundle expand-region)
 (el-get-bundle f)

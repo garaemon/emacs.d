@@ -385,7 +385,8 @@
 
 (set-variable 'inferior-euslisp-program "~/.emacs.d/roseus.sh")
 
-(global-set-key "\C-cE" 'lisp-other-window)
+;; Do not set C-cE for lisp-other-window
+;; (global-set-key "\C-cE" 'lisp-other-window)
 ;;; }}}
 
 ;;; goby {{{
@@ -1269,6 +1270,26 @@ Requires Flake8 3.0 or newer. See URL
     (append '("-x") it)))
 (add-to-list 'company-backends 'company-irony)
 ;;; }}}
+
+;;; python {{{
+(elpy-enable)
+;; use ipython for interactive shell
+(setq python-shell-interpreter "ipython"
+      python-shell-interpreter-args "-i --simple-prompt")
+(defun elpy-shell-send-region-or-statement ()
+  "Send region or statement to python shell."
+  (interactive)
+  (if (use-region-p)
+      (progn
+        (elpy-shell-send-region-or-buffer)
+        (deactivate-mark))
+    (elpy-shell-send-statement)
+    ))
+(define-key python-mode-map "\C-x\C-E" 'elpy-shell-send-region-or-statement)
+(define-key python-mode-map "\C-cE" 'elpy-shell-switch-to-shell)
+(global-set-key "\C-cE" 'elpy-shell-switch-to-shell)
+;;; }}}
+
 
 ;;; jedi for python code completion. {{{
 (require 'jedi-core)
