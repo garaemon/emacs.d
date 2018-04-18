@@ -545,27 +545,56 @@
 ;;; daily memo on markdown {{{
 (defvar daily-markdown-memo-directory "~/daily-notes"
   "Directory to save daily markdown memos.")
-(defun daily-markdown-memo-create-today-markdown ()
-  "Create markdown file for today under DAILY-MARKDOWN-MEMO-DIRECTORY."
+
+(defun daily-markdown-memo-file ()
+  "Return the file name for today markdown memo."
+  (let ((today-file (format-time-string "%Y-%m-%d.md" (current-time))))
+    (concat daily-markdown-memo-directory "/" today-file)))
+
+(defun daily-markdown-memo-create-today-markdown (&optional select)
+  "Create markdown file for today under DAILY-MARKDOWN-MEMO-DIRECTORY.
+
+  If SELECT is t, open the memo file with selecting."
   (interactive)
   ;; If there is no memo directory, create it.
   (if (not (file-directory-p daily-markdown-memo-directory))
       (progn
         (message "Creating directory: %s" daily-markdown-memo-directory)
         (make-directory daily-markdown-memo-directory)))
-  (let ((today-file-full-path
-         (let ((today-file (format-time-string "%Y-%m-%d.md" (current-time))))
-           (concat daily-markdown-memo-directory "/" today-file))))
+  (let ((today-file-full-path (daily-markdown-memo-file)))
     ;; Verify if the buffer is already opened for today-file-full-path.
     ;; If not,
-    (let ((file-buffer (find-file-noselect today-file-full-path)))
+    (let ((file-buffer (if select
+                           (find-file today-file-full-path)
+                         (find-file-noselect today-file-full-path))))
       (with-current-buffer file-buffer
         (if (not (file-exists-p today-file-full-path))
-            ;; If it is the first time to open the file, insert date and save it automatically.
+            ;; If it is the first time to open the file,
+            ;; insert date and save it automatically.
             (progn
               (insert (format-time-string "# %Y-%m-%d" (current-time)))
               (save-buffer))))))
   )
+
+(setq daily-markdown-memo-previous-buffer nil)
+(setq daily-markdown-memo-previous-buffer-point nil)
+
+(defun daily-markdown-memo-toggle-today-markdown ()
+  "Create and open today markdown file."
+  (interactive)
+  (if daily-markdown-memo-previous-buffer
+      (progn
+        (switch-to-buffer daily-markdown-memo-previous-buffer)
+        (goto-char daily-markdown-memo-previous-buffer-point)
+        (setq daily-markdown-memo-previous-buffer nil)
+        (setq daily-markdown-memo-previous-buffer-point nil))
+    (progn
+      (setq daily-markdown-memo-previous-buffer (current-buffer))
+      (setq daily-markdown-memo-previous-buffer-point (point))
+      (daily-markdown-memo-create-today-markdown t))
+    ))
+
+(global-set-key "\M-m" 'daily-markdown-memo-toggle-today-markdown)
 ;; Run daily-markdown-memo-create-today-markdown when emacs is opened.
 (add-hook 'after-init-hook '(daily-markdown-memo-create-today-markdown))
 ;; Run daily-markdown-memo-create-today-markdown every 30 minutes
