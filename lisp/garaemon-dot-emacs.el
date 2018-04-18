@@ -747,6 +747,18 @@
                               helm-source-grep-ag
                               helm-source-rospack-list
                               helm-source-buffer-not-found))
+  (defun my-helm-mini ()
+    "Customized version of helm-mini in order to disable 'thing-at-point'."
+    (interactive)
+    (require 'helm-x-files)
+    (unless helm-source-buffers-list
+      (setq helm-source-buffers-list
+            (helm-make-source "Buffers" 'helm-source-buffers)))
+    (helm :sources helm-mini-default-sources
+          :buffer "*helm mini*"
+          :default ""
+          :ff-transformer-show-only-basename nil
+          :truncate-lines helm-buffers-truncate-lines))
   ;; Allow longer strinf to visualize buffer names
   (setq helm-buffer-max-length 50)
   (add-to-list 'helm-completing-read-handlers-alist '(find-file . nil))
@@ -756,14 +768,15 @@
   (define-key global-map (kbd "C-x C-r") 'helm-recentf)
   (define-key global-map (kbd "M-y")     'helm-show-kill-ring)
   (define-key global-map (kbd "C-c i")   'helm-imenu)
-  (define-key global-map (kbd "C-x b")   'helm-mini)
+  (define-key global-map (kbd "C-x b")   'my-helm-mini)
 
   ;; fix ctrl-h in helm
   (define-key helm-map (kbd "C-h") 'delete-backward-char)
   ;;(define-key helm-find-files-map (kbd "C-h") 'delete-backward-char)
   ;; Emulate `kill-line' in helm minibuffer
   (setq helm-delete-minibuffer-contents-from-point t)
-  (defadvice helm-delete-minibuffer-contents (before helm-emulate-kill-line activate)
+  (defadvice helm-delete-minibuffer-contents
+      (before helm-emulate-kill-line activate)
     "Emulate `kill-line' in helm minibuffer"
     (kill-new
      (buffer-substring
