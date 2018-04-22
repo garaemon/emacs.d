@@ -550,7 +550,8 @@
 (defun daily-markdown-memo-file ()
   "Return the file name for today markdown memo."
   (let ((today-file (format-time-string "%Y-%m-%d.md" (current-time))))
-    (concat daily-markdown-memo-directory "/" today-file)))
+    (expand-file-name
+     (concat daily-markdown-memo-directory "/" today-file))))
 
 (defun daily-markdown-memo-create-today-markdown (&optional select)
   "Create markdown file for today under DAILY-MARKDOWN-MEMO-DIRECTORY.
@@ -580,10 +581,16 @@
 (setq daily-markdown-memo-previous-buffer nil)
 (setq daily-markdown-memo-previous-buffer-point nil)
 
+(defun daily-markdown-memo-is-current-buffer-memo ()
+  "Return T if CURRENT-BUFFER equals to memo file."
+  (interactive)
+  (string= (buffer-file-name) (daily-markdown-memo-file)))
+
 (defun daily-markdown-memo-toggle-today-markdown ()
   "Create and open today markdown file."
   (interactive)
-  (if daily-markdown-memo-previous-buffer
+  (if (and daily-markdown-memo-previous-buffer
+           (daily-markdown-memo-is-current-buffer-memo))
       (progn
         (switch-to-buffer daily-markdown-memo-previous-buffer)
         (goto-char daily-markdown-memo-previous-buffer-point)
