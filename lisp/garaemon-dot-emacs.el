@@ -1345,6 +1345,7 @@ Requires Flake8 3.0 or newer. See URL
 ;;; code-format-view {{{
 (require 'code-format)
 (global-set-key "\M-[" 'code-format-view)
+(setq code-format-yapf-options "--style google")
 ;;; }}}
 
 ;;; Show eidiff with horizontal split view. {{{
