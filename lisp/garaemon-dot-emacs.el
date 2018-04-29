@@ -998,6 +998,12 @@
 (require 'dired+)
 ;;; }}}
 
+;;; wdired {{{
+(require 'wdired)
+(setq wdired-allow-to-change-permissions t)
+(define-key dired-mode-map "e" 'wdired-change-to-wdired-mode)
+;;; }}}
+
 ;;; hl-line to highlight current line. {{{
 (require 'hl-line)
 ;; Small delay to update hl-line to reduce CPU load.
