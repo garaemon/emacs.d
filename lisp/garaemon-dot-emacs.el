@@ -1316,13 +1316,14 @@ Requires Flake8 3.0 or newer. See URL
 (add-to-list 'auto-mode-alist '("\\.ts[x]?\\'" . web-mode))
 (add-hook 'web-mode-hook
           (lambda ()
-            (let ((ext (file-name-extension buffer-file-name)))
-              (when (or (string-equal "tsx" ext)
-                        (string-equal "ts" ext))
-                ;; need to call my-web-mode-hook twice to apply
-                ;; indent setting correctly.
-                (my-web-mode-hook)
-                (my-typescript-hook)))))
+            (if buffer-file-name
+                (let ((ext (file-name-extension buffer-file-name)))
+                  (when (or (string-equal "tsx" ext)
+                            (string-equal "ts" ext))
+                    ;; need to call my-web-mode-hook twice to apply
+                    ;; indent setting correctly.
+                    (my-web-mode-hook)
+                    (my-typescript-hook))))))
 ;; enable typescript-tslint checker
 (flycheck-add-mode 'typescript-tslint 'web-mode)
 ;;; }}}
@@ -1351,7 +1352,7 @@ Requires Flake8 3.0 or newer. See URL
 ;;; code-format-view {{{
 (require 'code-format)
 (global-set-key "\M-[" 'code-format-view)
-(setq code-format-yapf-options "--style google")
+(setq code-format-yapf-options '("--style" "google"))
 ;;; }}}
 
 ;;; Show eidiff with horizontal split view. {{{
@@ -1431,7 +1432,8 @@ Requires Flake8 3.0 or newer. See URL
 (elpy-enable)
 ;; use ipython for interactive shell
 (setq python-shell-interpreter "ipython"
-      python-shell-interpreter-args "-i --simple-prompt")
+      python-shell-interpreter-args "-i --simple-prompt"
+      python-shell-enable-font-lock nil)
 (defun elpy-shell-send-region-or-statement ()
   "Send region or statement to python shell."
   (interactive)
