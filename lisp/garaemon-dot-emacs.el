@@ -1296,7 +1296,7 @@ Requires Flake8 3.0 or newer. See URL
   "My hook function for typescript-mode."
   (tide-setup)
   (flycheck-mode t)
-  (setup-tide-mode)
+  ;; (setup-tide-mode)
   (eldoc-mode t)
   (setq flycheck-check-syntax-automatically
         (mode-enabled save))
