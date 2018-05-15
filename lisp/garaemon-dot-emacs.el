@@ -775,6 +775,7 @@
   ;; For helm-find-files etc.
   ;;(define-key helm-find-files-map (kbd "TAB") 'helm-execute-persistent-action)
   ;; (require 'helm-regexp)
+  (setq helm-ls-git-status-command 'magit-status-internal)
   (setq
    helm-mini-default-sources
    '(helm-source-buffers-list helm-source-ls-git
