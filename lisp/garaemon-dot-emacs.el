@@ -730,6 +730,19 @@
 (defadvice linum-schedule (around my-linum-schedule () activate)
   "Set scheduler of linux-mode."
   (run-with-idle-timer 0.2 nil #'linum-update-current))
+
+;; Use darker color when `emacsclient -nw` is used.
+(defun linum-color-on-after-init (frame)
+  "Hook function executed after FRAME is generated."
+  (unless (display-graphic-p frame)
+    (set-face-background
+     'linum
+     (plist-get base16-solarized-dark-colors :base01))))
+
+(add-hook 'after-make-frame-functions
+          (lambda (frame)
+            (linum-color-on-after-init frame)))
+
 ;;; }}}
 
 ;;; recentf-ext {{{
@@ -1015,7 +1028,18 @@
     (global-hl-line-highlight)))
 (setq global-hl-line-timer
       (run-with-idle-timer 0.03 t 'global-hl-line-timer-function))
+;; https://stackoverflow.com/questions/19054228/emacs-disable-theme-background-color-in-terminal?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
+;; Use darker color when `emacsclient -nw` is used.
+(defun hl-line-color-on-after-init (frame)
+  "Hook function executed after FRAME is generated."
+  (unless (display-graphic-p frame)
+    (set-face-background
+     'hl-line
+     (plist-get base16-solarized-dark-colors :base01))))
 
+(add-hook 'after-make-frame-functions
+          (lambda (frame)
+            (hl-line-color-on-after-init frame)))
 ;;; }}}
 
 ;;; query-replace-regexp. {{{
