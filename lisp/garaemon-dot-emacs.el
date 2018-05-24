@@ -1457,7 +1457,7 @@ Requires Flake8 3.0 or newer. See URL
 (elpy-enable)
 ;; use ipython for interactive shell
 (setq python-shell-interpreter "ipython"
-      python-shell-interpreter-args "-i --simple-prompt"
+      python-shell-interpreter-args "-i"
       python-shell-enable-font-lock nil)
 (defun elpy-shell-send-region-or-statement ()
   "Send region or statement to python shell."
