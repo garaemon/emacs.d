@@ -158,6 +158,12 @@
 (load-theme 'base16-solarized-dark t)
 ;;; }}}
 
+;;; smerge {{{
+;; fix smerge color for solarized theme environment
+(setq smerge-refined-added '(t (:inherit smerge-refined-change :background "dark green")))
+(setq smerge-refined-removed '(t (:inherit smerge-refined-change :background "dark red")))
+;;; }}}
+
 ;;; magit {{{
 (add-to-list 'exec-path "/opt/local/bin")
 (require 'magit)
