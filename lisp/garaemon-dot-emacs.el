@@ -811,6 +811,8 @@
     (unless helm-source-buffers-list
       (setq helm-source-buffers-list
             (helm-make-source "Buffers" 'helm-source-buffers)))
+    ;; force to update `helm-source-ls-git'
+    (setq helm-source-ls-git (helm-ls-git-build-ls-git-source))
     (helm :sources helm-mini-default-sources
           :buffer "*helm mini*"
           :default ""
