@@ -1173,6 +1173,9 @@ See http://fukuyama.co/tramp-flycheck"
   '(progn
      (require 'flycheck-google-cpplint)
      (flycheck-add-next-checker 'c/c++-cppcheck '(warning . c/c++-googlelint))))
+;; Use eslint for web-mode
+(flycheck-add-mode 'javascript-eslint 'web-mode)
+
 (setq flycheck-googlelint-filter "-runtime/references,-readability/braces"
       flycheck-googlelint-verbose "3")
 
