@@ -728,26 +728,40 @@
 (global-git-gutter+-mode)
 ;;; }}}
 
-;;; nlinum {{{
-(require 'nlinum)
-(global-nlinum-mode)
-;; these linum-delay and linum-schedule are required even if nlinum-mode is used?
-(setq linum-delay t)
-(defadvice linum-schedule (around my-linum-schedule () activate)
-  "Set scheduler of linux-mode."
-  (run-with-idle-timer 0.2 nil #'linum-update-current))
+;;; nlinum or display-line-numbers {{{
+(if (version<= "26.0.50" emacs-version)
+    (progn
+      (global-display-line-numbers-mode)
+      (defun display-line-numbers-color-on-after-init (frame)
+        "Hook function executed after FRAME is generated."
+        (unless (display-graphic-p frame)
+          (set-face-background
+           'line-number
+           (plist-get base16-solarized-dark-colors :base01))))
+      (add-hook 'after-make-frame-functions
+                (lambda (frame)
+                  (display-line-numbers-color-on-after-init frame)))
+      )
+  (progn
+    (require 'nlinum)
+    (global-nlinum-mode)
+    ;; these linum-delay and linum-schedule are required even if nlinum-mode is used?
+    (setq linum-delay t)
+    (defadvice linum-schedule (around my-linum-schedule () activate)
+      "Set scheduler of linux-mode."
+      (run-with-idle-timer 0.2 nil #'linum-update-current))
 
-;; Use darker color when `emacsclient -nw` is used.
-(defun linum-color-on-after-init (frame)
-  "Hook function executed after FRAME is generated."
-  (unless (display-graphic-p frame)
-    (set-face-background
-     'linum
-     (plist-get base16-solarized-dark-colors :base01))))
+    ;; Use darker color when `emacsclient -nw` is used.
+    (defun linum-color-on-after-init (frame)
+      "Hook function executed after FRAME is generated."
+      (unless (display-graphic-p frame)
+        (set-face-background
+         'linum
+         (plist-get base16-solarized-dark-colors :base01))))
 
-(add-hook 'after-make-frame-functions
-          (lambda (frame)
-            (linum-color-on-after-init frame)))
+    (add-hook 'after-make-frame-functions
+              (lambda (frame)
+                (linum-color-on-after-init frame)))))
 
 ;;; }}}
 
