@@ -610,7 +610,7 @@
 
 (global-set-key "\M-m" 'daily-markdown-memo-toggle-today-markdown)
 ;; Run daily-markdown-memo-create-today-markdown when emacs is opened.
-(add-hook 'after-init-hook '(daily-markdown-memo-create-today-markdown))
+(add-hook 'before-init-hook '(daily-markdown-memo-create-today-markdown))
 ;; Run daily-markdown-memo-create-today-markdown every 30 minutes
 (run-with-timer 0 (* 30 60) 'daily-markdown-memo-create-today-markdown)
 ;;; }}}
