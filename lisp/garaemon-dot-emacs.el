@@ -78,6 +78,25 @@
   "Open this file."
   (interactive)
   (find-file "~/.emacs./lisp/garaemon-dot-emacs.el"))
+
+(defun rad2deg (rad)
+  "Convert radian RAD to degree."
+  (* (/ rad pi) 180))
+
+(defun deg2rad (deg)
+  "Convert degree DEG to radian."
+  (* (/ deg 180.0) pi))
+
+(defun rad2deg-interactive (rad)
+  "Convert radian RAD to degree."
+  (interactive "nrad ")
+  (message "%f rad -> %f deg" rad (rad2deg rad)))
+
+(defun deg2rad-interactive (deg)
+  "Convert degree DEG to radian."
+  (interactive "ndeg ")
+  (message "%f deg -> %f rad" deg (deg2rad deg)))
+
 ;;; }}}
 
 ;;; tramp {{{
