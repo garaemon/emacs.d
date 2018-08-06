@@ -148,6 +148,7 @@
 (el-get-bundle migemo)
 (el-get-bundle milkode)
 (el-get-bundle minimap)
+(el-get-bundle modern-cpp-font-lock)
 (el-get-bundle multiple-cursors)
 (el-get-bundle neotree)
 (el-get-bundle nlinum)
@@ -221,5 +222,5 @@
     ("3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" default)))
  '(package-selected-packages
    (quote
-    (total-lines solarized-theme origami nlinum minimap imenus imenu-list company base16-theme))))
+    (modern-cpp-font-lock total-lines solarized-theme origami nlinum minimap imenus imenu-list company base16-theme))))
 (put 'upcase-region 'disabled nil)

@@ -273,6 +273,7 @@
 (add-hook 'c++-mode-hook (lambda()
                            (set-fill-column 100)
                            ;;(c++-mode-hook-c++11)
+                           (modern-c++-font-lock-mode)
                            (google-set-c-style)
                            (google-make-newline-indent)
                            (setq c-basic-offset 4)))
