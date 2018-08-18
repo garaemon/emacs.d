@@ -116,6 +116,7 @@
 (el-get-bundle gist)
 (el-get-bundle git-gutter+)
 (el-get-bundle git-gutter-fringe+)
+(el-get-bundle go-mode)
 (el-get-bundle google-c-style)
 (el-get-bundle google-this)
 (el-get-bundle graphviz-dot-mode)

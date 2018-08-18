@@ -279,6 +279,10 @@
                            (setq c-basic-offset 4)))
 ;;; }}}
 
+;;; go {{{
+(require 'go-mode)
+;;; }}}
+
 ;;; lisp {{{
 (font-lock-add-keywords
  'lisp-mode
