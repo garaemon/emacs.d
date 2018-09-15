@@ -172,6 +172,7 @@
 (el-get-bundle s)
 (el-get-bundle save-visited-files)
 (el-get-bundle scss-mode)
+(el-get-bundle slack)
 (el-get-bundle smart-cursor-color)
 (el-get-bundle smart-mode-line)
 (el-get-bundle smartrep)
@@ -223,5 +224,5 @@
     ("3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" default)))
  '(package-selected-packages
    (quote
-    (modern-cpp-font-lock total-lines solarized-theme origami nlinum minimap imenus imenu-list company base16-theme))))
+    (slack modern-cpp-font-lock total-lines solarized-theme origami nlinum minimap imenus imenu-list company base16-theme))))
 (put 'upcase-region 'disabled nil)

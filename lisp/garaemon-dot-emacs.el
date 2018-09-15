@@ -1794,6 +1794,15 @@ unless you specify the optional argument: FORCE-REVERTING to true."
 (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
 ;;; }}}
 
+;;; slack {{{
+(require 'slack)
+(setq slack-buffer-emojify t)
+(setq slack-prefer-current-team t)
+(setq slack-private-file (expand-file-name "~/.slack.el"))
+(when (file-exists-p slack-private-file)
+  (load slack-private-file))
+;;; }}}
+
 ;; Provide package
 (provide 'garaemon-dot-emacs)
 
