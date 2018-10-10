@@ -892,9 +892,9 @@
   (defun my-search-forward ()
     "Customized search function use helm-swoop except for in defining keyboard macro."
     (interactive)
-    (if defining-kbd-macro
+    (if (or defining-kbd-macro executing-kbd-macro)
          (isearch-forward)
-       (helm-swoop)))
+      (helm-swoop)))
   (global-set-key (kbd "C-s") 'my-search-forward)
   (define-key helm-swoop-map (kbd "C-r") 'helm-previous-line)
   (define-key helm-swoop-map (kbd "C-s") 'helm-next-line)
