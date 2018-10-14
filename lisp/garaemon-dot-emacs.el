@@ -1809,6 +1809,9 @@ unless you specify the optional argument: FORCE-REVERTING to true."
 (setq slack-buffer-emojify t)
 (setq slack-prefer-current-team t)
 (setq slack-private-file (expand-file-name "~/.slack.el"))
+;; use Shift+Enter and Ctrl+Enter as newline
+(define-key slack-mode-map '[S-return] 'newline)
+(define-key slack-mode-map '[C-return] 'newline)
 (when (file-exists-p slack-private-file)
   (load slack-private-file))
 ;;; }}}
