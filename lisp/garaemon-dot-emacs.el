@@ -833,15 +833,17 @@
   (define-key helm-find-files-map (kbd "TAB") 'helm-execute-persistent-action)
   ;; (require 'helm-regexp)
   (setq helm-ls-git-status-command 'magit-status-internal)
-  (setq
-   helm-mini-default-sources
-   '(helm-source-buffers-list helm-source-ls-git
-                              ;; helm-c-source-replace-string
-                              helm-source-files-in-current-dir
-                              helm-source-recentf
-                              helm-source-grep-ag
-                              helm-source-rospack-list
-                              helm-source-buffer-not-found))
+  (setq helm-mini-local-sources
+        '(helm-source-buffers-list helm-source-ls-git
+                                   ;; helm-c-source-replace-string
+                                   helm-source-files-in-current-dir
+                                   helm-source-recentf
+                                   helm-source-grep-ag
+                                   helm-source-rospack-list
+                                   helm-source-buffer-not-found))
+  ;; Do not use helm-ls-git in tramp environment
+  (setq helm-mini-tramp-sources (remove 'helm-source-ls-git helm-mini-local-sources))
+  (setq helm-mini-default-sources helm-mini-local-sources)
   (defun my-helm-mini ()
     "Customized version of helm-mini in order to disable 'thing-at-point'."
     (interactive)
@@ -853,7 +855,11 @@
     ;; do not run helm-source-ls-git if emacs uses tramp
     (if (not (and (fboundp 'tramp-tramp-file-p)
                   (tramp-tramp-file-p buffer-file-name)))
-        (setq helm-source-ls-git (helm-ls-git-build-ls-git-source)))
+        (progn
+          ;;(setq helm-source-ls-git (helm-ls-git-build-ls-git-source)) ;; iranai?
+          (setq helm-mini-default-sources helm-mini-local-sources)
+          )
+      (setq helm-mini-default-sources helm-mini-tramp-sources))
     (helm :sources helm-mini-default-sources
           :buffer "*helm mini*"
           :default ""
