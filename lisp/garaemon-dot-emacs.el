@@ -97,6 +97,16 @@
   (interactive "ndeg ")
   (message "%f deg -> %f rad" deg (deg2rad deg)))
 
+(defun jump-to-corresponding-brace ()
+  "Move to corresponding brace."
+  (interactive)
+  (let ((c (following-char))
+        (p (preceding-char)))
+    (if (eq (char-syntax c) 40) (forward-list)
+      (if (eq (char-syntax p) 41) (backward-list)
+        (backward-up-list)))))
+(global-set-key "\C-q" 'jump-to-corresponding-brace)
+
 ;;; }}}
 
 ;;; tramp {{{
