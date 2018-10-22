@@ -1,7 +1,7 @@
 before_install:
   - sudo apt-get install --no-install-recommends -y openssl ca-certificates git make software-properties-common
   - sudo add-apt-repository ppa:ubuntu-elisp/ppa -y
-  - sudo apt-get update
+  - sudo apt-get update -qq
   - sudo apt-get install emacs-snapshot -y
 script:
   - emacs -batch --eval '(setq debug-on-error t)' -l emacs.d/dot.emacs
