@@ -67,6 +67,10 @@
 
 (require 'package)
 (package-initialize)
+(setq package-archives
+      '(("gnu" . "http://elpa.gnu.org/packages/")
+        ("melpa" . "http://melpa.org/packages/")
+        ("org" . "http://orgmode.org/elpa/")))
 
 (defvar el-get-recipe-path)
 (add-to-list 'el-get-recipe-path "~/.emacs.d/recipes/")
