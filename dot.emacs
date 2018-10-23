@@ -90,7 +90,7 @@
 (el-get-bundle calfw)
 (el-get-bundle code-format)
 (el-get-bundle coffee-mode)
-(el-get-bundle color-theme-solarized)
+;; (el-get-bundle color-theme-solarized)
 (el-get-bundle column-marker)
 (el-get-bundle company)
 (el-get-bundle company-jedi)
