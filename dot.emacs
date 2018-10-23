@@ -66,7 +66,6 @@
 (el-get-bundle dash)
 
 (require 'package)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
 
 (defvar el-get-recipe-path)
@@ -74,7 +73,7 @@
 
 (when (executable-find "pdftex")
   (el-get-bundle auctex)) ;; it depends on tex
-(el-get-bundle ace-isearch)
+;; (el-get-bundle ace-isearch)
 (el-get-bundle ace-jump-mode)
 (el-get-bundle all-the-icons)
 (el-get-bundle anzu)
