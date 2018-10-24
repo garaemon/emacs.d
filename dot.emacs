@@ -125,7 +125,7 @@
 ;; (el-get-bundle graphviz-dot-mode)
 ;; (el-get-bundle gtags)
 ;; (el-get-bundle ham-mode)
-;; (el-get-bundle helm)
+(el-get-bundle helm)
 ;; (el-get-bundle helm-ag)
 ;; (el-get-bundle helm-c-yasnippet)
 ;; (el-get-bundle helm-etags-plus)
