@@ -5,4 +5,5 @@ before_install:
   - sudo apt-get install emacs-snapshot -y
 script:
   - cp -r . ~/.emacs.d
+  - ln -sf ~/.emacs.d/dot.emacs ~/.emacs
   - emacs-snapshot -batch --eval "(progn (setq debug-on-error t) (require 'package) (package-initialize) (package-refresh-contents))" -l dot.emacs
