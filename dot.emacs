@@ -128,7 +128,6 @@
 (el-get-bundle helm-ag)
 (el-get-bundle helm-c-yasnippet)
 (el-get-bundle helm-etags-plus)
-(el-get-bundle helm-google)
 (el-get-bundle helm-gtags)
 (el-get-bundle helm-ls-git)
 (el-get-bundle helm-swoop)
