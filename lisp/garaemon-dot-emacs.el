@@ -763,7 +763,8 @@
 ;;; }}}
 
 ;;; nlinum or display-line-numbers {{{
-(if (version<= "26.0.50" emacs-version)
+(if (and (version<= "26.0.50" emacs-version)
+         (functionp 'global-display-line-numbers-mode))
     (progn
       (global-display-line-numbers-mode)
       (defun display-line-numbers-color-on-after-init (frame)
