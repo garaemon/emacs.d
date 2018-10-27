@@ -1461,7 +1461,7 @@ Requires Flake8 3.0 or newer. See URL
 ;;; }}}
 
 ;;; shortcut prefix key to switch windows. {{{
-(when (require 'win-switch nil nil)
+(when (require 'win-switch nil t)
   ;; simple functions to change background color of selected buffer
   (setq win-switch-feedback-background-color "yellow"
         win-switch-feedback-foreground-color "black"
