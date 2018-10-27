@@ -75,7 +75,8 @@
 (defvar el-get-recipe-path)
 (add-to-list 'el-get-recipe-path "~/.emacs.d/recipes/")
 
-(el-get-bundle win-switch-git)
+;;(el-get-bundle win-switch-git)
+(el-get-bundle win-switch)
 (when (executable-find "pdftex")
   (el-get-bundle auctex)) ;; it depends on tex
 (el-get-bundle ace-isearch)
