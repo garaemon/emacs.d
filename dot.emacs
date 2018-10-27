@@ -174,11 +174,8 @@
 (el-get-bundle save-visited-files)
 (el-get-bundle scss-mode)
 ;; kill dbus-error
-(condition-case nil
-    (el-get-bundle slack)
-  (dbus-error
-   (message "Dbus error is ignored on slack build")
-   ))
+(ignore-errors
+    (el-get-bundle slack))
 (el-get-bundle smart-cursor-color)
 (el-get-bundle smart-mode-line)
 (el-get-bundle smartrep)
