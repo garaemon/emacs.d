@@ -13,6 +13,7 @@ addons:
       - dbus-x11
       - texinfo
       - emacs-snapshot
+      - anthy-el
 before_script:
   - sudo update-alternatives --set emacs /usr/bin/emacs-snapshot
 script:
