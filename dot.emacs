@@ -173,9 +173,8 @@
 (el-get-bundle s)
 (el-get-bundle save-visited-files)
 (el-get-bundle scss-mode)
-;; kill dbus-error
-(ignore-errors
-    (el-get-bundle slack))
+(when (file-exists-p (expand-file-name "~/.slack.el"))
+  (el-get-bundle slack))
 (el-get-bundle smart-cursor-color)
 (el-get-bundle smart-mode-line)
 (el-get-bundle smartrep)
