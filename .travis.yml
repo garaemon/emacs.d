@@ -21,4 +21,4 @@ script:
   - export $(dbus-launch)
   - cp -r . ~/.emacs.d
   - ln -sf ~/.emacs.d/dot.emacs ~/.emacs
-  - emacs-snapshot -batch --eval "(progn (setq debug-on-error t) (require 'package) (package-initialize) (package-refresh-contents))" -l dot.emacs
+  - emacs-snapshot -batch --eval "(progn (setq debug-on-error t) (setq max-specpdl-size 10000) (require 'package) (package-initialize) (package-refresh-contents))" -l dot.emacs
