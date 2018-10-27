@@ -14,6 +14,8 @@ addons:
       - dbus-x11
       - texinfo
       - emacs-snapshot
+env:
+  EMACS_COMMAND: /usr/bin/emacs-snapshot
 script:
   - which emacs
   - ls -l /usr/bin/emacs
