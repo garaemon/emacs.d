@@ -1460,36 +1460,36 @@ Requires Flake8 3.0 or newer. See URL
 ;;; }}}
 
 ;;; shortcut prefix key to switch windows. {{{
-(require 'win-switch)
-;; simple functions to change background color of selected buffer
+(when (require 'win-switch nil nil)
+  ;; simple functions to change background color of selected buffer
+  (setq win-switch-feedback-background-color "yellow"
+        win-switch-feedback-foreground-color "black"
+        win-switch-idle-time 1.5
+        win-switch-window-threshold 1)
 
-(setq win-switch-feedback-background-color "yellow"
-      win-switch-feedback-foreground-color "black"
-      win-switch-idle-time 1.5
-      win-switch-window-threshold 1)
-
-;; switching window
-(win-switch-set-keys '("k") 'up)
-(win-switch-set-keys '("j") 'down)
-(win-switch-set-keys '("h") 'left)
-(win-switch-set-keys '("l") 'right)
-(win-switch-set-keys '("o") 'next-window)
-(win-switch-set-keys '("p") 'previous-window)
-;; resizing
-(win-switch-set-keys '("K") 'enlarge-vertically)
-(win-switch-set-keys '("J") 'shrink-vertically)
-(win-switch-set-keys '("H") 'shrink-horizontally)
-(win-switch-set-keys '("L") 'enlarge-horizontally)
-;; split
-(win-switch-set-keys '("3") 'split-horizontally)
-(win-switch-set-keys '("2") 'split-vertically)
-(win-switch-set-keys '("0") 'delete-window)
-(win-switch-set-keys '(" ") 'other-frame)
-(win-switch-set-keys '("u" [return]) 'exit)
-(win-switch-set-keys '("\M-\C-g") 'emergency-exit)
-;; replace C-x o
-(global-set-key (kbd "C-x o") 'win-switch-dispatch)
-;;(global-set-key (kbd "C-x p") (win-switch-dispatch-with 'win-switch-previous-window))
+  ;; switching window
+  (win-switch-set-keys '("k") 'up)
+  (win-switch-set-keys '("j") 'down)
+  (win-switch-set-keys '("h") 'left)
+  (win-switch-set-keys '("l") 'right)
+  (win-switch-set-keys '("o") 'next-window)
+  (win-switch-set-keys '("p") 'previous-window)
+  ;; resizing
+  (win-switch-set-keys '("K") 'enlarge-vertically)
+  (win-switch-set-keys '("J") 'shrink-vertically)
+  (win-switch-set-keys '("H") 'shrink-horizontally)
+  (win-switch-set-keys '("L") 'enlarge-horizontally)
+  ;; split
+  (win-switch-set-keys '("3") 'split-horizontally)
+  (win-switch-set-keys '("2") 'split-vertically)
+  (win-switch-set-keys '("0") 'delete-window)
+  (win-switch-set-keys '(" ") 'other-frame)
+  (win-switch-set-keys '("u" [return]) 'exit)
+  (win-switch-set-keys '("\M-\C-g") 'emergency-exit)
+  ;; replace C-x o
+  (global-set-key (kbd "C-x o") 'win-switch-dispatch)
+  ;;(global-set-key (kbd "C-x p") (win-switch-dispatch-with 'win-switch-previous-window))
+  )
 ;;; }}}
 
 ;;; company for completion {{{

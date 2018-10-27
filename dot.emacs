@@ -75,9 +75,6 @@
 (defvar el-get-recipe-path)
 (add-to-list 'el-get-recipe-path "~/.emacs.d/recipes/")
 
-;;(el-get-bundle win-switch-git)
-(el-get-bundle linkd)
-(el-get-bundle win-switch)
 (when (executable-find "pdftex")
   (el-get-bundle auctex)) ;; it depends on tex
 (el-get-bundle ace-isearch)
@@ -144,6 +141,7 @@
 (el-get-bundle judge-indent)
 (el-get-bundle less-css-mode)
 (el-get-bundle let-alist)
+(el-get-bundle linkd)
 (el-get-bundle logito)
 (el-get-bundle lua-mode)
 (el-get-bundle magit)
@@ -195,6 +193,8 @@
 (el-get-bundle volatile-highlights)
 (el-get-bundle vimish-fold)
 (el-get-bundle web-mode)
+(when (not (getenv "TRAVIS")) ;; ignore on travis
+  (el-get-bundle win-switch))
 (el-get-bundle yaml-mode)
 (el-get-bundle yasnippet)
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp"))
