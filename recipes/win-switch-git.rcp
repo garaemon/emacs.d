@@ -2,4 +2,5 @@
        :description "github version of win-switch"
        :type github
        :compile nil
+       :depends (linkd)
        :pkgname "genovese/win-switch")
