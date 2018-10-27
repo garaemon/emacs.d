@@ -1,10 +1,22 @@
-before_install:
-  - sudo apt-get install --no-install-recommends -y openssl ca-certificates git make software-properties-common dbus dbus-x11 texinfo
-  - sudo add-apt-repository ppa:ubuntu-elisp/ppa -y
-  - sudo apt-get update -qq
-  - sudo apt-get install emacs-snapshot -y
-  - sudo apt-get remove emacs emacs24 -y
+sudo: false
+language: c
+addons:
+  apt:
+    sources:
+      - sourceline: 'ppa:ubuntu-elisp/ppa'
+    packages:
+      - openssl
+      - ca-certificates
+      - git
+      - make
+      - software-properties-common
+      - dbus
+      - dbus-x11
+      - texinfo
+      - emacs-snapshot
 script:
+  - which emacs
+  - ls -l /usr/bin/emacs
   - export $(dbus-launch)
   - cp -r . ~/.emacs.d
   - ln -sf ~/.emacs.d/dot.emacs ~/.emacs
