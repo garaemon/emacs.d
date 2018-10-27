@@ -75,6 +75,7 @@
 (defvar el-get-recipe-path)
 (add-to-list 'el-get-recipe-path "~/.emacs.d/recipes/")
 
+(el-get-bundle win-switch-git)
 (when (executable-find "pdftex")
   (el-get-bundle auctex)) ;; it depends on tex
 (el-get-bundle ace-isearch)
@@ -193,7 +194,6 @@
 (el-get-bundle volatile-highlights)
 (el-get-bundle vimish-fold)
 (el-get-bundle web-mode)
-(el-get-bundle win-switch-git)
 (el-get-bundle yaml-mode)
 (el-get-bundle yasnippet)
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp"))
