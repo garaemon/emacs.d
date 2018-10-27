@@ -76,6 +76,7 @@
 (add-to-list 'el-get-recipe-path "~/.emacs.d/recipes/")
 
 ;;(el-get-bundle win-switch-git)
+(el-get-bundle linkd)
 (el-get-bundle win-switch)
 (when (executable-find "pdftex")
   (el-get-bundle auctex)) ;; it depends on tex
@@ -143,7 +144,6 @@
 (el-get-bundle judge-indent)
 (el-get-bundle less-css-mode)
 (el-get-bundle let-alist)
-(el-get-bundle linkd)
 (el-get-bundle logito)
 (el-get-bundle lua-mode)
 (el-get-bundle magit)
