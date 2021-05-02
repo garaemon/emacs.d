@@ -1461,12 +1461,10 @@ ivy-set-sources only supports function without arguments.
             (global-set-key "\C-cl" 'magit-status)
             (global-set-key "\C-cL" 'magit-status)
             ;; It expects core.editor=emacsclient
-            (defun github-pull-request ()
-              (interactive)
-              (shell-command "git config core.editor=emacsclient")
-              (shell-command "hub pull-request &"))
             )
   )
+
+(use-package github-pullrequest :ensure t)
 
 (use-package forge :after magit :ensure t)
 
@@ -2245,6 +2243,6 @@ ivy-set-sources only supports function without arguments.
  '(lsp-pyls-plugins-pylint-enabled nil)
  '(lsp-pyls-plugins-yapf-enabled t)
  '(package-selected-packages
-   '(vterm-toggle browse-at-remote counsel-projectile systemd company-statistics ivy-prescient udev-mode prettier-js capf typescript lsp-python-ms forge magit-gh-pulls transpose-frame gcmh switch-buffer-functions avy-migemo py-yapf lsp-treemacs dictionary auto-package-update org-download clang-format ivy-posframe esup counsel use-package cquery slack modern-cpp-font-lock total-lines solarized-theme origami nlinum minimap imenus imenu-list company base16-theme)))
+   '(github-pullrequest vterm-toggle browse-at-remote counsel-projectile systemd company-statistics ivy-prescient udev-mode prettier-js capf typescript lsp-python-ms forge magit-gh-pulls transpose-frame gcmh switch-buffer-functions avy-migemo py-yapf lsp-treemacs dictionary auto-package-update org-download clang-format ivy-posframe esup counsel use-package cquery slack modern-cpp-font-lock total-lines solarized-theme origami nlinum minimap imenus imenu-list company base16-theme)))
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
