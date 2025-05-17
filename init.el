@@ -389,8 +389,13 @@
 ;;; }}}
 
 ;;; ruby {{{
-(use-package ruby-mode
-  :mode ("\\.thor$" . ruby-mode)
+(use-package ansi-color
+  :init
+  (defun endless/colorize-compilation ()
+    "Colorize from `compilation-filter-start' to `point'."
+    (let ((inhibit-read-only t))
+      (ansi-color-apply-on-region
+       compilation-filter-start (point))))
   :custom (ruby-indent-level 2)
   )
 ;;; }}}
@@ -426,9 +431,10 @@
 ;;; }}}
 
 ;;; Directories to ignored from grep {{{
-(use-package grep
+(use-package anzu :ensure t
+  :defer t
   :config
-  (add-to-list 'grep-find-ignored-directories "node_modules")
+  (global-anzu-mode +1)
   (add-to-list 'grep-find-ignored-directories "__pycache__")
   (add-to-list 'grep-find-ignored-directories "build")
   (add-to-list 'grep-find-ignored-directories "dist")
@@ -616,9 +622,9 @@ unless you specify the optional argument: FORCE-REVERTING to true."
         ("melpa" . "http://melpa.org/packages/")
         ("org" . "http://orgmode.org/elpa/")))
 
-(unless (require 'use-package nil t)
-  (package-initialize)
-  (unless (package-installed-p 'use-package)
+(unless (require 'use-package auto-highlight-symbol
+  :ensure t
+  :config (global-auto-highlight-symbol-mode t)
     (package-refresh-contents))
   ;; Install use-package
   (package-install 'use-package))
@@ -635,22 +641,22 @@ unless you specify the optional argument: FORCE-REVERTING to true."
       (setenv "GEMINI_API_KEY" (getenv "EMACS_GEMINI_KEY")))
   )
 
-(use-package anzu :ensure t
-  :defer t
+(use-package backup-each-save :ensure t
   :config
-  (global-anzu-mode +1)
+  (setq backup-each-save-mirror-location "~/.emacs.d/backups")
   (setq anzu-search-threshold 1000))
 
-(use-package auto-highlight-symbol
-  :ensure t
-  :config (global-auto-highlight-symbol-mode t)
+(use-package base16-theme :ensure t
+  :config
+  (setq base16-distinct-fringe-background nil)
   :bind (:map auto-highlight-symbol-mode-map
               ;; Do not allow ahs to steal M--
               ("M--" . 'text-scale-)))
 
-(use-package backup-each-save :ensure t
-  :config
-  (setq backup-each-save-mirror-location "~/.emacs.d/backups")
+(use-package blamer
+  :ensure t
+  :custom
+  (blamer-idle-time 1.0)
   ;; suffix for backup file
   (setq backup-each-save-time-format "%y%m%d_%H%M%S")
   ;; the size limit of backup files
@@ -660,17 +666,23 @@ unless you specify the optional argument: FORCE-REVERTING to true."
   :init (add-hook 'after-save #'backup-each-save)
   )
 
-(use-package base16-theme :ensure t
-  :config
-  (setq base16-distinct-fringe-background nil)
+(use-package bm :ensure t
+  :bind ((("M-^" . 'bm-toggle)
+          ("C-M-n" . 'bm-next)
+          ("C-M-p" . 'bm-previous)))
   (if (display-graphic-p)
       (load-theme 'base16-solarized-dark t))
   )
 
-(use-package blamer
-  :ensure t
-  :custom
-  (blamer-idle-time 1.0)
+(use-package calfw :ensure t :defer t)
+
+(use-package coffee-mode :ensure t :defer t)
+
+(use-package docker
+  :ensure t)
+
+(use-package dockerfile-mode :ensure t :defer t
+  :init (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
   (blamer-min-offset 70)
   (blamer-show-avatar-p nil)
   (blamer-enable-async-execution-p nil)
@@ -689,25 +701,18 @@ unless you specify the optional argument: FORCE-REVERTING to true."
   (global-blamer-mode t)
   )
 
-(use-package bm :ensure t
-  :bind ((("M-^" . 'bm-toggle)
-          ("C-M-n" . 'bm-next)
-          ("C-M-p" . 'bm-previous)))
+(use-package clang-format :ensure t
+  ;; :bind (:map c-mode-base-map
+  ;;             ("C-c f" . 'clang-format-buffer))
   :config
   (global-set-key [?\C-\M-\ ] 'bm-toggle) ;not work
   (set-face-background bm-face "orange")
   (set-face-foreground bm-face "black")
   )
 
-(use-package calfw :ensure t :defer t)
-
-(use-package coffee-mode :ensure t :defer t)
-
-(use-package docker
-  :ensure t)
-
-(use-package dockerfile-mode :ensure t :defer t
-  :init (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode)))
+(use-package cmuscheme
+  :init
+  (autoload 'scheme-mode "cmuscheme" "Major mode for Scheme." t))
 ;; (use-package elisp-format
 ;;   :url "http://www.emacswiki.org/emacs/download/elisp-format.el")
 
@@ -718,10 +723,11 @@ unless you specify the optional argument: FORCE-REVERTING to true."
   :config
   (dashboard-setup-startup-hook))
 
-(use-package udev-mode :ensure t)
-
-(use-package python
-  :custom (gud-pdb-command-name "python3 -m pdb")
+(use-package corfu
+  :ensure t
+  ;; Optional customizations
+  :custom
+  (corfu-auto t)
   :config
   (let ((ipython-executable (if (executable-find "ipython2") "ipython2" "ipython3")))
     ;; Verify ipython version
@@ -767,9 +773,9 @@ unless you specify the optional argument: FORCE-REVERTING to true."
   :hook ((python-mode . (lambda () (setq-local comment-inline-offset 2))))
   )
 
-(use-package elpy :ensure t :if nil
+(use-package dictionary :ensure t
   :config
-  (elpy-enable)
+  (setq dictionary-server "localhost")
   ;; use ipython for interactive shell
   (setq python-shell-interpreter "ipython"
         python-shell-interpreter-args "-i --no-confirm-exit"
@@ -789,22 +795,16 @@ unless you specify the optional argument: FORCE-REVERTING to true."
   (add-hook 'elpy-mode-hook (lambda () (highlight-indentation-mode -1)))
   )
 
-(use-package exec-path-from-shell :ensure t
-  :config
-  (add-to-list 'exec-path-from-shell-variables "CMAKE_PREFIX_PATH")
+(use-package diff-hl :ensure t
+  :custom (diff-hl-disable-on-remote nil)
   (add-to-list 'exec-path-from-shell-variables "EMACS_GEMINI_KEY")
   (add-to-list 'exec-path-from-shell-variables "PYTHONPATH")
   (add-to-list 'exec-path-from-shell-variables "PYTHONHOME")
   (exec-path-from-shell-initialize)
   )
 
-(use-package expand-region :ensure t
-  :config
-  (when (<= emacs-major-version 24)
-    (defmacro save-mark-and-excursion
-        (&rest
-         body)
-      `(save-excursion ,@body)))
+(use-package dired
+  :bind (:map dired-mode-map ("M-s" . 'consult-grep))
   (global-set-key (kbd "C-^") 'er/expand-region)
   (global-set-key (kbd "C-M-^") 'er/contract-region)
   ;; Dummy functions to ignore deprecated functions.
@@ -813,7 +813,9 @@ unless you specify the optional argument: FORCE-REVERTING to true."
   )
 
 ;; It does not work with lsp mode
-(use-package fill-column-indicator :ensure t :if (<= emacs-major-version 26)
+(use-package elpy :ensure t :if nil
+  :config
+  (elpy-enable)
   :hook ((prog-mode) . fci-mode)
   :config
   (setq-default fci-rule-column 100)
@@ -846,14 +848,10 @@ unless you specify the optional argument: FORCE-REVERTING to true."
   (setq-default display-fill-column-indicator-column 100)
   (global-display-fill-column-indicator-mode))
 
-(use-package lsp-mode :ensure t
-  :hook ((typescript-mode . #'lsp)
-         (yaml-mode . #'lsp)
-         (python-mode . #'lsp)
-         (shell-script-mode . #'lsp)
-         (c-mode . #'lsp)
-         (cpp-mode . #'lsp)
-         (go-mode . #'lsp))
+(use-package emacs
+  :custom
+  ;; TAB cycle if there are only few candidates
+  ;; (completion-cycle-threshold 3)
   :config
   (add-to-list 'lsp-disabled-clients '(python-mode . ruff))
   ;; Disable ruff in tramp environment too
@@ -876,10 +874,8 @@ unless you specify the optional argument: FORCE-REVERTING to true."
   :bind ("C-c f" . 'lsp-format-buffer)
   )
 
-(use-package lsp-ui :ensure t)
-
-(use-package flycheck :ensure t
-  :requires (thingopt)
+(use-package emacs-clang-rename
+  :if (file-exists-p "~/.emacs.d/plugins/emacs-clang-rename.el")
   :config
   (setq flycheck-check-syntax-automatically '(mode-enabled save))
   ;; flycheck runs emacs with `-Q` option to lint emacs lisp codes. It means that
@@ -1004,46 +1000,44 @@ unless you specify the optional argument: FORCE-REVERTING to true."
   (("C-c C-g" . gist-region-or-buffer))
   )
 
-(use-package diff-hl :ensure t
-  :custom (diff-hl-disable-on-remote nil)
+(use-package embark
+  :ensure t
+  :bind (("C-." . embark-act)
+         :map minibuffer-local-map
+         ("C-c C-c" . embark-collect)
+         ("C-c C-e" . embark-export))
   :config (global-diff-hl-mode))
 
 
-(use-package go-mode :ensure t :defer t
-  :hook ((go-mode . (lambda ()
-                      (make-local-variable 'whitespace-style)
-                      (setq whitespace-style (delete 'tabs whitespace-style))
-                      (setq whitespace-style (delete 'tab-mark whitespace-style))
-                      )))
+(use-package embark-consult :ensure t)
+
+(use-package consult
+  :ensure t
+  :bind
+  ("C-x b" . consult-buffer)
   )
 
-(use-package google-c-style :ensure t
-  :config
-  (setf (cdr (assoc 'c-basic-offset google-c-style)) 2)
+(use-package emojify :ensure t
+  :if (display-graphic-p)
   :hook ((c-mode-common . google-set-c-style)
          (c-mode-common . google-make-newline-indent))
   )
 
-(use-package google-this :ensure t
+(use-package esup :ensure t)
+
+(use-package whitespace
   :config
-  (global-set-key (kbd "C-x g") 'google-this-mode-submap)
+  (global-whitespace-mode 1)
   (global-set-key (kbd "C-c g") 'google-this)
   )
 
-(use-package graphviz-dot-mode :ensure t
-  :config
-  (defun graphviz-compile-preview ()
-    "Compile and preview graphviz dot file."
-    (interactive)
-    (compile compile-command)
-    (sleep-for 1)
-    (graphviz-dot-preview))
+(use-package euslisp-mode
+  :init (setq auto-mode-alist (cons (cons "\\.l$" 'euslisp-mode) auto-mode-alist))
   )
 
-(use-package vertico
-  :ensure t
-  :custom
-  ;; (vertico-scroll-margin 0) ;; Different scroll margin
+(use-package exec-path-from-shell :ensure t
+  :config
+  (add-to-list 'exec-path-from-shell-variables "CMAKE_PREFIX_PATH") ;; Different scroll margin
   (vertico-count 20)
   ;; (vertico-resize t) ;; Grow and shrink the Vertico minibuffer
   ;; (vertico-cycle t) ;; Enable cycling for `vertico-next/previous'
@@ -1055,17 +1049,18 @@ unless you specify the optional argument: FORCE-REVERTING to true."
               )
   )
 
-(use-package vertico-posframe :ensure t
-  :after (vertico)
+(use-package expand-region :ensure t
+  :config
+  (when (<= emacs-major-version 24)
+    (defmacro save-mark-and-excursion
+        (&rest
+         body)
+      `(save-excursion ,@body)))
   :config
   (vertico-posframe-mode)
   )
 
-(use-package corfu
-  :ensure t
-  ;; Optional customizations
-  :custom
-  (corfu-auto t)
+(use-package fill-column-indicator :ensure t :if (<= emacs-major-version 26)
   (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
   (corfu-quit-at-boundary t)
   (corfu-quit-no-match t)
@@ -1098,24 +1093,25 @@ unless you specify the optional argument: FORCE-REVERTING to true."
   )
 
 
-(use-package marginalia
-  :ensure t
-  :config
-  (marginalia-mode 1))
+(use-package forge :after magit :ensure t
+  ;; How to setup forge:
+  ;;   Create ~/.authinfo file and write an entry like:
+  ;;     machine api.github.com login garaemon^forge password {token}
+  ;;   The scope of token to be enabled are
+  ;;     1. repo
+  ;;     2. user
+  ;;     3. read:org
+  :custom
+  (forge-owned-accounts '(("garaemon"))))
 
-(use-package embark
-  :ensure t
-  :bind (("C-." . embark-act)
-         :map minibuffer-local-map
-         ("C-c C-c" . embark-collect)
-         ("C-c C-e" . embark-export)))
+(use-package gcmh :ensure t
+  :if nil
+  :config (gcmh-mode 1))
 
-(use-package embark-consult :ensure t)
+(use-package git-auto-commit-mode :ensure t)
 
-(use-package consult
-  :ensure t
-  :bind
-  ("C-x b" . consult-buffer)
+(use-package org :ensure t
+  :requires (cl-lib git-auto-commit-mode)
   ("M-s" . consult-grep)
   :config
   ;; TODO: the function does not work if git does not handle a current file.
@@ -1197,10 +1193,12 @@ if ENV-SH indicates a remote path. Relies on the helper function
       full-matched-package-paths))
   )
 
-(use-package emacs
-  :custom
-  ;; TAB cycle if there are only few candidates
-  ;; (completion-cycle-threshold 3)
+(use-package go-mode :ensure t :defer t
+  :hook ((go-mode . (lambda ()
+                      (make-local-variable 'whitespace-style)
+                      (setq whitespace-style (delete 'tabs whitespace-style))
+                      (setq whitespace-style (delete 'tab-mark whitespace-style))
+                      )))
 
   ;; Enable indentation+completion using the TAB key.
   ;; `completion-at-point' is often bound to M-TAB.
@@ -1220,19 +1218,18 @@ if ENV-SH indicates a remote path. Relies on the helper function
   (minibuffer-prompt-properties
    '(read-only t cursor-intangible t face minibuffer-prompt)))
 
-(use-package orderless
-  :ensure t
-  :custom
-  ;; Configure a custom style dispatcher (see the Consult wiki)
+(use-package goby
+  :defer t
+  :init (autoload 'goby "goby" nil t)
   ;; (orderless-style-dispatchers '(+orderless-consult-dispatch orderless-affix-dispatch))
   ;; (orderless-component-separator #'orderless-escapable-split-on-space)
   (completion-styles '(orderless basic))
   (completion-category-defaults nil)
   (completion-category-overrides '((file (styles partial-completion)))))
 
-(use-package hyde :ensure t
+(use-package google-c-style :ensure t
   :config
-  (setq-default jekyll-root (expand-file-name "~/gprog/garaemon.github.io"))
+  (setf (cdr (assoc 'c-basic-offset google-c-style)) 2)
   (setq-default hyde-home (expand-file-name "~/gprog/garaemon.github.io"))
   (defun ghyde ()
     "Run hyde mode on HYDE-HOME."
@@ -1259,30 +1256,30 @@ if ENV-SH indicates a remote path. Relies on the helper function
       (find-file file-name)))
   )
 
-(use-package hydra :ensure t
+(use-package google-this :ensure t
   :config
-  (defhydra hydra-zoom (global-map "<f2>")
-    "zoom"
-    ("g" text-scale-increase "in")
-    ("l" text-scale-decrease "out"))
+  (global-set-key (kbd "C-x g") 'google-this-mode-submap)
   )
 
-(use-package imenus :ensure t)
-
-(use-package jinja2-mode :ensure t
-  :bind (:map jinja2-mode-map
-              ;; Do not allow jinja2-mode to take over M-o.
-              ("M-o" . 'other-window-or-split))
+(use-package gptel :ensure t
+  :config
+  (let ((gemini-key (getenv "EMACS_GEMINI_KEY")))
+    (if gemini-key
+        (setq gptel-model 'gemini-2.5-flash-preview-04-17
+              gptel-backend (gptel-make-gemini "Gemini"
+                 :key gemini-key
+                 :stream t))
+      ))
   )
 
-(use-package json-mode :ensure t :defer t)
-
-(use-package less-css-mode :ensure t :defer t)
-
-(use-package lua-mode :ensure t :defer t)
-
-(use-package magit :ensure t
-  ;; :custom (magit-refresh-status-buffer nil)
+(use-package graphviz-dot-mode :ensure t
+  :config
+  (defun graphviz-compile-preview ()
+    "Compile and preview graphviz dot file."
+    (interactive)
+    (compile compile-command)
+    (sleep-for 1)
+    (graphviz-dot-preview))
   :bind (("\C-cl" . 'magit-status)
          ("\C-cL" . 'magit-status))
   :config
@@ -1329,36 +1326,23 @@ if ENV-SH indicates a remote path. Relies on the helper function
           (list branch (magit-read-starting-point prompt branch default-start))))))
   )
 
-(use-package forge :after magit :ensure t
-  ;; How to setup forge:
-  ;;   Create ~/.authinfo file and write an entry like:
-  ;;     machine api.github.com login garaemon^forge password {token}
-  ;;   The scope of token to be enabled are
-  ;;     1. repo
-  ;;     2. user
-  ;;     3. read:org
-  :custom
-  (forge-owned-accounts '(("garaemon")))
+(use-package grep
+  :config
+  (add-to-list 'grep-find-ignored-directories "node_modules")
   )
 
-(use-package sx :ensure t)
-
-;; Use swiper for C-s, not consult-line.
-;; consult-lien has some issues:
-;; * does not highlight the matched texts on the same buffer.
-;; * does not work well sometimes especially for large files.
-(use-package swiper :ensure t
-  :bind
-  ("C-s" . 'swiper-isearch)
+(use-package hl-line
+  :config
+  (global-hl-line-mode t)
   ("C-c C-r" . #'ivy-resume)
   :config
   (setopt ivy-use-virtual-buffers t)
   (setopt enable-recursive-minibuffers t)
   )
 
-(use-package markdown-mode :ensure t
+(use-package hyde :ensure t
   :config
-  (setq auto-mode-alist (cons '("\\.md" . markdown-mode) auto-mode-alist))
+  (setq-default jekyll-root (expand-file-name "~/gprog/garaemon.github.io"))
   (defvar markdown-mode-map)
   (define-key markdown-mode-map (kbd "M-p") nil)
   (define-key markdown-mode-map (kbd "M-n") nil)
@@ -1381,32 +1365,42 @@ if ENV-SH indicates a remote path. Relies on the helper function
   )
 
 (add-to-list 'load-path "~/.emacs.d/markdown-dnd-images")
-(use-package markdown-dnd-images
-  :custom
-  (dnd-save-directory "images")
+(use-package hydra :ensure t
+  :config
+  (defhydra hydra-zoom (global-map "<f2>")
+    "zoom"
+    ("g" text-scale-increase "in")
+    ("l" text-scale-decrease "out"))
   (dnd-view-inline t)
   (dnd-save-buffer-name nil)
   (dnd-capture-source t)
   )
 
-(use-package minimap :ensure t)
+(use-package imenus :ensure t)
 
-(use-package modern-cpp-font-lock :ensure t
-  :hook (c++-mode . modern-c++-font-lock-mode))
+(use-package jinja2-mode :ensure t
+  :bind (:map jinja2-mode-map
+              ;; Do not allow jinja2-mode to take over M-o.
+              ("M-o" . 'other-window-or-split)))
 
-(use-package multiple-cursors :ensure t
-  :bind
-  (("<C-M-return>" . 'mc/edit-lines)
-   ("C-M-j" . 'mc/edit-lines)
-   ("<C-M-down>" . 'mc/mark-next-like-this)
-   ("<C-M-up>" . 'mc/mark-previous-like-this)
-   )
+(use-package json-mode :ensure t :defer t)
+
+(use-package less-css-mode :ensure t :defer t)
+
+(use-package lua-mode :ensure t :defer t)
+
+(use-package magit :ensure t
+  ;; :custom (magit-refresh-status-buffer nil)
   )
 
-(use-package switch-buffer-functions :ensure t)
-
-(use-package nlinum :ensure t
-  :if (not (functionp 'global-display-line-numbers-mode))
+(use-package lsp-mode :ensure t
+  :hook ((typescript-mode . #'lsp)
+         (yaml-mode . #'lsp)
+         (python-mode . #'lsp)
+         (shell-script-mode . #'lsp)
+         (c-mode . #'lsp)
+         (cpp-mode . #'lsp)
+         (go-mode . #'lsp))
   :config
   (global-nlinum-mode)
   ;; these linum-delay and linum-schedule are required even if nlinum-mode is used?
@@ -1429,10 +1423,10 @@ if ENV-SH indicates a remote path. Relies on the helper function
   )
 
 ;; Enable it in ~/gprog/org
-(use-package git-auto-commit-mode :ensure t)
+(use-package lsp-ui :ensure t)
 
-(use-package org :ensure t
-  :requires (cl-lib git-auto-commit-mode)
+(use-package flycheck :ensure t
+  :requires (thingopt)
   :custom
   (org-startup-indented t)
   (org-hide-emphasis-markers t)
@@ -1519,8 +1513,10 @@ if ENV-SH indicates a remote path. Relies on the helper function
          )
   )
 
-(use-package org-ai :ensure t :after org
-  ;; C-c C-c (=org-ai-complete-block) to get AI response.
+(use-package marginalia
+  :ensure t
+  :config
+  (marginalia-mode 1) to get AI response.
   :bind
   ;; In org capture mode, C-c C-c is used to finish a capture.
   ;; We need a different keymap.
@@ -1547,37 +1543,23 @@ if ENV-SH indicates a remote path. Relies on the helper function
       (org-ai-complete-block)))
   )
 
-(use-package org-tempo :after org
+(use-package markdown-dnd-images
   :custom
-  (org-structure-template-alist
-   '(("A" . "ai")
-     ("a" . "ai")
-     ("ai" . "ai")
-     ;;("a" . "export ascii")
-     ("c" . "center")
-     ("C" . "comment")
-     ("cpp" . "src c++")
-     ("py" . "src python")
-     ("el" . "src elisp")
-     ("e" . "example")
-     ("E" . "export")
-     ("h" . "export html")
-     ("l" . "export latex")
-     ("q" . "quote")
-     ("s" . "src")
-     ("v" . "verse")
-     ))
+  (dnd-save-directory "images")
   ;; The keys of org-tempo-keywords-alist and org-structure-template-alist have to be unique.
   ;; To simplify it, clean up org-tempo-keywords-alist.
   (org-tempo-keywords-alist nil)
   )
 
-(use-package org-download :ensure t :after org
-  :custom (org-download-image-dir (concat org-directory "/images"))
+(use-package markdown-mode :ensure t
+  :config
+  (setq auto-mode-alist (cons '("\\.md" . markdown-mode) auto-mode-alist))
   )
 
-(use-package ob-mermaid :ensure t
-  :requires (org)
+(use-package minimap :ensure t)
+
+(use-package modern-cpp-font-lock :ensure t
+  :hook (c++-mode . modern-c++-font-lock-mode)
   ;; npm install -g @mermaid-js/mermaid-cli
   :init
   (if (not (executable-find "mmdc"))
@@ -1589,10 +1571,13 @@ if ENV-SH indicates a remote path. Relies on the helper function
   (ob-mermaid-cli-path (executable-find "mmdc"))
   )
 
-(use-package org-roam
-  :ensure t
-  :custom
-  (org-roam-db-update-method 'immediate)
+(use-package multi-vterm :ensure t
+  :config
+  ;; Make a new vterm terminal from local computer
+  (defun my-new-local-multi-vterm ()
+    (interactive)
+    (let ((default-directory (getenv "HOME")))
+      (multi-vterm)))
   (org-roam-db-location "~/.emacs.d/org-roam.db")
   (org-roam-directory (concat org-directory "org-roam/"))
   (org-roam-index-file (concat org-roam-directory "Index.org"))
@@ -1614,23 +1599,21 @@ if ENV-SH indicates a remote path. Relies on the helper function
    ("C-c n i" . 'org-roam-node-insert))
   )
 
-(use-package org-roam-dailies
-  :after org-roam
-  :custom
-  (org-roam-dailies-capture-templates
-   ;; Insert timestamp automatically for org-agenda
-   '(("d" "default" entry
-      "* %T %?\n "
-      :target (file+head "%<%Y-%m-%d>.org"
-                         "#+title: %<%Y-%m-%d>\n"))))
+(use-package multiple-cursors :ensure t
+  :bind
+  (("<C-M-return>" . 'mc/edit-lines)
+   ("C-M-j" . 'mc/edit-lines)
+   ("<C-M-down>" . 'mc/mark-next-like-this)
+   ("<C-M-up>" . 'mc/mark-previous-like-this)
+   )
   :config
   (add-to-list 'org-agenda-files (concat org-roam-directory "daily/"))
   :bind-keymap ("C-c n d" . org-roam-dailies-map)
   )
 
-(use-package org-modern :ensure t
-  :custom
-  (org-modern-block-indent t)
+(use-package nil t)
+  (package-initialize)
+  (unless (package-installed-p 'use-package)
   (org-modern-fold-stars
    '(("▶" . "▼")
      ("▷" . "▽")
@@ -1645,13 +1628,13 @@ if ENV-SH indicates a remote path. Relies on the helper function
   :config (global-org-modern-mode)
   )
 
-(use-package outshine :ensure t
-  :hook (outline-minor-mode . outshine-hook-function))
+(use-package ob-mermaid :ensure t
+  :requires (org))
 
-(use-package php-mode :ensure t)
-
-(use-package protobuf-mode :ensure t
-  :init (add-to-list 'auto-mode-alist '("\\.proto$" . protobuf-mode))
+(use-package orderless
+  :ensure t
+  :custom
+  ;; Configure a custom style dispatcher (see the Consult wiki)
   :config
   (add-hook 'protobuf-mode-hook
             (lambda ()
@@ -1660,21 +1643,16 @@ if ENV-SH indicates a remote path. Relies on the helper function
                            t)))
   )
 
-(use-package puppet-mode :ensure t :defer t
-  :init (add-to-list 'auto-mode-alist '("\\.pp$" . puppet-mode)))
+(use-package org-ai :ensure t :after org
+  ;; C-c C-c (=org-ai-complete-block))
 
-(use-package rainbow-delimiters :ensure t
-  :config (setq rainbow-delimiters-depth-1-face
-                '((t
-                   (:foreground "#7f8c8d"))))
+(use-package org-download :ensure t :after org
+  :custom (org-download-image-dir (concat org-directory "/images"))
   :hook (prog-mode . rainbow-delimiters-mode))
 
-(use-package recentf-ext :ensure t)
-
-(use-package rust-mode :ensure t)
-
-(use-package slack :ensure t
-  :if (file-exists-p (expand-file-name "~/.slack.el"))
+(use-package org-modern :ensure t
+  :custom
+  (org-modern-block-indent t)
   :config
   (setq slack-private-file (expand-file-name "~/.slack.el"))
   (setq slack-buffer-emojify t)
@@ -1685,13 +1663,20 @@ if ENV-SH indicates a remote path. Relies on the helper function
   (load slack-private-file)
   )
 
-(use-package smart-cursor-color :ensure t
-  :config (smart-cursor-color-mode +1))
+(use-package org-roam
+  :ensure t
+  :custom
+  (org-roam-db-update-method 'immediate))
 
-(use-package smart-mode-line :ensure t
-  :if nil
-  :config
-  (setq sml/no-confirm-load-theme t)
+(use-package org-roam-dailies
+  :after org-roam
+  :custom
+  (org-roam-dailies-capture-templates
+   ;; Insert timestamp automatically for org-agenda
+   '(("d" "default" entry
+      "* %T %?\n "
+      :target (file+head "%<%Y-%m-%d>.org"
+                         "#+title: %<%Y-%m-%d>\n"))))
   (setq sml/theme 'dark)
   (setq sml/shorten-directory -1)
   (sml/setup)
@@ -1701,9 +1686,26 @@ if ENV-SH indicates a remote path. Relies on the helper function
               (run-with-idle-timer 0.2 nil #'sml/generate-position-help)))
   )
 
-(use-package smartrep :ensure t
-  :config
-  (declare-function smartrep-define-key "smartrep")
+(use-package org-tempo :after org
+  :custom
+  (org-structure-template-alist
+   '(("A" . "ai")
+     ("a" . "ai")
+     ("ai" . "ai")
+     ;;("a" . "export ascii")
+     ("c" . "center")
+     ("C" . "comment")
+     ("cpp" . "src c++")
+     ("py" . "src python")
+     ("el" . "src elisp")
+     ("e" . "example")
+     ("E" . "export")
+     ("h" . "export html")
+     ("l" . "export latex")
+     ("q" . "quote")
+     ("s" . "src")
+     ("v" . "verse")
+     ))
   (global-unset-key "\C-q")
   (defun define-smartrep-keys ()
     "Setup smartrep keys."
@@ -1724,25 +1726,29 @@ if ENV-SH indicates a remote path. Relies on the helper function
   (define-smartrep-keys)
   )
 
-(use-package sr-speedbar :ensure t
-  :config (setq sr-speedbar-right-side nil))
+(use-package outshine :ensure t
+  :hook (outline-minor-mode . outshine-hook-function))
 
-(use-package string-inflection :ensure t
-  :config (global-set-key (kbd "C-c i") 'string-inflection-cycle))
+(use-package persistent-scratch :ensure t
+  :custom
+  (persistent-scratch-scratch-buffer-p-function
+   (lambda ()
+     "Return non-nil iff the current buffer's name is *scratch* or *Gemini*."
+     (or (string= (buffer-name) "*scratch*")
+         (string= (buffer-name) "*Gemini*")))))
 
-(use-package symon :ensure t
-  :if (eq system-type 'gnu/linux)
+(use-package php-mode :ensure t)
+
+(use-package protobuf-mode :ensure t
+  :init (add-to-list 'auto-mode-alist '("\\.proto$" . protobuf-mode))
   :config
   (setq symon-sparkline-type 'symon-sparkline-type-gridded)
   (setq symon-delay 100)
   (symon-mode)
   )
 
-(use-package thingopt :ensure t)
-
-(use-package total-lines :ensure t
-  :config
-  (global-total-lines-mode t)
+(use-package puppet-mode :ensure t :defer t
+  :init (add-to-list 'auto-mode-alist '("\\.pp$" . puppet-mode))
   (defun my-set-line-numbers ()
     "Init hook to setup total lines."
     (setq-default mode-line-front-space
@@ -1751,10 +1757,8 @@ if ENV-SH indicates a remote path. Relies on the helper function
   (add-hook 'after-init-hook 'my-set-line-numbers)
   )
 
-(use-package tramp
-  ;; :custom
-  ;; for debug
-  ;; (tramp-debug-buffer t)
+(use-package py-yapf :ensure t :if nil
+  :hook ((python-mode . (lambda () (define-key python-mode-map "\C-cf" 'py-yapf-buffer))))
   ;; (tramp-verbose 6)
   :config
   (setq tramp-default-method "ssh")
@@ -1769,8 +1773,9 @@ if ENV-SH indicates a remote path. Relies on the helper function
   (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
   )
 
-(use-package treemacs :ensure t
-  :after (all-the-icons)
+(use-package qml-mode :ensure t
+  :config
+  (setq js-indent-level 2)
   :config
   ;; (treemacs-start-on-boot)
   ;; (add-hook 'treemacs-mode-hook (lambda ()
@@ -1787,16 +1792,18 @@ if ENV-SH indicates a remote path. Relies on the helper function
    )
   )
 
-(use-package treemacs-magit
-  :after (treemacs magit)
+(use-package rainbow-delimiters :ensure t
+  :config (setq rainbow-delimiters-depth-1-face
+                '((t
+                   (:foreground "#7f8c8d"))))
   :ensure t)
 
-(use-package trr :ensure t)
+(use-package recentf-ext :ensure t)
 
-(use-package undo-tree :ensure t
-  :if nil
-  :custom
-  (undo-tree-visualizer-diff nil)
+(use-package rust-mode :ensure t)
+
+(use-package slack :ensure t
+  :if (file-exists-p (expand-file-name "~/.slack.el"))
   (undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo")))
   (undo-tree-visualizer-timestamps t)
   :config
@@ -1805,36 +1812,29 @@ if ENV-SH indicates a remote path. Relies on the helper function
   (add-to-list 'undo-tree-incompatible-major-modes #'magit-status-mode)
   )
 
-(use-package vundo :ensure t
-  :bind (
-         ("C-x u" . vundo)
-         (:map vundo-mode-map
-               ("C-f" . 'vundo-forward)
-               ("C-b" . 'vundo-backward)
-               ("C-p" . 'vundo-previous)
-               ("C-n" . 'vundo-next)
-               ))
+(use-package ruby-mode
+  :mode ("\\.thor$" . ruby-mode)
   )
 
-(use-package uniquify
-  :config (setq uniquify-buffer-name-style 'post-forward-angle-brackets))
+(use-package smart-cursor-color :ensure t
+  :config (smart-cursor-color-mode +1))
 
-(use-package volatile-highlights :ensure t
-  :config (volatile-highlights-mode))
-
-(use-package which-key :ensure t
+(use-package smart-mode-line :ensure t
+  :if nil
   :config
-  (which-key-mode)
+  (setq sml/no-confirm-load-theme t))
+
+(use-package smartrep :ensure t
+  :config
+  (declare-function smartrep-define-key "smartrep")
   (which-key-setup-side-window-bottom)
   )
 
-(use-package yaml-mode :ensure t
-  :init (add-to-list 'auto-mode-alist '("\\.\\(yml\\|yaml\\|rosinstall\\|yml\\.package\\)$" . yaml-mode)))
+(use-package sr-speedbar :ensure t
+  :config (setq sr-speedbar-right-side nil))
 
-(use-package yasnippet :ensure t
-  :config
-  (setq yas-snippet-dirs '("~/.emacs.d/snippets"
-                           "~/.emacs.d/yasnippet-snippets/snippets"))
+(use-package string-inflection :ensure t
+  :config (global-set-key (kbd "C-c i") 'string-inflection-cycle)
   (setq yas-trigger-key "Enter")
   (yas-global-mode 1)
   ;;(custom-set-variables '(yas-trigger-key "TAB"))
@@ -1849,9 +1849,10 @@ if ENV-SH indicates a remote path. Relies on the helper function
          (cmake-mode . yas-minor-mode))
   )
 
-(use-package yatemplate :ensure t
-  :config
-  (setq auto-insert-alist '(()))
+(use-package switch-buffer-functions :ensure t)
+
+(use-package nlinum :ensure t
+  :if (not (functionp 'global-display-line-numbers-mode))
   (setq yatemplate-dir (expand-file-name "~/.emacs.d/templates"))
   (yatemplate-fill-alist)
   (auto-insert-mode 1)
@@ -1862,44 +1863,50 @@ if ENV-SH indicates a remote path. Relies on the helper function
   )
 
 
-(use-package esup :ensure t)
+(use-package sx :ensure t)
 
-(use-package whitespace
-  :config
-  (global-whitespace-mode 1)
+;; Use swiper for C-s, not consult-line.
+;; consult-lien has some issues:
+;; * does not highlight the matched texts on the same buffer.
+;; * does not work well sometimes especially for large files.
+(use-package swiper :ensure t
+  :bind
+  ("C-s" . 'swiper-isearch)
   (set-face-foreground 'whitespace-space "LightSlateGray")
   (set-face-background 'whitespace-space "DarkSlateGray")
   (set-face-foreground 'whitespace-tab "LightSlateGray")
   (set-face-background 'whitespace-tab "DarkSlateGray")
   )
 
-(use-package ucs-normalize)
-
-(use-package cmake-mode
-  :ensure t
-  :init
-  (setq auto-mode-alist (cons '("CMakeLists.txt" . cmake-mode) auto-mode-alist))
+(use-package symon :ensure t
+  :if (eq system-type 'gnu/linux)
   (setq auto-mode-alist (cons '("\\.cmake$" . cmake-mode) auto-mode-alist))
   )
 
-(use-package dired
-  :bind (:map dired-mode-map ("M-s" . 'consult-grep))
+(use-package systemd :ensure t)
+
+(use-package browse-url)
+
+(use-package browse-at-remote :ensure t
+  :bind (("C-c b" . 'echo-url-at-remote))
   )
 
-(use-package wdired
+(use-package thingopt :ensure t)
+
+(use-package total-lines :ensure t
   :config
-  (setq wdired-allow-to-change-permissions t)
+  (global-total-lines-mode t)
   (define-key dired-mode-map "e" 'wdired-change-to-wdired-mode)
   )
 
-(use-package hl-line
-  :config
-  (global-hl-line-mode t)
+(use-package tramp
+  ;; :custom
+  ;; for debug
+  ;; (tramp-debug-buffer t)
   )
 
-(use-package cmuscheme
-  :init
-  (autoload 'scheme-mode "cmuscheme" "Major mode for Scheme." t)
+(use-package transpose-frame :ensure t
+  :bind (("C-x C-o" . 'rotate-frame-clockwise))
   (autoload 'run-scheme "cmuscheme" "Run an inferior Scheme process." t)
   :config
   (setq process-coding-system-alist
@@ -1957,8 +1964,8 @@ if ENV-SH indicates a remote path. Relies on the helper function
     (cons "\\(define-\\(function\\*\\|class\\*\\|method\\*\\)\\)\\>" 1)))
   )
 
-(use-package euslisp-mode
-  :init (setq auto-mode-alist (cons (cons "\\.l$" 'euslisp-mode) auto-mode-alist))
+(use-package treemacs :ensure t
+  :after (all-the-icons)
   :config
   (defvar inferior-euslisp-program)
   (defun lisp-other-window ()
@@ -1974,25 +1981,22 @@ if ENV-SH indicates a remote path. Relies on the helper function
   ;; (global-set-key "\C-cE" 'lisp-other-window)
   )
 
-(use-package goby
-  :defer t
-  :init (autoload 'goby "goby" nil t))
+(use-package treemacs-magit
+  :after (treemacs magit))
 
-(use-package ansi-color
-  :init
-  (defun endless/colorize-compilation ()
-    "Colorize from `compilation-filter-start' to `point'."
-    (let ((inhibit-read-only t))
-      (ansi-color-apply-on-region
-       compilation-filter-start (point))))
+(use-package trr :ensure t)
+
+(use-package undo-tree :ensure t
+  :if nil
+  :custom
+  (undo-tree-visualizer-diff nil)
 
   (add-hook 'compilation-filter-hook
             #'endless/colorize-compilation)
   )
 
-(use-package clang-format :ensure t
-  ;; :bind (:map c-mode-base-map
-  ;;             ("C-c f" . 'clang-format-buffer))
+(use-package typescript-mode :ensure t
+  :custom (typescript-indent-level 2)
   )
 
 (if (not (file-directory-p "~/.emacs.d/plugins/"))
@@ -2001,8 +2005,12 @@ if ENV-SH indicates a remote path. Relies on the helper function
     (url-copy-file
      "https://raw.githubusercontent.com/nilsdeppe/emacs-clang-rename/master/emacs-clang-rename.el"
      "~/.emacs.d/plugins/emacs-clang-rename.el"))
-(use-package emacs-clang-rename
-  :if (file-exists-p "~/.emacs.d/plugins/emacs-clang-rename.el")
+(use-package ucs-normalize)
+
+(use-package cmake-mode
+  :ensure t
+  :init
+  (setq auto-mode-alist (cons '("CMakeLists.txt" . cmake-mode) auto-mode-alist))
   :bind (:map c-mode-base-map
               ("C-c c p" . emacs-clang-rename-at-point)
               ("C-c c q" . emacs-clang-rename-qualified-name)
@@ -2012,18 +2020,20 @@ if ENV-SH indicates a remote path. Relies on the helper function
       (setq emacs-clang-rename-binary "clang-rename-6.0"))
   )
 
-(use-package py-yapf :ensure t :if nil
-  :hook ((python-mode . (lambda () (define-key python-mode-map "\C-cf" 'py-yapf-buffer))))
+(use-package udev-mode :ensure t)
+
+(use-package python
+  :custom (gud-pdb-command-name "python3 -m pdb")
   )
 
-(use-package qml-mode :ensure t
-  :config
-  (setq js-indent-level 2)
+(use-package uniquify
+  :config (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
   )
 
-(use-package dictionary :ensure t
-  :config
-  (setq dictionary-server "localhost")
+(use-package vertico
+  :ensure t
+  :custom
+  ;; (vertico-scroll-margin 0)
   (setq dictionary-default-strategy "prefix")
   (defun dictionary-popup-matching-region-or-words ()
     (interactive)
@@ -2036,32 +2046,14 @@ if ENV-SH indicates a remote path. Relies on the helper function
   (global-set-key "\C-cs" 'dictionary-popup-matching-region-or-words)
   )
 
-(use-package emojify :ensure t
-  :if (display-graphic-p)
+(use-package vertico-posframe :ensure t
+  :after (vertico)
   )
 
-(use-package gcmh :ensure t
-  :if nil
-  :config (gcmh-mode 1)
+(use-package volatile-highlights :ensure t
+  :config (volatile-highlights-mode)
   )
 
-(use-package transpose-frame :ensure t
-  :bind (("C-x C-o" . 'rotate-frame-clockwise))
-  )
-
-(use-package systemd :ensure t)
-
-(use-package browse-url)
-
-(use-package browse-at-remote :ensure t
-  :bind (("C-c b" . 'echo-url-at-remote))
-  :config
-  (defun echo-url-at-remote ()
-    (interactive)
-    (message "URL: %s" (browse-at-remote-get-url)))
-  )
-
-;; vterm
 (use-package vterm
   :ensure t
   :after browse-url
@@ -2076,30 +2068,6 @@ if ENV-SH indicates a remote path. Relies on the helper function
               ("\C-@" . 'my-vterm-toggle)
               ("<mouse-1>" . 'browse-url-at-point)
               )
-  :config
-  (setq vterm-max-scrollback  10000)
-  (setq vterm-buffer-name-string  "*vterm: %s*")
-  ;; Remove C-h from the original vterm-keymap-exceptions
-  (setq vterm-keymap-exceptions '("C-c" "C-x" "C-u" "C-g" "C-l" "M-x" "M-o" "C-v" "M-v"
-                                  "C-y" "M-y"))
-  :hook (vterm-mode . (lambda ()
-                        (display-line-numbers-mode -1)
-                        (setq buffer-face-mode-face '(:family "Monaco Nerd Font Mono"))
-                        (buffer-face-mode)
-                        (display-fill-column-indicator-mode -1)
-                        ;; Disable hl-line-mode for vterm-mode. (hl-line-mode -1) does not work.
-                        (setq-local global-hl-line-mode nil)
-                        ))
-  )
-
-(use-package multi-vterm :ensure t
-  :config
-  ;; Make a new vterm terminal from local computer
-  (defun my-new-local-multi-vterm ()
-    (interactive)
-    (let ((default-directory (getenv "HOME")))
-      (multi-vterm)))
-  :bind (("C-M-t" . 'my-new-local-multi-vterm))
   )
 
 (use-package vterm-toggle :ensure t
@@ -2124,6 +2092,47 @@ Optional argument ARGS ."
       (let ((vterm-toggle-fullscreen-p
              (not vterm-toggle-fullscreen-p)))
         (vterm-toggle-show)))))
+  :config
+  (defun echo-url-at-remote ()
+    (interactive)
+    (message "URL: %s" (browse-at-remote-get-url)))
+  )
+
+;; vterm
+(use-package vundo :ensure t
+  :bind (
+         ("C-x u" . vundo)
+         (:map vundo-mode-map
+               ("C-f" . 'vundo-forward)
+               ("C-b" . 'vundo-backward)
+               ("C-p" . 'vundo-previous)
+               ("C-n" . 'vundo-next)
+               ))
+  :config
+  (setq vterm-max-scrollback  10000)
+  (setq vterm-buffer-name-string  "*vterm: %s*")
+  ;; Remove C-h from the original vterm-keymap-exceptions
+  (setq vterm-keymap-exceptions '("C-c" "C-x" "C-u" "C-g" "C-l" "M-x" "M-o" "C-v" "M-v"
+                                  "C-y" "M-y"))
+  :hook (vterm-mode . (lambda ()
+                        (display-line-numbers-mode -1)
+                        (setq buffer-face-mode-face '(:family "Monaco Nerd Font Mono"))
+                        (buffer-face-mode)
+                        (display-fill-column-indicator-mode -1)
+                        ;; Disable hl-line-mode for vterm-mode. (hl-line-mode -1) does not work.
+                        (setq-local global-hl-line-mode nil)
+                        ))
+  )
+
+(use-package wdired
+  :config
+  (setq wdired-allow-to-change-permissions t)
+  :bind (("C-M-t" . 'my-new-local-multi-vterm))
+  )
+
+(use-package which-key :ensure t
+  :config
+  (which-key-mode)
   :bind
   ("\C-@" . 'my-vterm-toggle)
   ;; ("\C-c t" . 'vterm-toggle)
@@ -2131,28 +2140,19 @@ Optional argument ARGS ."
   )
 
 
-(use-package gptel :ensure t
-  :config
-  (let ((gemini-key (getenv "EMACS_GEMINI_KEY")))
-    (if gemini-key
-        (setq gptel-model 'gemini-2.5-flash-preview-04-17
-              gptel-backend (gptel-make-gemini "Gemini"
-                 :key gemini-key
-                 :stream t))
-      ))
+(use-package yaml-mode :ensure t
+  :init (add-to-list 'auto-mode-alist '("\\.\\(yml\\|yaml\\|rosinstall\\|yml\\.package\\)$" . yaml-mode))
   :custom (gptel-default-mode 'org-mode)
   )
 
-(use-package typescript-mode :ensure t
-  :custom (typescript-indent-level 2))
+(use-package yasnippet :ensure t
+  :config
+  (setq yas-snippet-dirs '("~/.emacs.d/snippets"
+                           "~/.emacs.d/yasnippet-snippets/snippets")))
 
-(use-package persistent-scratch :ensure t
-  :custom
-  (persistent-scratch-scratch-buffer-p-function
-   (lambda ()
-     "Return non-nil iff the current buffer's name is *scratch* or *Gemini*."
-     (or (string= (buffer-name) "*scratch*")
-         (string= (buffer-name) "*Gemini*"))))
+(use-package yatemplate :ensure t
+  :config
+  (setq auto-insert-alist '(()))
   :config
   (persistent-scratch-setup-default)
   )
