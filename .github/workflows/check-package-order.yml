@@ -1,0 +1,29 @@
+name: Check Package Order
+
+on:
+  push:
+    branches:
+      - main # Assuming 'main' is the default branch
+  pull_request:
+    branches:
+      - main # Assuming 'main' is the default branch
+
+jobs:
+  check_package_order:
+    name: Check Package Order
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4 # Using a newer version like v4
+
+      - name: Set up Emacs
+        uses: purcell/setup-emacs@master
+        with:
+          version: 'snapshot' # Using 'snapshot' as requested, could also be specific like '28.2'
+
+      - name: Make script executable
+        run: chmod +x scripts/check-package-order.el
+
+      - name: Run check-package-order script
+        run: scripts/check-package-order.el init.el
