@@ -119,10 +119,12 @@ and entries keep their thread/comment order."
                    pullreq 'reviewThreads))
          (entries nil))
     (dolist (thread threads (nreverse entries))
-      (let ((resolved (my-forge-ediff-review-model--truthy-p
-                       (alist-get 'isResolved thread)))
-            (comments (my-forge-ediff-review-model--graphql-nodes
-                       thread 'comments)))
+      (let* ((resolved (my-forge-ediff-review-model--truthy-p
+                        (alist-get 'isResolved thread)))
+             (thread-id (alist-get 'id thread))
+             (comments (my-forge-ediff-review-model--graphql-nodes
+                        thread 'comments))
+             (reply-to-id (alist-get 'databaseId (car comments))))
         (dolist (comment comments)
           (let ((path (alist-get 'path comment))
                 (line (or (alist-get 'line comment)
@@ -132,7 +134,8 @@ and entries keep their thread/comment order."
                 (author (alist-get 'login (alist-get 'author comment))))
             (when (and path line side)
               (push (list :path path :line line :side side :body body
-                          :author author :resolved resolved)
+                          :author author :resolved resolved
+                          :thread-id thread-id :reply-to-id reply-to-id)
                     entries))))))))
 
 (provide 'my-forge-ediff-review-model)
