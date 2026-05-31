@@ -205,5 +205,24 @@
                  (my-forge-ediff-review-model-test--threads-response
                   (vector))))))
 
+(ert-deftest review-model-should-carry-thread-and-reply-target ()
+  (let* ((comments
+          (vector
+           '((databaseId . 555) (path . "a.el") (line . 3) (diffSide . "RIGHT")
+             (body . "first") (author (login . "u")))
+           '((databaseId . 556) (path . "a.el") (line . 3) (diffSide . "RIGHT")
+             (body . "second") (author (login . "v")))))
+         (thread (list '(id . "THREAD_kw1")
+                       '(isResolved . :json-false)
+                       (cons 'comments (list (cons 'nodes comments)))))
+         (response (my-forge-ediff-review-model-test--threads-response
+                    (vector thread)))
+         (entries (my-forge-ediff-review-model-parse-review-threads response)))
+    (should (= 2 (length entries)))
+    (should (equal "THREAD_kw1" (plist-get (car entries) :thread-id)))
+    ;; Both comments in the thread reply to the thread's first comment id.
+    (should (= 555 (plist-get (car entries) :reply-to-id)))
+    (should (= 555 (plist-get (cadr entries) :reply-to-id)))))
+
 (provide 'my-forge-ediff-review-model-test)
 ;;; my-forge-ediff-review-model-test.el ends here
